@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/2131/trunk/libgen/Configure
+END
+configure.py
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2131/trunk/libgen/Configure/configure.py
+END
+IDISAOperations.py
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/1806/trunk/libgen/Configure/IDISAOperations.py
+END
+OptParser.py
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/1767/trunk/libgen/Configure/OptParser.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/1369/trunk/libgen/Configure/__init__.py
+END

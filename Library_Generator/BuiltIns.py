@@ -1,0 +1,317 @@
+
+
+# Copyright (c) 2011, Hua Huang and Robert D. Cameron.
+# Licensed under the Academic Free License 3.0.
+
+import Operation
+import InstructionSet
+import Utility
+import StandardTypes
+
+from Utility import configure
+
+
+class BuiltInOperation:
+
+    def __init__(self, arch, opSignature, args_type):
+        opSignature = opSignature.strip()
+        firstSpace = opSignature.find(" ")
+        spacePos, leftBrac = firstSpace, -1
+        while opSignature.find("(", spacePos) != -1:
+            leftBrac = opSignature.find("(", spacePos)
+            spacePos = leftBrac + 1
+        rightBrac = opSignature.find(")", leftBrac)
+        #print opSignature,
+        self.arch = arch
+        self.returnType = opSignature[:firstSpace]
+        self.funcName = opSignature[firstSpace + 1:leftBrac]
+        self.end = opSignature[rightBrac + 1:]
+        opSignature = opSignature[leftBrac + 1:rightBrac]
+        self.argsType = args_type
+        self.args = []
+        for arg in opSignature.split(","):
+            arg0 = arg.strip()
+            spacePos, lastSpacePos = 0, 0
+            while arg0.find(" ", spacePos) != -1:
+                lastSpacePos = arg0.find(" ", spacePos)
+                spacePos = lastSpacePos + 1
+            self.args.append(arg0[lastSpacePos + 1:])
+        self.arguments = self.args
+
+        #print self.funcName, self.arguments
+
+    def GetCallingConvention(self):
+        assert len(self.args) == len(self.arguments), "the number of arguments is not acceptable for the built-in " + self.funcName
+        txt = self.funcName
+        txt += "("
+        for i in range(len(self.args)):
+            if StandardTypes.IsExtactWidthIntType(self.argsType[self.args[i]]):
+                txt += "(" + self.argsType[self.args[i]] + ")" + "(" + self.arguments[i] + ")" + ", "
+            elif StandardTypes.IsSignedIntType(self.argsType[self.args[i]]):
+                txt += "(" + StandardTypes.GetSignedIntType(self.argsType[self.args[i]], configure.RegisterSize[self.arch]) + ")" + "(" + self.arguments[i] + ")" + ", "
+            elif StandardTypes.IsUnsignedIntType(self.argsType[self.args[i]]):
+                txt += "(" + StandardTypes.GetUnsignedIntType(self.argsType[self.args[i]], configure.RegisterSize[self.arch]) + ")" + "(" + self.arguments[i] + ")" + ", "
+            elif StandardTypes.IsSIMDType(self.argsType[self.args[i]]):
+                txt += self.arguments[i] + ", "
+            elif StandardTypes.IsSIMDPointer(self.argsType[self.args[i]]):
+                txt += "(" + StandardTypes.GetSIMDPointer(self.arch) + ")" + "(" + self.arguments[i] + ")" + ", "
+            elif StandardTypes.Is64BitFloatingType(self.argsType[self.args[i]]):
+                txt += "(" + StandardTypes.Get64BitFloatingType(self.argsType[self.args[i]], configure.RegisterSize[self.arch]) + ")" + "(" + self.arguments[i] + ")" + ", "
+            elif StandardTypes.IsFloatConstantPointer(self.argsType[self.args[i]]):
+                txt += "(" + StandardTypes.GetFloatConstantPointer() + ")" + "(" + self.arguments[i] + ")" + ", "
+            elif StandardTypes.IsFloatPointer(self.argsType[self.args[i]]):
+                txt += "(" + StandardTypes.GetFloatPointer() + ")" + "(" + self.arguments[i] + ")" + ", "
+            elif StandardTypes.IsUInt64ConstantPointer(self.argsType[self.args[i]]):
+                txt += "(" + StandardTypes.GetUInt64ConstantPointer() + ")" + "(" + self.arguments[i] + ")" + ", "
+            elif StandardTypes.IsUInt64Pointer(self.argsType[self.args[i]]):
+                txt += "(" + StandardTypes.GetUInt64Pointer() + ")" + "(" + self.arguments[i] + ")" + ", "
+            elif StandardTypes.IsNEONSignedType(self.argsType[self.args[i]]):
+                fwStr = self.argsType[self.args[i]]
+                fwStr = fwStr[fwStr.find("(") + 1:]
+                fwStr = fwStr[:fwStr.find(")")]
+                txt += "(" + StandardTypes.GetNEONSignedType(0, fwStr) + ")" + "(" + self.arguments[i] + ")" + ", "
+            elif StandardTypes.IsNEONUnsignedType(self.argsType[self.args[i]]):
+                fwStr = self.argsType[self.args[i]]
+                fwStr = fwStr[fwStr.find("(") + 1:]
+                fwStr = fwStr[:fwStr.find(")")]
+                txt += "(" + StandardTypes.GetNEONUnsignedType(0, fwStr) + ")" + "(" + self.arguments[i] + ")" + ", "
+            elif StandardTypes.IsNEONType(self.argsType[self.args[i]]):
+                txt += "(" + self.argsType[self.args[i]] + ")" + "(" + self.arguments[i] + ")" + ", "
+            else:
+                print self.argsType[self.args[i]]
+                assert False, "unknown data type for built-ins"
+        if len(self.args) > 0:
+            txt = txt[:len(txt) - 2]
+        txt += ")"
+        return txt + self.end
+
+
+class BuiltIns:
+
+    def __init__(self, arch):
+        self.builtInsTable = {}
+        self.builtInsTable = InstructionSet.Load(arch)
+        self.builtInOperations = self.LoadBuiltInOperations(arch)
+
+    def LoadBuiltInOperations(self, arch):
+        builtInOperations = {}
+        for opName in self.builtInsTable:
+            args_type = self.builtInsTable[opName]["args_type"]
+            for i in range(len(self.builtInsTable[opName]["signature"])):
+                opSignature = self.builtInsTable[opName]["signature"][i]
+                fws = self.builtInsTable[opName]["fws"][i]
+                theOp = BuiltInOperation(arch, opSignature, args_type)
+                for fw in fws:
+                    if arch != configure.AVX:
+                        builtInOperations[opName, fw] = theOp
+                    elif configure.AVXBuiltInVecWrapper not in opSignature and configure.AVXBuiltInHorWrapper not in opSignature:
+                        builtInOperations[opName, fw] = theOp
+        return builtInOperations
+
+    def InterpretFw(self, operation, pattern):
+        while True:
+            firDollarSign = pattern.find("$")
+            if firDollarSign == -1:
+                break
+            secDollarSign = pattern.find("$", firDollarSign+1)
+            fwStr = pattern[firDollarSign+1:secDollarSign].replace("fw", str(operation.fieldWidth))
+            pattern = pattern[:firDollarSign] + str(eval(fwStr)) + pattern[secDollarSign+1:]
+        return pattern
+
+    def PackAnAVXOperation(self, operation):
+        for i in range(len(self.builtInsTable[operation.fullName]["signature"])):
+            if operation.fieldWidth in self.builtInsTable[operation.fullName]["fws"][i]:
+                builtInPattern = self.builtInsTable[operation.fullName]["signature"][i]
+        argsList = [x.strip(" )") for x in builtInPattern[builtInPattern.find("(")+1:].split(",")]
+        sseBuiltInPattern = self.InterpretFw(operation, argsList[0])
+        numOfArgs = len(argsList) - 1
+        regSize = configure.RegisterSize[operation.arch]
+
+        #set the used function support
+        Utility.usedFunctionSupport[configure.avx_general_combine256] = True
+        Utility.usedFunctionSupport[configure.avx_select_hi128] = True
+        Utility.usedFunctionSupport[configure.avx_select_lo128] = True
+
+        #print Utility.functionSupport
+
+        if configure.AVXBuiltInVecWrapper in builtInPattern:
+            assert numOfArgs <= 2, "The number of arguments of " + str(operation.fullName) + " > 2"
+            content = ""
+            initCost = 0
+            if operation.opPattern == 0:
+                content = configure.avx_general_combine256 + "("
+                content += sseBuiltInPattern + "("
+                initCost += Utility.functionSupport[configure.avx_general_combine256]["cost"] + 1
+                for i in range(1, numOfArgs):
+                    content += configure.avx_select_hi128 + "(" + argsList[i] + ")" + ", "
+                    initCost += Utility.functionSupport[configure.avx_select_hi128]["cost"]
+                content += configure.avx_select_hi128 + "(" + argsList[numOfArgs] + ")" + ")" + ", "
+                content += sseBuiltInPattern + "("
+                initCost += Utility.functionSupport[configure.avx_select_hi128]["cost"] + 1
+                for i in range(1, numOfArgs):
+                    content += configure.avx_select_lo128 + "(" + argsList[i] + ")" + ", "
+                    initCost += Utility.functionSupport[configure.avx_select_lo128]["cost"]
+                content += configure.avx_select_lo128 + "(" + argsList[numOfArgs] + ")" + ")" + ")"
+                initCost += Utility.functionSupport[configure.avx_select_lo128]["cost"]
+            elif operation.opPattern == 1:
+                content = configure.avx_general_combine256 + "("
+                content += sseBuiltInPattern + "("
+                initCost += Utility.functionSupport[configure.avx_general_combine256]["cost"] + 1
+                for i in range(1, numOfArgs):
+                    content += configure.avx_select_hi128 + "(" + argsList[i] + ")" + ", "
+                    initCost += Utility.functionSupport[configure.avx_select_hi128]["cost"]
+                dataType = self.builtInsTable[operation.fullName]["args_type"][argsList[numOfArgs]]
+                if StandardTypes.IsSignedIntType(dataType):
+                    content += "(" + StandardTypes.GetSignedIntType(dataType, regSize) + ")" + "(" + argsList[numOfArgs] + ")"
+                elif StandardTypes.IsUnsignedIntType(dataType):
+                    content += "(" + StandardTypes.GetUnsignedIntType(dataType, regSize) + ")" + "(" + argsList[numOfArgs] + ")"
+                else:
+                    content += argsList[numOfArgs]
+                content += ")" + ", "
+
+                content += sseBuiltInPattern + "("
+                initCost += 1
+                for i in range(1, numOfArgs):
+                    content += configure.avx_select_lo128 + "(" + argsList[i] + ")" + ", "
+                    initCost += Utility.functionSupport[configure.avx_select_lo128]["cost"]
+                dataType = self.builtInsTable[operation.fullName]["args_type"][argsList[numOfArgs]]
+                if StandardTypes.IsSignedIntType(dataType):
+                    content += "(" + StandardTypes.GetSignedIntType(dataType, regSize) + ")" + "(" + argsList[numOfArgs] + ")"
+                elif StandardTypes.IsUnsignedIntType(dataType):
+                    content += "(" + StandardTypes.GetUnsignedIntType(dataType, regSize) + ")" + "(" + argsList[numOfArgs] + ")"
+                else:
+                    content += argsList[numOfArgs]
+                content += ")" + ")"
+            else:
+                print "No AVX wrappers for this operation", operation.fullName
+            #update the initial cost for this operation
+            Utility.definedOperations[operation.fullName][operation.fieldWidth].estCost = initCost
+            return content
+        elif configure.AVXBuiltInHorWrapper in builtInPattern:
+            assert numOfArgs <= 2, "The number of arguments of " + str(operation.fullName) + " > 2"
+            content = ""
+            initCost = 0
+            if "pack" in operation.fullName or "hsimd_add_hl" in operation.fullName:
+                content = configure.avx_general_combine256 + "("
+                content += sseBuiltInPattern + "(" + configure.avx_select_lo128 + "(" + argsList[1] + ")"\
+                    + ", " + configure.avx_select_hi128 + "(" + argsList[1] + ")" + ")" + ","
+                content += sseBuiltInPattern + "(" + configure.avx_select_lo128 + "(" + argsList[2] + ")"\
+                    + ", " + configure.avx_select_hi128 + "(" + argsList[2] + ")" + ")" + ")"
+                initCost += Utility.functionSupport[configure.avx_general_combine256]["cost"] + 1\
+                    + Utility.functionSupport[configure.avx_select_lo128]["cost"]\
+                    + Utility.functionSupport[configure.avx_select_hi128]["cost"] + 1\
+                    + Utility.functionSupport[configure.avx_select_lo128]["cost"]\
+                    + Utility.functionSupport[configure.avx_select_hi128]["cost"]
+            else:
+                content = configure.avx_general_combine256 + "("
+                content += sseBuiltInPattern + "(" + configure.avx_select_hi128 + "(" + argsList[1] + ")" \
+                    + "," + configure.avx_select_lo128 + "(" + argsList[1] + ")" + ")" + ","
+                content += sseBuiltInPattern + "(" + configure.avx_select_hi128 + "(" + argsList[2] + ")" \
+                    + "," + configure.avx_select_lo128 + "(" + argsList[2] + ")" + ")" + ")"
+                initCost += Utility.functionSupport[configure.avx_general_combine256]["cost"] + 1\
+                    + Utility.functionSupport[configure.avx_select_lo128]["cost"]\
+                    + Utility.functionSupport[configure.avx_select_hi128]["cost"] + 1\
+                    + Utility.functionSupport[configure.avx_select_lo128]["cost"]\
+                    + Utility.functionSupport[configure.avx_select_hi128]["cost"]
+            #update the initial cost for this operation
+            Utility.definedOperations[operation.fullName][operation.fieldWidth].estCost = initCost
+            return content
+        else:
+            content = self.builtInOperations[operation.fullName, operation.fieldWidth].GetCallingConvention()
+            content = content.replace("(SIMD_type)", "("+configure.Bitblock_type[operation.arch]+")")
+            return self.InterpretFw(operation, content)
+
+    def PackAnOperation(self, operation):
+        if self.IsOperationBuiltIn(operation) == False:
+            print "Can not pack this operation as built-ins"
+            sys.exit()
+
+        if isinstance(operation, Operation.Operation):
+            if operation.arch == configure.AVX:
+            #AVX might have some builtins which need to be further processed with wrappers
+                return self.PackAnAVXOperation(operation)
+            else:
+            #return the intrinsic of operation with $fw$ replaced by real field width value
+            #when there is no wrappers involved
+                #builtInPattern = self.builtInsTable[operation.fullName]["Pattern"]
+                callingConv = self.builtInOperations[operation.fullName, operation.fieldWidth].GetCallingConvention()
+                if "(SIMD_type)" in callingConv:
+                    callingConv = callingConv.replace("(SIMD_type)", "("+configure.Bitblock_type[operation.arch]+")")
+                return self.InterpretFw(operation, callingConv)
+
+        elif isinstance(operation, str):
+            #return only the intrinsic of operation
+            return self.builtInOperations[str, self.builtInsTable[str]["fws"][0][0]].GetCallingConvention()
+
+    def PackAnOperationInC(self, operation):
+        cText = self.PackAnOperation(operation)
+        if isinstance(operation, Operation.Operation):
+            if self.builtInsTable[operation.fullName]["return_type"] != "void":
+                return "return " + cText + ";\n"
+            else:
+                return cText + ";\n"
+        elif isinstance(operation, str):
+            if self.builtInsTable[operation]["return_type"] != "void":
+                return "return " + cText + ";\n"
+            else:
+                return cText + ";\n"
+
+    def PackAnOperationInCpp(self, operation):
+        cppText = self.PackAnOperation(operation)
+        if isinstance(operation, Operation.Operation):
+            if self.builtInsTable[operation.fullName]["return_type"] != "void":
+                return "{\n\treturn " + cppText + ";\n}\n"
+            else:
+                return "{\n\t" + cppText + ";\n}\n"
+        elif isinstance(operation, str):
+            if self.builtInsTable[operation]["return_type"] != "void":
+                return "{\n\treturn " + cppText + ";\n}\n"
+            else:
+                return "{\n\t" + cppText + ";\n}\n"
+
+    def IsOperationBuiltIn(self, operation):
+        '''Check whether this operation is a built-in operation
+        '''
+        if isinstance(operation, Operation.Operation):
+        #If operation is an instance of Operation, check whether the operation name and operation field width
+        #are in the builtInsTable
+            if self.builtInsTable.has_key(operation.fullName) == False:
+                return False
+            found = False
+            for fws in self.builtInsTable[operation.fullName]["fws"]:
+                if operation.fieldWidth in fws:
+                    found = True
+            return found
+        elif isinstance(operation, str):
+        #If operation is just a string instance, only check whether the operation name is in the builtInsTable
+            return self.builtInsTable.has_key(operation)
+        return False
+
+    def IsCompileTimeConstant(self, operation):
+        '''Check if the built-in operation is a compile-time constant
+        '''
+        if isinstance(operation, Operation.Operation):
+            args = [arg for arg in self.builtInsTable[operation.fullName]["args_type"]]
+            if "arg1" in args or "shift_mask" in args or "val1" in args:
+                return False
+            return True
+        else:
+            return False
+
+    def GetOperationReturnType(self, operation):
+        '''Get the return type of the given operation
+        '''
+        if isinstance(operation, Operation.Operation):
+            return self.builtInsTable[operation.fullName]["return_type"]
+        elif isinstance(operation, str):
+            return self.builtInsTable[operation]["return_type"]
+        return None
+
+    def GetBuiltInOperation(self, operation):
+        '''Get a built in opteration from the operation object or its name
+        '''
+        if isinstance(operation, Operation.Operation):
+            return self.builtInOperations[operation.fullName, operation.fieldWidth]
+        elif isinstance(operation, str):
+            return self.builtInOperations[operation, self.builtInsTable[operation]["fws"][0][0]]
+        return None

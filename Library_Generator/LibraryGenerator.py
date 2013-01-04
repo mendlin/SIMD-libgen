@@ -1,0 +1,64 @@
+
+# Copyright (c) 2011, Hua Huang and Robert D. Cameron.
+# Licensed under the Academic Free License 3.0.
+
+import sys
+
+import UI
+import Utility
+from Utility import configure, OptParser
+import Operation
+import Strategy
+from BuiltIns import BuiltIns
+import OperationSet
+import OperationSetAnalyzer
+
+def Init(arch, lang):
+	'''Initialization work
+	'''
+	#Load function support
+	Utility.functionSupport = Utility.LoadFunctionSupport(arch, lang)
+
+	#Get all defined operations
+	Utility.definedOperations = Operation.LoadDefinedOperations(configure.AllOperations, arch)
+
+	#Get the built-ins given the information of architecture
+	Utility.builtIns = BuiltIns(arch)
+
+	#Get the size of current register
+	Utility.curRegisterSize = configure.RegisterSize[arch]
+
+	#Get all strategies
+	Utility.strategies = Strategy.LoadStrategies(arch)
+
+def Main(arch, lang, outfile, whichContent, options):
+
+	Init(arch, lang)
+
+	operationSet = OperationSet.LoadOperationSet(arch, lang)
+
+# This is for evaluation
+#	if options.strategy_count:
+#		strategyCount = OperationSet.LoadStrategyCount(arch, lang)
+#		UI.WriteStrategyCount(arch, strategyCount)
+
+	analysisResult = OperationSetAnalyzer.Analyze(operationSet)
+
+# This is for evaluation
+#	if options.strategy_comparison:
+#		UI.WriteStrategyComparisonInfo(analysisResult, operationSet, arch, lang)
+
+	UI.WriteCodes(analysisResult, arch, lang, outfile, whichContent)
+
+if __name__ == '__main__':
+
+	optParser = OptParser.GetOptParser()
+	options, args = optParser.parse_args(sys.argv[1:])
+
+	if options.use_generator:
+		Utility.outputOpt = options.body.lower()
+		Main(options.arch.upper(), options.lang.upper(), options.idisa_file, options.body.lower(), options)
+	else:
+		print "idisa doesn't know what to do...[no input]"
+
+
