@@ -202,6 +202,8 @@ AllOperations = \
      "signature":"SIMD_type simd<fw>::max(SIMD_type arg1, SIMD_type arg2)",
      "args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
      "return_type":"SIMD_type",
+     # Force class signature and other signature will be infered from this one. 
+     "cpp_class_signature": "static inline SIMD_type max(SIMD_type arg1, SIMD_type arg2)",
     },
     
     "simd_umax":\
@@ -329,6 +331,7 @@ AllOperations = \
      "signature":"int hsimd<fw>::signmask(SIMD_type arg1)",
      "args_type":{"arg1":"SIMD_type"},
      "return_type":"unsigned_int(64)",
+     "cpp_class_signature": "static inline typename FieldType<128/fw>::T signmask(SIMD_type arg1)"
     },
 
     #expanding operations

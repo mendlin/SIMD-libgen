@@ -25,7 +25,7 @@ def LoadDefinedOperations(allOperations, arch):
 			#Add this operation object into the operationSet dictionary
 			definedOperations[operation.fullName][fw] = operation
 			#ouput debug information
-			#DebugOut(operation)
+			# DebugOut(operation)
 	
 	#sys.exit()
 	
@@ -74,6 +74,10 @@ An operation contains operation name, field width, operation type, operation pat
 			self.PostParsing(opDescription)
 		
 		self.newClassType = self.classType + (str(configure.RegisterSize[arch]) if Utility.outputOpt != configure.Body_All else "")
+
+		self.cpp_class_signature = ""
+		if "cpp_class_signature" in opDescription:
+			self.cpp_class_signature = opDescription["cpp_class_signature"].replace("SIMD_type", configure.Bitblock_type[self.arch])
 	
 	def PostParsing(self, opDescription): 
 		regSize = configure.RegisterSize[self.arch]

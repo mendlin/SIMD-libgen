@@ -1,1 +1,5 @@
 *.py[cod]
+*.db
+Library_Tester/output_temp
+Library_Tester/output
+Library_Tester/input

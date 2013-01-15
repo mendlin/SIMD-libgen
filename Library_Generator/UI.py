@@ -121,6 +121,23 @@ class UiOutput:
 				codes += "#include <stdint.h>\n"
 				codes += '''#include "''' + configure.InstructionSetLibrary[arch] + '''"\n'''
 				codes += "typedef " + configure.SIMD_type[arch] + " " + configure.Bitblock_type[arch] + ";\n"
+
+			codes += \
+"""			
+template <uint32_t fw> struct FieldType {
+   typedef int T;  //default for FieldType::T is int
+};
+
+template <> struct FieldType<1> {typedef uint8_t T;};
+template <> struct FieldType<2> {typedef uint8_t T;};
+template <> struct FieldType<4> {typedef uint8_t T;};
+template <> struct FieldType<8> {typedef uint8_t T;};
+template <> struct FieldType<16> {typedef uint16_t T;};
+template <> struct FieldType<32> {typedef uint32_t T;};
+template <> struct FieldType<64> {typedef uint64_t T;};
+template <> struct FieldType<128> {typedef uint64_t T;};
+
+"""
 		else:
 			pass
 		return codes

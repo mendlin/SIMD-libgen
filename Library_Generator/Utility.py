@@ -13,6 +13,7 @@ sys.path.append("../Configure/")
 import configure
 import OptParser
 import BuiltIns
+import re
 
 #This dictionary stores all the simd operations with class_func as the format for keys
 #It should be initialized by Operation.GetDefinedOperations() at Main()
@@ -151,6 +152,7 @@ class LibFunction:
 		self.regSize = str(configure.RegisterSize[self.arch]) if outputOpt != configure.Body_All else ""
 		self.classType = self.classType + self.regSize
 		self.inlineStr = "IDISA_ALWAYS_INLINE" if outputOpt != configure.Body_All else "inline"
+		self.cpp_class_signature = operation.cpp_class_signature
 	
 	#def SetBodyContent(self, body):
 	#	self.body = body
@@ -162,6 +164,10 @@ class LibFunction:
 		return text[0:len(text)-2]
 	
 	def ClassDeclarationToCppText(self):
+		# if we have provided a signature
+		if self.cpp_class_signature != "":
+			return self.cpp_class_signature.replace("inline ", self.inlineStr + " ")
+
 		text = ""
 		if self.opPattern == 0 or self.opPattern == 3:
 			text += "static " + self.inlineStr + " " + self.returnType + " " + self.name + "(" + self.ArgumentsToCppText() + ")"
@@ -170,6 +176,15 @@ class LibFunction:
 		return text# + " __attribute__ ((always_inline))"
 	
 	def FunctionDeclarationToCppText(self):
+		#if we have provided a signature
+		if self.cpp_class_signature != "":
+			declare = "template <> " + self.ClassDeclarationToCppText()
+			declare = declare.replace("static ", "")			
+			declare = declare.replace("typename ", "")
+			declare = re.sub(r'\bfw\b', str(self.fieldWidth), declare)			
+			declare = re.sub(r'\b' + self.name + r'\b', "%s<%d>::%s" % (self.classType, self.fieldWidth, self.name), declare)			
+			return declare			
+
 		text = "template <> "
 		if self.opPattern == 0:
 			text += self.inlineStr + " " + self.returnType + " " + self.classType + "<" + str(self.fieldWidth) + ">" + "::" + self.name + "(" + self.ArgumentsToCppText() + ")"
