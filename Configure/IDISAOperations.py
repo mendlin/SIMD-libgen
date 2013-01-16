@@ -89,7 +89,7 @@ AllOperations = \
      "signature":"SIMD_type simd<fw>::constant<val>()",
      "args_type":{"val":"unsigned_int(fw)"},
      "return_type":"SIMD_type",
-     "cpp_class_signature": "template <uint64_t val> static inline SIMD_type constant()",
+     "cpp_class_signature": "template <typename FieldType<fw>::T val> static inline SIMD_type constant()",
     },
     
     #shifting operations
