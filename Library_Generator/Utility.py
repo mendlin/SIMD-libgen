@@ -178,11 +178,15 @@ class LibFunction:
 	def FunctionDeclarationToCppText(self):
 		#if we have provided a signature
 		if self.cpp_class_signature != "":
-			declare = "template <> " + self.ClassDeclarationToCppText()
+			declare = ("template <> " if self.classType != "bitblock" else "") + self.ClassDeclarationToCppText()
 			declare = declare.replace("static ", "")			
 			declare = declare.replace("typename ", "")
-			declare = re.sub(r'\bfw\b', str(self.fieldWidth), declare)			
-			declare = re.sub(r'\b' + self.name + r'\b', "%s<%d>::%s" % (self.classType, self.fieldWidth, self.name), declare)			
+			declare = re.sub(r'\bfw\b', str(self.fieldWidth), declare)
+			if self.classType != "bitblock":			
+				declare = re.sub(r'\b' + self.name + r'\b', "%s<%d>::%s" % (self.classType, self.fieldWidth, self.name), declare)			
+			else:
+				declare = re.sub(r'\b' + self.name + r'\b', "%s::%s" % (self.classType, self.name), declare)
+
 			return declare			
 
 		text = "template <> "

@@ -98,6 +98,7 @@ AllOperations = \
      "signature":"SIMD_type simd<fw>::srli<sh>(SIMD_type arg1)",
      "args_type":{"sh":"range(0, fw)", "arg1":"SIMD_type"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"template <uint8_t sh> static inline SIMD_type srli(SIMD_type arg1)",
     },
     
     "simd_srl":\
@@ -112,6 +113,7 @@ AllOperations = \
      "signature":"SIMD_type simd<fw>::slli<sh>(SIMD_type arg1)",
      "args_type":{"sh":"range(0, fw)", "arg1":"SIMD_type"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"template <uint8_t sh> static inline SIMD_type slli(SIMD_type arg1)",
     },
     
     "simd_sll":\
@@ -126,6 +128,7 @@ AllOperations = \
      "signature":"SIMD_type simd<fw>::srai<sh>(SIMD_type arg1)",
      "args_type":{"sh":"range(0, fw)", "arg1":"SIMD_type"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"template <uint8_t sh> static inline SIMD_type srai(SIMD_type arg1)",
     },
     
     "simd_sra":\
@@ -448,6 +451,7 @@ typename FieldType<fw>::T val13, typename FieldType<fw>::T val14, typename Field
      "signature":"SIMD_type mvmd<fw>::splat<pos>(SIMD_type arg1)",
      "args_type":{"pos":"range(0, curRegSize/fw-1)", "arg1":"SIMD_type"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"template <uint8_t pos> static inline SIMD_type splat(SIMD_type arg1)"
     },
     
     "mvmd__slli":\
@@ -455,7 +459,7 @@ typename FieldType<fw>::T val13, typename FieldType<fw>::T val14, typename Field
      "signature":"SIMD_type mvmd<fw>::slli<sh>(SIMD_type arg1)",
      "args_type":{"sh":"range(0, curRegSize/fw)", "arg1":"SIMD_type"},
      "return_type":"SIMD_type",
-     "cpp_class_signature":"template <uint8_t sh> static inline bitblock128_t slli(bitblock128_t arg1)",
+     "cpp_class_signature":"template <uint8_t sh> static inline SIMD_type slli(SIMD_type arg1)",
     },
     
     "mvmd__srli":\
@@ -463,13 +467,14 @@ typename FieldType<fw>::T val13, typename FieldType<fw>::T val14, typename Field
      "signature":"SIMD_type mvmd<fw>::srli<sh>(SIMD_type arg1)",
      "args_type":{"sh":"range(0, curRegSize/fw)", "arg1":"SIMD_type"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"template <uint8_t sh> static inline SIMD_type srli(SIMD_type arg1)",
     },
     
     "mvmd_shufflei":\
     {
      "signature":"SIMD_type mvmd<fw>::shufflei<msk>(SIMD_type arg1)",
      "args_type":{"msk":"range(0, 2**((curRegSize/fw)*int(math.log(curRegSize/fw, 2)))-1)", "arg1":"SIMD_type"},
-     "return_type":"SIMD_type",
+     "return_type":"SIMD_type",     
     },
     
     "mvmd_dslli":\
@@ -477,6 +482,7 @@ typename FieldType<fw>::T val13, typename FieldType<fw>::T val14, typename Field
      "signature":"SIMD_type mvmd<fw>::dslli<sh>(SIMD_type arg1, SIMD_type arg2)",
      "args_type":{"sh":"range(0, curRegSize/fw)", "arg1":"SIMD_type", "arg2":"SIMD_type"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"template <uint8_t sh> static inline SIMD_type dslli(SIMD_type arg1, SIMD_type arg2)"
     },
     
     "mvmd_dsrli":\
@@ -484,6 +490,7 @@ typename FieldType<fw>::T val13, typename FieldType<fw>::T val14, typename Field
      "signature":"SIMD_type mvmd<fw>::dsrli<sh>(SIMD_type arg1, SIMD_type arg2)",
      "args_type":{"sh":"range(0, curRegSize/fw)", "arg1":"SIMD_type", "arg2":"SIMD_type"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"template <uint8_t sh> static inline SIMD_type dsrli(SIMD_type arg1, SIMD_type arg2)",
     },
     
     "mvmd_shuffle":\
@@ -521,6 +528,7 @@ typename FieldType<fw>::T val13, typename FieldType<fw>::T val14, typename Field
      "signature":"int bitblock::popcount(SIMD_type arg1)",
      "args_type":{"arg1":"SIMD_type"},
      "return_type":"unsigned_int(64)",
+     "cpp_class_signature":"static inline uint8_t popcount(SIMD_type arg1)"
     },
     
     "bitblock_srl":\
@@ -541,6 +549,7 @@ typename FieldType<fw>::T val13, typename FieldType<fw>::T val14, typename Field
      "signature":"SIMD_type bitblock::srli<sh>(SIMD_type arg1)",
      "args_type":{"sh":"range(0, fw)", "arg1":"SIMD_type"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"template <uint8_t sh> static inline SIMD_type srli(SIMD_type arg1)",
     },
     
     "bitblock_slli":\
