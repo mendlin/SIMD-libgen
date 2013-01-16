@@ -66,6 +66,7 @@ AllOperations = \
      "signature":"SIMD_type simd<fw>::ifh(SIMD_type arg1, SIMD_type arg2, SIMD_type arg3)",
      "args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type", "arg3":"SIMD_type"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"static inline SIMD_type ifh(SIMD_type arg1, SIMD_type arg2, SIMD_type arg3)"
     },
 
     #constant and masking operations
@@ -88,6 +89,7 @@ AllOperations = \
      "signature":"SIMD_type simd<fw>::constant<val>()",
      "args_type":{"val":"unsigned_int(fw)"},
      "return_type":"SIMD_type",
+     "cpp_class_signature": "template <uint64_t val> static inline SIMD_type constant()",
     },
     
     #shifting operations
@@ -402,6 +404,7 @@ AllOperations = \
      "signature":"SIMD_type mvmd<fw>::fill(int val1)",
      "args_type":{"val1":"unsigned_int(fw)"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"static inline SIMD_type fill(typename FieldType<fw>::T val1)",
     },
     
     "mvmd_fill2":\
@@ -409,6 +412,7 @@ AllOperations = \
      "signature":"SIMD_type mvmd<fw>::fill2(int val1, int val2)",
      "args_type":{"val1":"unsigned_int(fw)", "val2":"unsigned_int(fw)"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"static inline SIMD_type fill2(typename FieldType<fw>::T val1, typename FieldType<fw>::T val2)",
     },
     
     "mvmd_fill4":\
@@ -416,6 +420,7 @@ AllOperations = \
      "signature":"SIMD_type mvmd<fw>::fill4(int val1, int val2, int val3, int val4)",
      "args_type":{"val1":"unsigned_int(fw)", "val2":"unsigned_int(fw)", "val3":"unsigned_int(fw)", "val4":"unsigned_int(fw)"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"static inline SIMD_type fill4(typename FieldType<fw>::T val1, typename FieldType<fw>::T val2, typename FieldType<fw>::T val3, typename FieldType<fw>::T val4)",
     },
     
     "mvmd_fill8":\
@@ -423,6 +428,7 @@ AllOperations = \
      "signature":"SIMD_type mvmd<fw>::fill8(int val1, int val2, int val3, int val4, int val5, int val6, int val7, int val8)",
      "args_type":{"val1":"unsigned_int(fw)", "val2":"unsigned_int(fw)", "val3":"unsigned_int(fw)", "val4":"unsigned_int(fw)", "val5":"unsigned_int(fw)", "val6":"unsigned_int(fw)", "val7":"unsigned_int(fw)", "val8":"unsigned_int(fw)"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"static inline SIMD_type fill8(typename FieldType<fw>::T val1, typename FieldType<fw>::T val2, typename FieldType<fw>::T val3, typename FieldType<fw>::T val4, typename FieldType<fw>::T val5, typename FieldType<fw>::T val6, typename FieldType<fw>::T val7, typename FieldType<fw>::T val8)",
     },
     
     "mvmd_fill16":\
@@ -431,6 +437,10 @@ AllOperations = \
      "args_type":{"val1":"unsigned_int(fw)", "val2":"unsigned_int(fw)", "val3":"unsigned_int(fw)", "val4":"unsigned_int(fw)", "val5":"unsigned_int(fw)", "val6":"unsigned_int(fw)", "val7":"unsigned_int(fw)", "val8":"unsigned_int(fw)",
                   "val9":"unsigned_int(fw)", "val10":"unsigned_int(fw)", "val11":"unsigned_int(fw)", "val12":"unsigned_int(fw)", "val13":"unsigned_int(fw)", "val14":"unsigned_int(fw)", "val15":"unsigned_int(fw)", "val16":"unsigned_int(fw)"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"static inline SIMD_type fill16(typename FieldType<fw>::T val1, typename FieldType<fw>::T val2, typename FieldType<fw>::T val3, typename FieldType<fw>::T val4, \
+typename FieldType<fw>::T val5, typename FieldType<fw>::T val6, typename FieldType<fw>::T val7, typename FieldType<fw>::T val8, \
+typename FieldType<fw>::T val9, typename FieldType<fw>::T val10, typename FieldType<fw>::T val11, typename FieldType<fw>::T val12, \
+typename FieldType<fw>::T val13, typename FieldType<fw>::T val14, typename FieldType<fw>::T val15, typename FieldType<fw>::T val16)",
     },
     
     "mvmd_splat":\
@@ -445,6 +455,7 @@ AllOperations = \
      "signature":"SIMD_type mvmd<fw>::slli<sh>(SIMD_type arg1)",
      "args_type":{"sh":"range(0, curRegSize/fw)", "arg1":"SIMD_type"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"template <uint8_t sh> static inline bitblock128_t slli(bitblock128_t arg1)",
     },
     
     "mvmd__srli":\
@@ -486,7 +497,8 @@ AllOperations = \
     {
      "signature":"int mvmd<fw>::extract<pos>(SIMD_type arg1)",
      "args_type":{"arg1":"SIMD_type", "pos":"range(0, curRegSize/fw-1)"},
-     "return_type":"unsigned_int(64)"
+     "return_type":"unsigned_int(64)",
+     "cpp_class_signature":"template <uint8_t pos> static inline typename FieldType<fw>::T extract(SIMD_type arg1)",
     },
 
     #bitblock operations

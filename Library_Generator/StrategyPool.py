@@ -2047,7 +2047,7 @@ return simd_ifh(fw, arg2, simd_constant(fw, 0), mvmd_shuffle(fw/2, arg1, msk))''
 		"mvmd_extract_havling":\
 		{
 		"body":r'''
-return ((mvmd_extract(fw/2, 2*pos+1, arg1)<<(fw/2)) | mvmd_extract(fw/2, 2*pos, arg1))''',
+return (((IDISA_CASTING("uint64_t", mvmd_extract(fw/2, 2*pos+1, arg1)))<<(fw/2)) | mvmd_extract(fw/2, 2*pos, arg1))''',
 		"Ops":["mvmd_extract"],
 		"Fws":range(2, 64+1),
 		"Platforms":[configure.ALL],
