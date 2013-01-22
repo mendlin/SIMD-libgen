@@ -557,6 +557,7 @@ typename FieldType<fw>::T val13, typename FieldType<fw>::T val14, typename Field
      "signature":"SIMD_type bitblock::slli<sh>(SIMD_type arg1)",
      "args_type":{"sh":"range(0, fw)", "arg1":"SIMD_type"},
      "return_type":"SIMD_type",
+     "cpp_class_signature":"template <uint8_t sh> static inline SIMD_type slli(SIMD_type arg1)"
     },
     "bitblock_load_aligned":\
     {
