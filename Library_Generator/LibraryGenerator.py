@@ -13,6 +13,8 @@ from BuiltIns import BuiltIns
 import OperationSet
 import OperationSetAnalyzer
 
+import ipdb
+
 def Init(arch, lang):
 	'''Initialization work
 	'''
@@ -30,6 +32,26 @@ def Init(arch, lang):
 
 	#Get all strategies
 	Utility.strategies = Strategy.LoadStrategies(arch)
+
+	# All options have full powers of 2 as field width
+	ref_keys = [1, 2, 4, 8, 16, 32, 64, 128]
+	generators = ["SIMDBuiltinGenerator", "SIMDConstantBuiltinGenerator", "SIMDLogicBuiltinGenerator", "SIMDBitblockBuiltinGenerator", "SIMDBitblockImmediateBuiltinGenerator"]	
+	return_type = {"bool": "BOOL", "uint64_t": "BITFIELD", "bitblock128_t": "BITBLOCK", "void": "VOID"}
+	for op_key in sorted(Utility.definedOperations):
+		op_val = Utility.definedOperations[op_key]
+		op_detail = op_val.values()[0]
+		op_pattern = op_detail.opPattern
+		op_generator = generators[op_pattern]
+		op_upperBound = "BITBLOCK_SIZE"	
+
+		if op_pattern == 4:
+			print op_key.upper(), "(makeAllSimpleSignatures(" + op_upperBound + ", new " + op_generator + "(), ",						
+			print len(op_detail.arguments) * "BITBLOCK, ",			
+			print return_type[op_detail.returnType] + ")),"
+			# print "args:"
+			# for arg in op_detail.arguments:
+			# 	print arg.type, ", ", 
+			# print 	
 
 def Main(arch, lang, outfile, whichContent, options):
 
