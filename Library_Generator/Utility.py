@@ -212,15 +212,15 @@ class LibFunction:
 		text = "#define "
 		if self.opPattern == 2:
 			text += self.name
-		elif self.opPattern == 3:
-			text += self.classType + "_" + self.name
+		elif self.opPattern == 3 or self.opPattern == 4:
+			text += self.classType + "_" + self.name		
 		else:
 			text += self.classType + "_" + self.name + "_" + str(self.fieldWidth)
 		
 		text += "("
 		for arg in self.arguments:
 			text += arg.name + ", "
-		if self.opPattern == 1:
+		if self.opPattern == 1 or self.opPattern == 4:
 			text += self.templateArg.name
 		elif len(self.arguments) > 0:
 			text = text[0:len(text)-2]
@@ -232,7 +232,7 @@ class LibFunction:
 		text = "static inline " + self.returnType + " "
 		if self.opPattern == 2:
 			text += self.name
-		elif self.opPattern == 3:
+		elif self.opPattern == 3 or self.opPattern == 4:
 			text += self.classType + "_" + self.name
 		else:
 			text += self.classType + "_" + self.name + "_" + str(self.fieldWidth)
@@ -240,7 +240,7 @@ class LibFunction:
 		text += "("
 		for arg in self.arguments:
 			text += arg.type + " " + arg.name + ", "
-		if self.opPattern == 1:
+		if self.opPattern == 1 or self.opPattern == 4:
 			text += self.templateArg.type + " " + self.templateArg.name
 		elif len(self.arguments) > 0:
 			text = text[0:len(text)-2]
@@ -263,6 +263,12 @@ class LibFunction:
 		#	cText += self.body.replace("return", "").replace(";", "") + "\n"
 		#else:
 		cText += "\n{" + "\n" + self.body + "}\n"
+		return cText
+
+	def ToCMacro(self):
+		cText = "//The total number of operations is " + str(self.cost) + "\n"
+		cText += self.CMarcoText()
+		cText += " \\\n" + self.body + "\n"
 		return cText
 
 class LibVariable:

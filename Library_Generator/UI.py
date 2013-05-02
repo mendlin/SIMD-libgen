@@ -89,7 +89,7 @@ class UiOutput:
 	def __init__(self, operationSetResult, arch, lang, outfile, whichContent):
 		
 		if lang == configure.Language_C:
-			self.WriteCCodes(operationSetResult, arch, lang, whichContent)
+			self.WriteCCodes(operationSetResult, arch, lang, outfile, whichContent)
 		elif lang == configure.Language_CPP:
 			self.WriteCodes(operationSetResult, arch, lang, outfile, whichContent)
 			self.WriteValidOperations(operationSetResult, arch, outfile)
@@ -100,7 +100,9 @@ class UiOutput:
 			codes += "#ifndef " + "_IDISA_" + arch.upper() + "_" + "C" + "_" + "H" + "\n"
 			codes += "#define " + "_IDISA_" + arch.upper() + "_" + "C" + "_" + "H" + "\n"
 			codes += '''#include "''' + configure.InstructionSetLibrary[arch] + '''"\n\n'''
-			codes += "typedef " + configure.SIMD_type[arch] + " SIMD_type;\n"
+			codes += "#include <stdint.h>\n"
+			codes += "typedef " + configure.SIMD_type[arch] + " " + configure.Bitblock_type[arch] + ";\n"
+			
 		elif lang == configure.Language_CPP:
 			#codes += "#ifndef " + "_IDISA_" + arch.upper() + "_" + "H" + "\n"
 			codes += "#ifndef " + outfile.replace(".", "_").replace("/", "_").upper() + "\n"
@@ -165,6 +167,9 @@ template <> struct FieldType<128> {typedef uint64_t T;};
 		(optOpCount, optOpCodes, opMaxCount) = (operationSetResult.optOpCount, operationSetResult.optOpCodes, operationSetResult.opMaxCount)
 		fileOut.write(self.PreliminaryCodes(arch, lang, outfile, whichContent))
 		
+		import ipdb
+		ipdb.set_trace()
+
 		for classType in allClasses:
 			if whichContent == configure.Body_All:
 				curClass = Utility.LibClass(classType, [], False if classType=="bitblock" else True)
@@ -184,14 +189,14 @@ template <> struct FieldType<128> {typedef uint64_t T;};
 					for fw in Utility.GetValidFieldWidth(configure.RegisterSize[arch]):
 						operation = Utility.definedOperations[opName][fw]
 						if optOpCount[operation.fullName + "_" + str(fw)] < opMaxCount:
-								curOperation = Utility.LibFunction(operation, optOpCount[operation.fullName + "_" + str(fw)], optOpCodes[operation.fullName + "_" + str(fw)])
-								curSignature = curOperation.ClassDeclarationToCppText()
-								if curSignature not in opSignatures:
-									opSignatures[curSignature] = True
-									curClass.Append(curOperation)
-								#curOperation.SetBodyContent(optOpCodes[operation.fullName + "_" + str(fw)])
-								operationImp[classType][operation.fullName].append(curOperation.ToCppText())
-								operationDecla[classType][operation.fullName].append(curOperation.FunctionDeclarationToCppText())
+							curOperation = Utility.LibFunction(operation, optOpCount[operation.fullName + "_" + str(fw)], optOpCodes[operation.fullName + "_" + str(fw)])
+							curSignature = curOperation.ClassDeclarationToCppText()
+							if curSignature not in opSignatures:
+								opSignatures[curSignature] = True
+								curClass.Append(curOperation)
+							#curOperation.SetBodyContent(optOpCodes[operation.fullName + "_" + str(fw)])
+							operationImp[classType][operation.fullName].append(curOperation.ToCppText())
+							operationDecla[classType][operation.fullName].append(curOperation.FunctionDeclarationToCppText())
 			
 			if whichContent != configure.Body_Declaration:		
 				fileOut.write(curClass.ToCppText())
@@ -252,7 +257,8 @@ template <> struct FieldType<128> {typedef uint64_t T;};
 		elif ".cpp" in outfile:
 			fileOut = open(outfile.replace(".cpp", ".db"), 'w')
 		else:
-			fileOut = open(outfile.replace(".h", ".db"), 'w')
+			fileOut = open(outfile.replace(".h", ".db"), 'w')		
+
 		(optOpCount, opMaxCount) = (operationSetResult.optOpCount, operationSetResult.opMaxCount)
 		opNameFilter = ["bitblock_load_aligned", "bitblock_load_unaligned", "bitblock_store_aligned", "bitblock_store_unaligned"]
 		
@@ -282,34 +288,37 @@ template <> struct FieldType<128> {typedef uint64_t T;};
 
 		fileOut.close()
 	
-	def WriteCCodes(self, operationSetResult, arch, lang, whichContent):
-		fileOut = open("idisa"+'_'+arch.lower()+"_"+"c.h", "w")
+	def WriteCCodes(self, operationSetResult, arch, lang, outfile, whichContent):			
+		fileOut = open(outfile, "w")
 		(optOpCount, optOpCodes, opMaxCount) = (operationSetResult.optOpCount, operationSetResult.optOpCodes, operationSetResult.opMaxCount)
 		
 		#oper = Utility.definedOperations["simd_add_8"]
 		#print oper.CallingStatementToCText(8, oper.arguments, oper.):
-		fileOut.write(self.PreliminaryCodes(arch, lang))
+		fileOut.write(self.PreliminaryCodes(arch, lang, outfile, whichContent))
 		
 		for func in Utility.usedFunctionSupport:
 			fileOut.write(Utility.functionSupport[func]["body"] + "\n")
 
 		fileOut.write("\n")
-		
+		fileOut.write("//Declaration Starts here\n");
 		for op in Utility.definedOperations:
 			for fw in Utility.definedOperations[op]:
 				opr = Utility.definedOperations[op][fw]
 				if optOpCount[op+"_"+str(fw)] < opMaxCount:
-					libF = Utility.LibFunction(opr, 0, optOpCodes[op+"_"+str(fw)])
-					fileOut.write(libF.FunctionDeclarationToCText() + ";\n")
-					
+					if opr.opPattern == 1 or opr.opPattern == 4:
+						libF = Utility.LibFunction(opr, optOpCount[op+"_"+str(fw)], optOpCodes[op+"_"+str(fw)])
+						fileOut.write(libF.ToCMacro())												
+					else:
+						libF = Utility.LibFunction(opr, 0, optOpCodes[op+"_"+str(fw)])
+						fileOut.write(libF.FunctionDeclarationToCText() + ";\n")
+
+		fileOut.write("\n//Implementation Starts here\n");
 		for op in Utility.definedOperations:
 			for fw in Utility.definedOperations[op]:
 				opr = Utility.definedOperations[op][fw]
 				if optOpCount[op+"_"+str(fw)] < opMaxCount and optOpCodes[op+"_"+str(fw)].count("\n")<=1:
 					libF = Utility.LibFunction(opr, optOpCount[op+"_"+str(fw)], optOpCodes[op+"_"+str(fw)])
 					fileOut.write(libF.ToCText())
-		
-		
 		
 		for op in Utility.definedOperations:
 			for fw in Utility.definedOperations[op]:

@@ -12,7 +12,10 @@ import re
 from types import *
 
 import Utility
+import StandardTypes
+from Utility import configure
 from Operation import Operation
+from IDISAFunctionSupport import IDISAFunction
 
 class CTranslator:
 	'''Methods of CTranslator recursively traverse an AST and output source codes in C syntax.
@@ -30,8 +33,8 @@ There are two options to emit C codes, in marcos or in static inline functions
 		self.prevCall = self.calls
 		self.isCompileTimeConstant = True
 		
-		#print "cur strategy is ", strategyBody
-		
+		#print "cur strategy is ", strategyBody	
+
 		abstractSyntaxTree = ast.parse(strategyBody)
 		body = self.Traverse(abstractSyntaxTree)["codes"]
 		if body:
@@ -122,17 +125,21 @@ There are two options to emit C codes, in marcos or in static inline functions
 		'''
 		codes = ""
 		for statement in tree.body:
-			codes += "\t" + self.Traverse(statement)["codes"] + ";\n"
+			tmpCodes = self.Traverse(statement)["codes"]
+			if tmpCodes != None:
+				codes += "\t" + tmpCodes + ";\n"
+			else:
+				return {"codes":None, "returnType":ModuleType}
 		return {"codes":codes, "returnType":ModuleType}
 	
 	def GetReturnType(self, returnType):
 		#print "cur return type = ", returnType
 		if returnType == IntType:
-			return "int"
+			return "uint32_t"
 		elif returnType == LongType:
-			return "long long"
+			return "uint64_t"
 		elif returnType == "SIMD_type":
-			return "SIMD_type"
+			return configure.Bitblock_type[self.operation.arch]
 		else:
 			return returnType
 	
@@ -165,8 +172,11 @@ There are two options to emit C codes, in marcos or in static inline functions
 		if tree.value:
 			#(tmpCodes, returnType) = self.Traverse(tree.value)
 			valRet = self.Traverse(tree.value)
-			codes += " " + valRet["codes"]
 			returnType = valRet["returnType"]
+			if valRet["codes"] != None:
+				codes += " " + valRet["codes"]
+				returnType = valRet["returnType"]
+				return {"codes":codes, "returnType":returnType}
 		return {"codes":codes, "returnType":returnType}
 	
 	def IsIfExp(self, tree):
@@ -239,7 +249,15 @@ There are two options to emit C codes, in marcos or in static inline functions
 		process the tree node with 'Num' type
 		'''
 		codes = repr(tree.n)
-		return {"codes":codes, "returnType":IntType}
+		returnType = StandardTypes.GetAppropriatePythonType(codes)
+		return {"codes":self.CheckNumCodes(codes), "returnType":returnType}
+
+	def CheckNumCodes(self, codes):
+		if codes[-1] == "L":
+			return codes[0:-1] + "ULL"
+		elif int(codes) >= (1<<31):
+			return codes + "ULL"
+		return codes
 
 	binop = {"Add":"+", "Sub":"-", "Mult":"*", "Div":"/", "Mod":"%",\
 			"LShift":"<<", "RShift":">>", "BitOr":"|", "BitXor":"^", "BitAnd":"&",\
@@ -252,21 +270,33 @@ There are two options to emit C codes, in marcos or in static inline functions
 		codes = self.Traverse(tree.left)["codes"]
 		codes += self.binop[tree.op.__class__.__name__]
 		codes += self.Traverse(tree.right)["codes"]
-		
+
 		try:
 			codes = repr(eval(codes))
+			codes = self.CheckNumCodes(codes)
 		except:
 			pass
-		
+
 		codes = "(" + codes + ")"
-		
+
 		return {"codes":codes, "returnType":IntType}
+
+	def IsStr(self, tree):
+		'''
+		process the tree node with "Str" type
+		'''
+		return {"codes":tree.s, "returnType":StringType}
 	
 	def CheckArgs(self, args):
 		for arg in args:
 			if "arg" in str(arg) or "shift_mask" in str(arg) or "val1" in str(arg):
 				return False
 		return True
+
+	def ParseFuncName(self, funcName):
+		if "$fw$" in funcName:
+			funcName = funcName.replace("$fw$", str(self.operation.fieldWidth))
+		return funcName
 
 	def IsCall(self, tree):
 		'''
@@ -306,6 +336,11 @@ There are two options to emit C codes, in marcos or in static inline functions
 				codes += op.CallingStatementToCText(Utility.curRegisterSize, argList[0:])
 				if self.isCompileTimeConstant == True:
 					self.isCompileTimeConstant = self.CheckArgs(argList[0:])
+
+			elif op.opPattern == 4:
+				codes += op.CallingStatementToCText(Utility.curRegisterSize, argList[1:], argList[0])
+				if self.isCompileTimeConstant == True:
+					self.isCompileTimeConstant = self.CheckArgs(argList[0:])
 			
 			#Add the op into calls in the format of class_op_fw
 			if op.opPattern == 0 or op.opPattern == 1:
@@ -317,6 +352,10 @@ There are two options to emit C codes, in marcos or in static inline functions
 				self.prevCall.append(op.fullName + "_" + str(1))
 			elif op.opPattern == 3:
 				self.prevCall.append(op.fullName + "_" + str(Utility.curRegisterSize))
+
+		elif IDISAFunction.IsIDISAFunction(funcName):
+			(codes, returnType) = IDISAFunction(self.operation.arch).Parse(IDISAFunction(self.operation.arch), funcName, argList, self.operation.fieldWidth)
+			#print "func is " + codes + " with type ", returnType			
 		else:
 			#func is not a simd operation and then it must be one of functions specified in built-ins
 			#print "else funcName", funcName
@@ -324,7 +363,7 @@ There are two options to emit C codes, in marcos or in static inline functions
 				print "This function " + funcName + " is unknown!"
 				return {"codes":None, "returnType":None}
 			
-			codes = Utility.CallingStatement(funcName, argList)
+			codes = Utility.CallingStatement(funcName, self.operation.arch, argList)
 			returnType = None
 			if Utility.builtIns.IsOperationBuiltIn(funcName) == True:
 				returnType = Utility.builtIns.GetOperationReturnType(funcName)
