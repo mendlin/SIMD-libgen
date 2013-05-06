@@ -208,7 +208,7 @@ class LibFunction:
 		cppText += self.body
 		return cppText
 	
-	def CMarcoText(self):
+	def CMarcoSignature(self):
 		text = "#define "
 		if self.opPattern == 2:
 			text += self.name
@@ -224,6 +224,9 @@ class LibFunction:
 			text += self.templateArg.name
 		elif len(self.arguments) > 0:
 			text = text[0:len(text)-2]
+
+		# To be consistent, all macros have a 'ret' variable to pass result.		
+		text += ", ret"
 	
 		text += ")"
 		return text
@@ -262,13 +265,15 @@ class LibFunction:
 		#if self.body.count("\n") <= 1:
 		#	cText += self.body.replace("return", "").replace(";", "") + "\n"
 		#else:
-		cText += "\n{" + "\n" + self.body + "}\n"
+		cText += "\n{" + "\n\t" + self.body.strip() + "\n}\n"
 		return cText
 
 	def ToCMacro(self):
 		cText = "//The total number of operations is " + str(self.cost) + "\n"
-		cText += self.CMarcoText()
-		cText += " \\\n" + self.body + "\n"
+		cText += self.CMarcoSignature()
+		
+		cText += " \\\ndo { \\\n\t" + self.body.replace("return", "ret =").replace("\n", " \\\n").strip() + "\n}while(0);\n\n"		
+
 		return cText
 
 class LibVariable:
