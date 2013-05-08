@@ -16,6 +16,8 @@ import CalculateResult
 import ParseIdisaDB
 import AssemblyInstructionCount
 
+import ipdb
+
 def WriteTestingData(fileName, data):
 	fileOut = open(fileName, "w")
 	for aList in data:
@@ -102,15 +104,14 @@ def CheckCorrectness(testingData):
 		print err
 
 def Main(idisa_file, options):
-	
-	arch = idisa_file.replace("idisa_", "").upper()
+	arch = idisa_file.replace("idisa_", "").replace("_c", "").upper()
 
 	if arch not in configure.RegisterSize:
 		print "cann't support this arch", arch
 		sys.exit()
 	
 	validOperations = ParseIdisaDB.Parse("idisa_" + arch.lower() + ".db")
-	definedOperations = Operation.LoadDefinedOperations(configure.AllOperations, arch)
+	definedOperations = Operation.LoadDefinedOperations(configure.AllOperations, arch)	
 	#GenerateCppTesting.Generate(arch + "_" + "test" + ".cpp", arch, validOperations)
 	
 	if options.instruction_count:
