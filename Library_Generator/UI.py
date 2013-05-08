@@ -165,10 +165,7 @@ template <> struct FieldType<128> {typedef uint64_t T;};
 		fileOut = open(outfile, 'w')
 		
 		(optOpCount, optOpCodes, opMaxCount) = (operationSetResult.optOpCount, operationSetResult.optOpCodes, operationSetResult.opMaxCount)
-		fileOut.write(self.PreliminaryCodes(arch, lang, outfile, whichContent))
-		
-		import ipdb
-		ipdb.set_trace()
+		fileOut.write(self.PreliminaryCodes(arch, lang, outfile, whichContent))		
 
 		for classType in allClasses:
 			if whichContent == configure.Body_All:
@@ -304,10 +301,10 @@ template <> struct FieldType<128> {typedef uint64_t T;};
 		for op in Utility.definedOperations:
 			for fw in Utility.definedOperations[op]:
 				opr = Utility.definedOperations[op][fw]
-				if optOpCount[op+"_"+str(fw)] < opMaxCount:
-					if opr.opPattern == 1 or opr.opPattern == 4:
+				if optOpCount[op+"_"+str(fw)] < opMaxCount:					
+					if (opr.opPattern == 1 or opr.opPattern == 4) and optOpCodes[op+"_"+str(fw)].count("\n") <= 1:
 						libF = Utility.LibFunction(opr, optOpCount[op+"_"+str(fw)], optOpCodes[op+"_"+str(fw)])
-						fileOut.write(libF.ToCMacro())												
+						fileOut.write(libF.ToCMacro() + "\n")
 					else:
 						libF = Utility.LibFunction(opr, 0, optOpCodes[op+"_"+str(fw)])
 						fileOut.write(libF.FunctionDeclarationToCText() + ";\n")
@@ -316,16 +313,18 @@ template <> struct FieldType<128> {typedef uint64_t T;};
 		for op in Utility.definedOperations:
 			for fw in Utility.definedOperations[op]:
 				opr = Utility.definedOperations[op][fw]
-				if optOpCount[op+"_"+str(fw)] < opMaxCount and optOpCodes[op+"_"+str(fw)].count("\n")<=1:
+				if optOpCount[op+"_"+str(fw)] < opMaxCount:
+					if (opr.opPattern == 1 or opr.opPattern == 4) and optOpCodes[op+"_"+str(fw)].count("\n") <= 1:
+						continue
 					libF = Utility.LibFunction(opr, optOpCount[op+"_"+str(fw)], optOpCodes[op+"_"+str(fw)])
 					fileOut.write(libF.ToCText())
 		
-		for op in Utility.definedOperations:
-			for fw in Utility.definedOperations[op]:
-				opr = Utility.definedOperations[op][fw]
-				if optOpCount[op+"_"+str(fw)] < opMaxCount and optOpCodes[op+"_"+str(fw)].count("\n")>1:
-					libF = Utility.LibFunction(opr, optOpCount[op+"_"+str(fw)], optOpCodes[op+"_"+str(fw)])
-					fileOut.write(libF.ToCText())
+		# for op in Utility.definedOperations:
+		# 	for fw in Utility.definedOperations[op]:
+		# 		opr = Utility.definedOperations[op][fw]
+		# 		if optOpCount[op+"_"+str(fw)] < opMaxCount and optOpCodes[op+"_"+str(fw)].count("\n")>1:
+		# 			libF = Utility.LibFunction(opr, optOpCount[op+"_"+str(fw)], optOpCodes[op+"_"+str(fw)])
+		# 			fileOut.write(libF.ToCText())
 		
 		#opr = Utility.definedOperations["simd_add"][128]
 		#libF = Utility.LibFunction(opr, 0, optOpCodes["simd_add_128"])

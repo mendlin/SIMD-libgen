@@ -208,7 +208,7 @@ class LibFunction:
 		cppText += self.body
 		return cppText
 	
-	def CMarcoText(self):
+	def CMarcoSignature(self):
 		text = "#define "
 		if self.opPattern == 2:
 			text += self.name
@@ -251,7 +251,7 @@ class LibFunction:
 	def FunctionDeclarationToCText(self):
 		text = ""
 		#if self.body.count("\n") <= 1:
-		#	text += self.CMarcoText()
+		#	text += self.CMarcoSignature()
 		#else:
 		text += self.CStaticInlineText()
 		return text
@@ -262,13 +262,13 @@ class LibFunction:
 		#if self.body.count("\n") <= 1:
 		#	cText += self.body.replace("return", "").replace(";", "") + "\n"
 		#else:
-		cText += "\n{" + "\n" + self.body + "}\n"
+		cText += "\n{" + "\n\t" + self.body.strip() + "\n}\n"
 		return cText
 
 	def ToCMacro(self):
 		cText = "//The total number of operations is " + str(self.cost) + "\n"
-		cText += self.CMarcoText()
-		cText += " \\\n" + self.body + "\n"
+		cText += self.CMarcoSignature()
+		cText += " \\\n\t" + self.body.replace("return", "").replace(";", "").strip() + "\n"
 		return cText
 
 class LibVariable:

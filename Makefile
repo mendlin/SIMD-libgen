@@ -44,6 +44,9 @@ sse2_c:
 sse2_test:
 	python $(IDISA_TESTER) -a sse2 -l cpp -f $(IDISA_SSE2_CPP_LIB) -t
 
+sse2_c_test:
+	python $(IDISA_TESTER) -a sse2 -l c -f $(IDISA_SSE2_CPP_LIB) -t
+
 #sse2_strategy_count:
 #	python $(IDISA_GENERATOR) -a sse2 -l cpp -f $(IDISA_SSE2_CPP_LIB).h -g --strategy_count = True
 

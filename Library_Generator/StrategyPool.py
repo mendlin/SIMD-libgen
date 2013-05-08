@@ -1992,22 +1992,32 @@ return mvmd_shufflei(32, shufflemask4_from_shufflemask2(msk), arg1)''',
 		"Platforms":[arch for arch in configure.SSE_SERIES],
 		},
 		
+# 		"shufflei_16_blend":\
+# 		{
+# 		"body":r'''
+# tmphi = _mm_shufflehi_epi16(arg1, shufflemask8_to_shufflemask4(msk)>>8)
+# tmpAns = _mm_shufflelo_epi16(tmphi, shufflemask8_to_shufflemask4(msk)&255)
+# tmplh = _mm_shufflehi_epi16(simd_slli(128, 64, arg1), shufflemask8_to_shufflemask4(msk)>>8)
+# tmphl = _mm_shufflelo_epi16(simd_srli(128, 64, arg1), shufflemask8_to_shufflemask4(msk)&255)
+# a1 = 0 if ((msk>>21)&4)==0 else ((1<<(fw+1))-1)
+# a2 = 0 if ((msk>>18)&4)==0 else ((1<<(fw+1))-1)
+# a3 = 0 if ((msk>>15)&4)==0 else ((1<<(fw+1))-1)
+# a4 = 0 if ((msk>>12)&4)==0 else ((1<<(fw+1))-1)
+# a5 = ((1<<(fw+1))-1) if ((msk>>9)&4)==0 else 0
+# a6 = ((1<<(fw+1))-1) if ((msk>>6)&4)==0 else 0
+# a7 = ((1<<(fw+1))-1) if ((msk>>3)&4)==0 else 0
+# a8 = ((1<<(fw+1))-1) if (msk&4)==0 else 0
+# return simd_ifh(1, mvmd_fill8(fw, a1, a2, a3, a4, a5, a6, a7, a8), tmpAns, simd_or(tmplh, tmphl))''',
+# 		"Ops":["mvmd_shufflei"],
+# 		"Fws":[16],
+# 		"Platforms":[arch for arch in configure.SSE_SERIES],
+# 		},
+
+		# Changed to suit C generator
 		"shufflei_16_blend":\
 		{
 		"body":r'''
-tmphi = _mm_shufflehi_epi16(arg1, shufflemask8_to_shufflemask4(msk)>>8)
-tmpAns = _mm_shufflelo_epi16(tmphi, shufflemask8_to_shufflemask4(msk)&255)
-tmplh = _mm_shufflehi_epi16(simd_slli(128, 64, arg1), shufflemask8_to_shufflemask4(msk)>>8)
-tmphl = _mm_shufflelo_epi16(simd_srli(128, 64, arg1), shufflemask8_to_shufflemask4(msk)&255)
-a1 = 0 if ((msk>>21)&4)==0 else ((1<<(fw+1))-1)
-a2 = 0 if ((msk>>18)&4)==0 else ((1<<(fw+1))-1)
-a3 = 0 if ((msk>>15)&4)==0 else ((1<<(fw+1))-1)
-a4 = 0 if ((msk>>12)&4)==0 else ((1<<(fw+1))-1)
-a5 = ((1<<(fw+1))-1) if ((msk>>9)&4)==0 else 0
-a6 = ((1<<(fw+1))-1) if ((msk>>6)&4)==0 else 0
-a7 = ((1<<(fw+1))-1) if ((msk>>3)&4)==0 else 0
-a8 = ((1<<(fw+1))-1) if (msk&4)==0 else 0
-return simd_ifh(1, mvmd_fill8(fw, a1, a2, a3, a4, a5, a6, a7, a8), tmpAns, simd_or(tmplh, tmphl))''',
+return simd_ifh(1, mvmd_fill8(fw, 0 if ((msk>>21)&4)==0 else ((1<<(fw+1))-1), 0 if ((msk>>18)&4)==0 else ((1<<(fw+1))-1), 0 if ((msk>>15)&4)==0 else ((1<<(fw+1))-1), 0 if ((msk>>12)&4)==0 else ((1<<(fw+1))-1), ((1<<(fw+1))-1) if ((msk>>9)&4)==0 else 0, ((1<<(fw+1))-1) if ((msk>>6)&4)==0 else 0, ((1<<(fw+1))-1) if ((msk>>3)&4)==0 else 0, ((1<<(fw+1))-1) if (msk&4)==0 else 0), _mm_shufflelo_epi16(_mm_shufflehi_epi16(arg1, shufflemask8_to_shufflemask4(msk)>>8), shufflemask8_to_shufflemask4(msk)&255), simd_or(_mm_shufflehi_epi16(simd_slli(128, 64, arg1), shufflemask8_to_shufflemask4(msk)>>8), _mm_shufflelo_epi16(simd_srli(128, 64, arg1), shufflemask8_to_shufflemask4(msk)&255)))''',
 		"Ops":["mvmd_shufflei"],
 		"Fws":[16],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
