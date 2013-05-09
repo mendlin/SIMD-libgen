@@ -1,13 +1,11 @@
-// #include "idisa_sse2.h"
-extern "C"{
+extern "C" {
 	#include "idisa_sse2_c.h"
 }
-
 #define USE_SSE
 typedef __m128i SIMD_type;
+#include <vector>
 #include <iostream>
 #include <sstream>
-#include <vector>
 #include <string>
 #include <cstring>
 #include <cstdio>

@@ -8,13 +8,14 @@ import os
 #import logging
 
 #import GenerateCppTesting
-import GenerateCppTests
+import GenerateTests
 import TesterUtility
 from TesterUtility import configure, OptParser
 from TesterUtility import Operation
 import CalculateResult
 import ParseIdisaDB
 import AssemblyInstructionCount
+from TestDriverGenerater import CppDriverGenerater, CDriverGenerater
 
 import ipdb
 
@@ -119,7 +120,7 @@ def Main(idisa_file, options):
 		AssemblyInstructionCount.GetInstructionCount(arch, definedOperations, validOperations)
 		sys.exit()
 	
-	testingData = GenerateCppTests.MakeTestdata(arch, definedOperations, validOperations)
+	testingData = GenerateTests.MakeTestdata(arch, definedOperations, validOperations)
 	#print testingData
 	
 	if options.test_option == "neon_test_data":
@@ -127,10 +128,15 @@ def Main(idisa_file, options):
 		print arch + "_test" + " has been executed successfully!"
 		CheckCorrectness(testingData)
 		sys.exit()
+		
+	if options.lang == 'cpp':
+		driver = CppDriverGenerater()
+	else:
+		driver = CDriverGenerater()
 	
-	cppText = GenerateCppTests.MakeCppText(arch, definedOperations, validOperations, testingData, options)
+	cppText = driver.MakeText(arch, definedOperations, validOperations, testingData, options)
 	
-	GenerateCppTests.WriteCppText(arch, arch+"_test.cpp", cppText)
+	driver.WriteText(arch, arch+"_test.cpp", cppText)
 	
 	#write all testing data on the disk
 	inputDir = os.getcwd() + "/input/"

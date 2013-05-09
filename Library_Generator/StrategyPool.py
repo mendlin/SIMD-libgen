@@ -1873,12 +1873,20 @@ return simd_sub(curRegSize, simd_constant(curRegSize, 0), simd_and(simd_constant
 		"Platforms":[configure.ALL],
 		},
 		
+# 		"splat_doubling":\
+# 		{
+# 		"body":r'''
+# tmpArg = simd_slli(2*fw, fw, arg1) if pos%2==0 else simd_srli(2*fw, fw, arg1)
+# arg11 = simd_and(simd_lomask(2*fw), arg1) if pos%2==0 else simd_and(simd_himask(2*fw), arg1)
+# return mvmd_splat(2*fw, pos/2, simd_or(tmpArg, arg11))''',
+# 		"Ops":["mvmd_splat"],
+# 		"Fws":range(1, curRegSize/2+1),
+# 		"Platforms":[configure.ALL],
+# 		},
 		"splat_doubling":\
 		{
 		"body":r'''
-tmpArg = simd_slli(2*fw, fw, arg1) if pos%2==0 else simd_srli(2*fw, fw, arg1)
-arg11 = simd_and(simd_lomask(2*fw), arg1) if pos%2==0 else simd_and(simd_himask(2*fw), arg1)
-return mvmd_splat(2*fw, pos/2, simd_or(tmpArg, arg11))''',
+return mvmd_splat(2*fw, pos/2, simd_or(simd_slli(2*fw, fw, arg1) if pos%2==0 else simd_srli(2*fw, fw, arg1), simd_and(simd_lomask(2*fw), arg1) if pos%2==0 else simd_and(simd_himask(2*fw), arg1)))''',
 		"Ops":["mvmd_splat"],
 		"Fws":range(1, curRegSize/2+1),
 		"Platforms":[configure.ALL],

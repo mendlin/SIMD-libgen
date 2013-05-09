@@ -249,7 +249,7 @@ An operation contains operation name, field width, operation type, operation pat
 		#print "return cppText= ", cppText
 		return cppText
 	
-	def CallingStatementToCText(self, fw, args=[], templateArg=""):
+	def CallingStatementToCText(self, fw, args=[], templateArg="", testingFlag=False):
 		if len(args) != len(self.arguments):
 			print "The operation " + self.classType + "::" + self.name + " doesn't accept this many arguments!"
 			sys.exit()
@@ -261,14 +261,26 @@ An operation contains operation name, field width, operation type, operation pat
 			cText = self.classType + "_" + self.name + "_" + str(fw)
 		elif self.opPattern == 2:
 			cText = self.name
-		elif self.opPattern == 3:
+		elif self.opPattern == 3 or self.opPattern == 4:
 			cText = self.classType + "_" + self.name
 		
 		cText += "("
 		for arg in args:
 			cText += str(arg) + ", "
-		if self.opPattern == 1 or self.opPattern == 4:
-			cText += str(templateArg) + ", "
+
+		if self.opPattern == 1:
+			#simd<fw>::op<val>(...)
+			if testingFlag:
+				cText += "(" + str(self.templateArg.type) + ")" + "(" + str(templateArg) + "ULL)" + ", "
+			else:
+				cText += str(templateArg) + ", "
+
+		if self.opPattern == 4:
+			#bitblock::op<val>(...)
+			if testingFlag:
+				cText += "(" + str(self.templateArg.type) + ")" + "(" + str(templateArg) + "ULL)" + ", "
+			else:
+				cText += str(templateArg) + ", "		
 		
 		if len(args) > 0 or self.opPattern == 1:
 		#if there is at least one argument
