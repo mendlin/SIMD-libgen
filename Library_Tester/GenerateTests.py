@@ -8,7 +8,7 @@ import GenData
 import TesterUtility
 from TesterUtility import configure
 
-maxTestCase = 10
+maxTestCase = 50
 
 def MakeTestdata(arch, definedOperations, validOperations):
 	testingData = {}

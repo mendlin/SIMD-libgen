@@ -111,9 +111,10 @@ def Main(idisa_file, options):
 		print "cann't support this arch", arch
 		sys.exit()
 	
-	validOperations = ParseIdisaDB.Parse("idisa_" + arch.lower() + ".db")
+	validOperations = ParseIdisaDB.Parse(idisa_file + ".db")
 	definedOperations = Operation.LoadDefinedOperations(configure.AllOperations, arch)	
 	#GenerateCppTesting.Generate(arch + "_" + "test" + ".cpp", arch, validOperations)
+
 	
 	if options.instruction_count:
 		#AssemblyInstructionCount.MakeCpps(arch, definedOperations, validOperations)

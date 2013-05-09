@@ -37,13 +37,10 @@ BODY_IMPLEMENTATION = implementation
 
 sse2:
 	python $(IDISA_GENERATOR) -a sse2 -l cpp -f $(IDISA_SSE2_CPP_LIB).h -g
-
 sse2_c:
 	python $(IDISA_GENERATOR) -a sse2 -l c -f $(IDISA_SSE2_C_LIB).h -g
-
 sse2_test:
 	python $(IDISA_TESTER) -a sse2 -l cpp -f $(IDISA_SSE2_CPP_LIB) -t
-
 sse2_c_test:
 	python $(IDISA_TESTER) -a sse2 -l c -f $(IDISA_SSE2_C_LIB) -t
 
@@ -58,23 +55,39 @@ sse2_c_test:
 
 sse3:
 	python $(IDISA_GENERATOR) -a sse3 -l cpp -f $(IDISA_SSE3_CPP_LIB).h -g
+sse3_c:
+	python $(IDISA_GENERATOR) -a sse3 -l c -f $(IDISA_SSE3_CPP_LIB)_c.h -g
 sse3_test:
 	python $(IDISA_TESTER) -a sse3 -l cpp -f $(IDISA_SSE3_CPP_LIB) -t
+sse3_c_test:
+	python $(IDISA_TESTER) -a sse3 -l c -f $(IDISA_SSE3_CPP_LIB)_c -t
 
 ssse3:
 	python $(IDISA_GENERATOR) -a ssse3 -l cpp -f $(IDISA_SSSE3_CPP_LIB).h -g
 ssse3_test:
 	python $(IDISA_TESTER) -a ssse3 -l cpp -f $(IDISA_SSSE3_CPP_LIB) -t
+ssse3_c:
+	python $(IDISA_GENERATOR) -a ssse3 -l c -f $(IDISA_SSSE3_CPP_LIB)_c.h -g
+ssse3_c_test:
+	python $(IDISA_TESTER) -a ssse3 -l c -f $(IDISA_SSSE3_CPP_LIB)_c -t	
 
 sse4_1:
 	python $(IDISA_GENERATOR) -a sse4_1 -l cpp -f $(IDISA_SSE4_1_CPP_LIB).h -g
 sse4_1_test:
 	python $(IDISA_TESTER) -a sse4_1 -l cpp -f $(IDISA_SSE4_1_CPP_LIB) -t
+sse4_1_c:
+	python $(IDISA_GENERATOR) -a sse4_1 -l c -f $(IDISA_SSE4_1_CPP_LIB)_c.h -g
+sse4_1_c_test:
+	python $(IDISA_TESTER) -a sse4_1 -l c -f $(IDISA_SSE4_1_CPP_LIB)_c -t
 
 sse4_2:
 	python $(IDISA_GENERATOR) -a sse4_2 -l cpp -f $(IDISA_SSE4_2_CPP_LIB).h -g
 sse4_2_test:
 	python $(IDISA_TESTER) -a sse4_2 -l cpp -f $(IDISA_SSE4_2_CPP_LIB) -t
+sse4_2_c:
+	python $(IDISA_GENERATOR) -a sse4_2 -l c -f $(IDISA_SSE4_2_CPP_LIB)_c.h -g
+sse4_2_c_test:
+	python $(IDISA_TESTER) -a sse4_2 -l c -f $(IDISA_SSE4_2_CPP_LIB)_c -t	
 
 neon:
 	python $(IDISA_GENERATOR) -a neon -l cpp -f $(IDISA_NEON_CPP_LIB).h -g

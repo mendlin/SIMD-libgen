@@ -233,7 +233,7 @@ class CDriverGenerater(AbstractTestDriverGenerater):
 
 	def insertHead(self, arch, utilityCodes):
 		utilityCodes.insert(0, '''extern "C" {\n''')
-		utilityCodes.insert(1, '''\t#include "idisa_sse2_c.h"\n''')
+		utilityCodes.insert(1, '''\t#include "idisa_%s_c.h"\n''' % arch.lower())
 		utilityCodes.insert(2, '''}\n''')		
 		utilityCodes.insert(3, '''#define USE_SSE\n''' if arch in configure.SSE_SERIES else ('''#define USE_AVX\n''' if arch == configure.AVX else ('''#define USE_NEON\n''' if arch == configure.NEON else ''''''))) 
 		utilityCodes.insert(4, '''typedef ''' + configure.SIMD_type[arch] + " SIMD_type;\n")

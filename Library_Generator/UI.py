@@ -90,6 +90,7 @@ class UiOutput:
 		
 		if lang == configure.Language_C:
 			self.WriteCCodes(operationSetResult, arch, lang, outfile, whichContent)
+			self.WriteValidOperations(operationSetResult, arch, outfile)
 		elif lang == configure.Language_CPP:
 			self.WriteCodes(operationSetResult, arch, lang, outfile, whichContent)
 			self.WriteValidOperations(operationSetResult, arch, outfile)

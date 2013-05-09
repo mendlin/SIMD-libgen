@@ -1,5 +1,5 @@
 extern "C" {
-	#include "idisa_sse2_c.h"
+	#include "idisa_sse4_2_c.h"
 }
 #define USE_SSE
 typedef __m128i SIMD_type;
