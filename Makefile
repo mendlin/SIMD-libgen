@@ -5,6 +5,7 @@ CONFIGURE_DIR = Configure
 LIB_DIR = ../lib
 IDISA_LIB_DIR = idisa_lib
 IDISA_LIB_CPP_DIR = $(IDISA_LIB_DIR)/idisa_cpp
+IDISA_LIB_C_DIR = $(IDISA_LIB_DIR)/idisa_c
 LIB_CPP_DIR = $(LIB_DIR)/idisa_cpp
 
 IDISA_GENERATOR = $(GENERATOR_DIR)/LibraryGenerator.py
@@ -154,7 +155,19 @@ idisa:
 	make idisa256
 	python $(IDISA_GENERATOR) -a sse2 -l cpp -f $(IDISA).hpp -g --body=$(BODY_DECLARATION)
 	mv $(GENERATOR_DIR)/$(IDISA).hpp $(LIB_DIR)/
-	
+
+idisa128_c:
+	make sse2_c
+	make sse3_c
+	make ssse3_c
+	make sse4_1_c
+	make sse4_2_c	
+
+	mv $(GENERATOR_DIR)/idisa_sse2_c.h $(LIB_DIR)/idisa_c
+	mv $(GENERATOR_DIR)/idisa_sse3_c.h $(LIB_DIR)/idisa_c
+	mv $(GENERATOR_DIR)/idisa_ssse3_c.h $(LIB_DIR)/idisa_c
+	mv $(GENERATOR_DIR)/idisa_sse4_1_c.h $(LIB_DIR)/idisa_c
+	mv $(GENERATOR_DIR)/idisa_sse4_2_c.h $(LIB_DIR)/idisa_c
 
 clean:
 	rm -f $(GENERATOR_DIR)/*.pyc
