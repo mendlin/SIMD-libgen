@@ -265,26 +265,19 @@ An operation contains operation name, field width, operation type, operation pat
 			cText = self.classType + "_" + self.name
 		
 		cText += "("
-		for arg in args:
-			cText += str(arg) + ", "
-
-		if self.opPattern == 1:
-			#simd<fw>::op<val>(...)
+		if self.opPattern == 1 or self.opPattern == 4:
+			#simd<fw>::op<val>(...) or bitblock::op<val>(...)
 			if testingFlag:
 				cText += "(" + str(self.templateArg.type) + ")" + "(" + str(templateArg) + "ULL)" + ", "
 			else:
 				cText += str(templateArg) + ", "
 
-		if self.opPattern == 4:
-			#bitblock::op<val>(...)
-			if testingFlag:
-				cText += "(" + str(self.templateArg.type) + ")" + "(" + str(templateArg) + "ULL)" + ", "
-			else:
-				cText += str(templateArg) + ", "		
+		for arg in args:
+			cText += str(arg) + ", "
 		
-		if len(args) > 0 or self.opPattern == 1:
-		#if there is at least one argument
+		if cText.endswith(", "):
 			cText = cText[0:len(cText)-2]
 		cText += ")"
 		
 		return cText
+		

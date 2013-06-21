@@ -218,11 +218,11 @@ class LibFunction:
 			text += self.classType + "_" + self.name + "_" + str(self.fieldWidth)
 		
 		text += "("
+		if self.opPattern == 1 or self.opPattern == 4:
+			text += self.templateArg.name + ", "
 		for arg in self.arguments:
 			text += arg.name + ", "
-		if self.opPattern == 1 or self.opPattern == 4:
-			text += self.templateArg.name
-		elif len(self.arguments) > 0:
+		if text.endswith(", "):
 			text = text[0:len(text)-2]
 	
 		text += ")"
@@ -238,11 +238,11 @@ class LibFunction:
 			text += self.classType + "_" + self.name + "_" + str(self.fieldWidth)
 			
 		text += "("
+		if self.opPattern == 1 or self.opPattern == 4:
+			text += self.templateArg.type + " " + self.templateArg.name + ", "
 		for arg in self.arguments:
 			text += arg.type + " " + arg.name + ", "
-		if self.opPattern == 1 or self.opPattern == 4:
-			text += self.templateArg.type + " " + self.templateArg.name
-		elif len(self.arguments) > 0:
+		if text.endswith(", "):
 			text = text[0:len(text)-2]
 		
 		text += ")"
