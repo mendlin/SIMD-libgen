@@ -63,19 +63,27 @@ class LineStore
 	def self.dump
 		return "" if @@store =~ /^[\s\n]*$/
 
-		res = "#if (BLOCK_SIZE == 128) \n"
-		res += @@store.gsub(/(?<=\{\{\{)BLOCK_SIZE\b/, "128")
-		res += "#else\n"
-		res += @@store.gsub(/(?<=\{\{\{)BLOCK_SIZE\b/, "256")
-		res += "#endif\n"
+		begin
+			res = "#if (BLOCK_SIZE == 128) \n"
+			res += @@store.gsub /(?<=\{\{\{)BLOCK_SIZE\b/, "128"
+			res += "#else\n"
+			res += @@store.gsub /(?<=\{\{\{)BLOCK_SIZE\b/, "256"
+			res += "#endif\n"
+		rescue => err
+			puts @@store
+			err
+		end
 
 		@@store = ""
 		res
 	end
 end
 
-class LineTranslator
-	def self.t_once line
+class LineTranslator	
+	# Those 3 functions are used as pipeline. 	
+
+	# Basic regex translation, including head files, calling signatures
+	def self.t_basic_line line
 		if line =~ /^\#/
 			line.gsub!(/_HPP/, "_H")
 			line.gsub!("idisa.hpp", "idisa128_c.h")
@@ -130,10 +138,12 @@ class LineTranslator
 		line
 	end
 
-	def self.t line		
+	# Dealing with BLOCK_SIZE as a template variable.
+	# Also merge continous lines into one "#if #else #endif" block.
+	def self.t_with_line_store line		
 		begin
 			last = line.clone
-			line = self.t_once line
+			line = self.t_basic_line line
 		end while last != line
 
 		if line =~ /\{\{\{BLOCK_SIZE\b/
@@ -142,6 +152,16 @@ class LineTranslator
 			dump = LineStore.dump			
 			dump + line
 		end		
+	end
+
+	# Template Evaluation
+	def self.t line
+		line = self.t_with_line_store line 
+
+		# Eval all the math inside {{{ }}}, I LOVE RUBY!!!!
+		line.gsub!(/\{\{\{([^\{\}]*)\}\}\}/) { eval($1) }
+
+		line
 	end
 end
 
