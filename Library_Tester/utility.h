@@ -1,8 +1,6 @@
-extern "C" {
-	#include "idisa_sse2_c.h"
-}
-#define USE_SSE
-typedef __m128i SIMD_type;
+#include "idisa_avx.h"
+#define USE_AVX
+typedef __m256 SIMD_type;
 #include <vector>
 #include <iostream>
 #include <sstream>
