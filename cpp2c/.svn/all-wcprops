@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c
+END
+passes.rb
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/passes.rb
+END
+gen_output.sh
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3393/trunk/lib_c/cpp2c/gen_output.sh
+END
+test_bootstrap.sh
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/3393/trunk/lib_c/cpp2c/test_bootstrap.sh
+END
+cpp2c.rb
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/cpp2c.rb
+END
+gen_expect.sh
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/3393/trunk/lib_c/cpp2c/gen_expect.sh
+END

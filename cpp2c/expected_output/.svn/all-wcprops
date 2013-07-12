@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output
+END
+s2p.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/s2p.hpp
+END
+p2s.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/p2s.hpp
+END
+config.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/config.hpp
+END
+byte_compare.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/byte_compare.hpp
+END
+buffer.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/buffer.hpp
+END
+transpose.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/transpose.hpp
+END
+allocator.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/allocator.hpp
+END
+hash.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/hash.hpp
+END
+mmalloc.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/mmalloc.hpp
+END
+bitblock128.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/bitblock128.hpp
+END
+stl_aligned_allocator.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/stl_aligned_allocator.hpp
+END
+debug.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/debug.hpp
+END
+builtins.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/builtins.hpp
+END
+bitblock.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/bitblock.hpp
+END
+carrySet.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/carrySet.hpp
+END
+byte_pool.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/byte_pool.hpp
+END
+carryQ.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/carryQ.hpp
+END
+bitblock_iterator.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/3396/trunk/lib_c/cpp2c/expected_output/bitblock_iterator.hpp
+END
