@@ -139,6 +139,7 @@ template <> struct FieldType<16> {typedef uint16_t T;};
 template <> struct FieldType<32> {typedef uint32_t T;};
 template <> struct FieldType<64> {typedef uint64_t T;};
 template <> struct FieldType<128> {typedef uint64_t T;};
+template <> struct FieldType<256> {typedef uint64_t T;};
 
 """
 		else:

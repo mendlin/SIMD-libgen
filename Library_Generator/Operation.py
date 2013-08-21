@@ -77,7 +77,9 @@ An operation contains operation name, field width, operation type, operation pat
 
 		self.cpp_class_signature = ""
 		if "cpp_class_signature" in opDescription:
-			self.cpp_class_signature = opDescription["cpp_class_signature"].replace("SIMD_type", configure.Bitblock_type[self.arch])
+			self.cpp_class_signature = opDescription["cpp_class_signature"] \
+										.replace("SIMD_type", configure.Bitblock_type[self.arch]) \
+										.replace("regw", str(configure.RegisterSize[self.arch]))
 	
 	def PostParsing(self, opDescription): 
 		regSize = configure.RegisterSize[self.arch]
