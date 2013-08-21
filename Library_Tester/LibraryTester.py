@@ -48,7 +48,7 @@ def GetGCCCommand(arch):
 	elif arch == "SSE4_2":
 		return "g++ -msse4.2 -o"
 	elif arch == configure.AVX:
-		return "g++ -mavx -o"
+		return "g++ -mavx2 -o"
 
 def ReadContentAsOneLine(fileName):
 	fin = open(fileName, 'r')

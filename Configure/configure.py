@@ -119,7 +119,7 @@ ExtraImports = {AVX:["idisa_sse2.cpp"]}
 
 
 #SIMD types in C/C++ for different instruction sets
-SIMD_type = {MMX:"__m64", SSE:"__m128i", SSE2:"__m128i", SSE3:"__m128i", SSSE3:"__m128i", SSE4_a:"__m128i", SSE4_1:"__m128i", SSE4_2:"__m128i", NEON:"uint64x2_t", AVX:"__m256"}
+SIMD_type = {MMX:"__m64", SSE:"__m128i", SSE2:"__m128i", SSE3:"__m128i", SSSE3:"__m128i", SSE4_a:"__m128i", SSE4_1:"__m128i", SSE4_2:"__m128i", NEON:"uint64x2_t", AVX:"__m256i"}
 
 Bitblock_type = {MMX:"bitblock64_t", SSE:"bitblock128_t", SSE2:"bitblock128_t", SSE3:"bitblock128_t", SSSE3:"bitblock128_t", SSE4_1:"bitblock128_t", SSE4_2:"bitblock128_t",
 				NEON:"bitblock128_t", AVX:"bitblock256_t"}

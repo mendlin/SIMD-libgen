@@ -10,7 +10,7 @@ import SSSE3Instructions
 import SSE4_1Instructions
 import SSE4_2Instructions
 import NEONInstructions
-import AVXInstructions
+import AVX2Instructions
 
 from Utility import configure
 
@@ -26,7 +26,7 @@ def Load(arch):
 	elif arch == configure.SSE4_2:
 		return SSE4_2Instructions.SSE4_2BuiltIns
 	elif arch == configure.AVX:
-		return AVXInstructions.AVXBuiltIns
+		return AVX2Instructions.AVX2BuiltIns
 	elif arch == configure.NEON:
 		return NEONInstructions.NEONBuiltIns
 	else:

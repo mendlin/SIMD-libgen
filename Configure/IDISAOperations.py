@@ -153,6 +153,7 @@ AllOperations = \
      "return_type":"SIMD_type",
     },
     
+    # simd_umult may be defined differently from ordinary sense, use with care.     
     "simd_umult":\
     {
      "signature":"SIMD_type simd<fw>::umult(SIMD_type arg1, SIMD_type arg2)",
