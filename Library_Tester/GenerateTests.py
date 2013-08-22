@@ -8,7 +8,8 @@ import GenData
 import TesterUtility
 from TesterUtility import configure
 
-maxTestCase = 50
+# Number of test cases. For development, use small number to test faster.
+maxTestCase = 10
 
 def MakeTestdata(arch, definedOperations, validOperations):
 	testingData = {}
