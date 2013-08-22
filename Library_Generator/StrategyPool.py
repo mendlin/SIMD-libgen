@@ -2433,7 +2433,38 @@ return simd_slli(curRegSize, sh, arg1)''',
 		"Platforms":[configure.ALL],
 		},
 
-		
-	}
+		"simd_any":\
+		{
+		"body":r'''
+return simd_ugt(fw, arg1, simd_constant(8, 0))''',
+		"Ops":["simd_any"],
+		"Fws":range(2, curRegSize+1),
+		"Platforms":[configure.ALL],
+		},
+		"simd_all":\
+		{
+		"body":r'''
+return simd_eq(fw, arg1, simd_constant(8, 255))''',
+		"Ops":["simd_all"],
+		"Fws":range(2, curRegSize+1),
+		"Platforms":[configure.ALL],
+		},
+		"simd_any_bitblock_any":\
+		{
+		"body":r'''
+return simd_constant(8, 255) if bitblock_any(arg1) else simd_constant(8, 0)''',
+		"Ops":["simd_any"],
+		"Fws":[curRegSize],
+		"Platforms":[configure.ALL],
+		},
+		"simd_all_bitblock_all":\
+		{
+		"body":r'''
+return simd_constant(8, 255) if bitblock_all(arg1) else simd_constant(8, 0)''',
+		"Ops":["simd_all"],
+		"Fws":[curRegSize],
+		"Platforms":[configure.ALL],
+		},
+	}	
 	
 	return strategies
