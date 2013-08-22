@@ -282,6 +282,20 @@ AllOperations = \
      "return_type":"SIMD_type",
     },
 
+    "simd_any":\
+    {
+     "signature":"SIMD_type simd<fw>::any(SIMD_type arg1)",
+     "args_type":{"arg1":"SIMD_type"},
+     "return_type":"SIMD_type",
+    },
+
+    "simd_all":\
+    {
+     "signature":"SIMD_type simd<fw>::all(SIMD_type arg1)",
+     "args_type":{"arg1":"SIMD_type"},
+     "return_type":"SIMD_type",
+    },
+
     #horizontal operations
     "hsimd_add_hl":\
     {
