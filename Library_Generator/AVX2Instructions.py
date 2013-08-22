@@ -10,38 +10,40 @@ AVX2BuiltIns = \
 {
 	"simd_and":\
 	{
-		"signature":["SIMD_type _mm256_and_ps(SIMD_type arg1, SIMD_type arg2)"],
+		"signature":["SIMD_type _mm256_and_si256(SIMD_type arg1, SIMD_type arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
 		"fws":[[1]],
 	},
 	"simd_andc":\
 	{
-		"signature":["SIMD_type _mm256_andnot_ps(SIMD_type arg2, SIMD_type arg1)"],
+		"signature":["SIMD_type _mm256_andnot_si256(SIMD_type arg2, SIMD_type arg1)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
 		"fws":[[1]],
 	},
 	"simd_or":\
 	{
-		"signature":["SIMD_type _mm256_or_ps(SIMD_type arg1, SIMD_type arg2)"],
+		"signature":["SIMD_type _mm256_or_si256(SIMD_type arg1, SIMD_type arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
 		"fws":[[1]],
 	},
 	"simd_xor":\
 	{
-		"signature":["SIMD_type _mm256_xor_ps(SIMD_type arg1, SIMD_type arg2)"],
+		"signature":["SIMD_type _mm256_xor_si256(SIMD_type arg1, SIMD_type arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
 		"fws":[[1]],
 	},
+
+	# TEST NEED. Not quite sure about this
 	"simd_ifh":\
 	{
-		"signature":["SIMD_type (SIMD_type)_mm256_blendv_pd(SIMD_type arg3, SIMD_type arg2, SIMD_type arg1)"],
-		"args_type":{"arg1":"__m256d", "arg2":"__m256d", "arg3":"__m256d"},
+		"signature":["SIMD_type _mm256_blendv_epi8(SIMD_type arg3, SIMD_type arg2, SIMD_type arg1)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type", "arg3":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[64]],
+		"fws":[[8]],
 	},
 	"simd_add":\
 	{
@@ -208,29 +210,29 @@ AVX2BuiltIns = \
 	},
 	"bitblock_load_aligned":\
 	{
-		"signature":["SIMD_type _mm256_load_ps(float* arg1)"],
-		"args_type":{"arg1":"float*"},
+		"signature":["SIMD_type _mm256_load_si256(SIMD_type* arg1)"],
+		"args_type":{"arg1":"SIMD_type*"},
 		"return_type":"SIMD_type",
 		"fws":[[256]],
 	},
 	"bitblock_store_aligned":\
 	{
-		"signature":["void _mm256_store_ps(float* arg2, SIMD_type arg1)"],
-		"args_type":{"arg2":"float*", "arg1":"SIMD_type"},
+		"signature":["void _mm256_store_si256(SIMD_type* arg2, SIMD_type arg1)"],
+		"args_type":{"arg2":"SIMD_type*", "arg1":"SIMD_type"},
 		"return_type":"void",
 		"fws":[[256]],
 	},
 	"bitblock_load_unaligned":\
 	{
-		"signature":["SIMD_type _mm256_loadu_ps(float* arg1)"],
-		"args_type":{"arg1":"float*"},
+		"signature":["SIMD_type _mm256_loadu_si256(SIMD_type* arg1)"],
+		"args_type":{"arg1":"SIMD_type*"},
 		"return_type":"SIMD_type",
 		"fws":[[256]],
 	},
 	"bitblock_store_unaligned":\
 	{
-		"signature":["void _mm256_storeu_ps(float* arg2, SIMD_type arg1)"],
-		"args_type":{"arg2":"float*", "arg1":"SIMD_type"},
+		"signature":["void _mm256_storeu_si256(SIMD_type* arg2, SIMD_type arg1)"],
+		"args_type":{"arg2":"SIMD_type*", "arg1":"SIMD_type"},
 		"return_type":"void",
 		"fws":[[256]],
 	},
