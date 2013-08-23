@@ -2441,6 +2441,7 @@ return simd_ugt(fw, arg1, simd_constant(8, 0))''',
 		"Fws":range(2, curRegSize+1),
 		"Platforms":[configure.ALL],
 		},
+
 		"simd_all":\
 		{
 		"body":r'''
@@ -2449,6 +2450,7 @@ return simd_eq(fw, arg1, simd_constant(8, 255))''',
 		"Fws":range(2, curRegSize+1),
 		"Platforms":[configure.ALL],
 		},
+
 		"simd_any_bitblock_any":\
 		{
 		"body":r'''
@@ -2457,12 +2459,34 @@ return simd_constant(8, 255) if bitblock_any(arg1) else simd_constant(8, 0)''',
 		"Fws":[curRegSize],
 		"Platforms":[configure.ALL],
 		},
+
 		"simd_all_bitblock_all":\
 		{
 		"body":r'''
 return simd_constant(8, 255) if bitblock_all(arg1) else simd_constant(8, 0)''',
 		"Ops":["simd_all"],
 		"Fws":[curRegSize],
+		"Platforms":[configure.ALL],
+		},
+
+		"simd_any_2_logic":\
+		{
+		"body":r'''
+t0 = simd_srli(2, 1, arg1)
+f0 = simd_or(t0, simd_and(arg1, simd_xor(t0, simd_constant(8, 255))))
+return simd_or(f0, simd_slli(2,1,f0))''',
+		"Ops":["simd_any"],
+		"Fws":[2],
+		"Platforms":[configure.ALL],
+		},
+
+		"simd_all_2_logic":\
+		{
+		"body":r'''
+f0 = simd_and(arg1, simd_srli(2, 1, arg1))
+return simd_or(f0, simd_slli(2,1,f0))''',
+		"Ops":["simd_all"],
+		"Fws":[2],
 		"Platforms":[configure.ALL],
 		},
 	}	
