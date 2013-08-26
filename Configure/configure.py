@@ -18,8 +18,10 @@ SSE4_1 = "SSE4_1"
 SSE4_2 = "SSE4_2"
 NEON = "NEON"
 AVX = "AVX"
+AVX2 = "AVX2"
 ALL = "ALL"
 SSE_SERIES = [SSE, SSE2, SSE3, SSSE3, SSE4_1, SSE4_2]
+AVX_SERIES = [AVX, AVX2]
 
 #Languages and architectures
 Language_C = "C"
@@ -109,25 +111,27 @@ class bitblock: public bitblock256
 '''
 
 #Register sizes for different instruction sets
-RegisterSize = {MMX:64, SSE:128, SSE2:128, SSE3:128, SSSE3:128, SSE4:128, SSE4_a:128, SSE4_1:128, SSE4_2:128, NEON:128, AVX:256}
+RegisterSize = {MMX:64, SSE:128, SSE2:128, SSE3:128, SSSE3:128, SSE4:128, SSE4_a:128, SSE4_1:128, SSE4_2:128, NEON:128, AVX:256, AVX2:256}
 
 #Instruction set library
 InstructionSetLibrary = {MMX:"mmintrin.h", SSE:"xmmintrin.h", SSE2:"emmintrin.h", SSE3:"pmmintrin.h",\
-	SSSE3:"tmmintrin.h", SSE4_a:"ammintrin.h", SSE4_1:"smmintrin.h", SSE4_2:"smmintrin.h", NEON:"arm_neon.h", AVX:"immintrin.h"}
+	SSSE3:"tmmintrin.h", SSE4_a:"ammintrin.h", SSE4_1:"smmintrin.h", SSE4_2:"smmintrin.h", NEON:"arm_neon.h", \
+	AVX:"immintrin.h", AVX2:"immintrin.h"}
 #Imports
 ExtraImports = {AVX:["idisa_sse2.cpp"]}
 
 #SIMD types in C/C++ for different instruction sets
-SIMD_type = {MMX:"__m64", SSE:"__m128i", SSE2:"__m128i", SSE3:"__m128i", SSSE3:"__m128i", SSE4_a:"__m128i", SSE4_1:"__m128i", SSE4_2:"__m128i", NEON:"uint64x2_t", AVX:"__m256i"}
+SIMD_type = {MMX:"__m64", SSE:"__m128i", SSE2:"__m128i", SSE3:"__m128i", SSSE3:"__m128i", SSE4_a:"__m128i", SSE4_1:"__m128i", SSE4_2:"__m128i", NEON:"uint64x2_t", \
+	AVX:"__m256", AVX2:"__m256i"}
 
 Bitblock_type = {MMX:"bitblock64_t", SSE:"bitblock128_t", SSE2:"bitblock128_t", SSE3:"bitblock128_t", SSSE3:"bitblock128_t", SSE4_1:"bitblock128_t", SSE4_2:"bitblock128_t",
-				NEON:"bitblock128_t", AVX:"bitblock256_t"}
+				NEON:"bitblock128_t", AVX:"bitblock256_t", AVX2:"bitblock256_t"}
 
 Load_type = {MMX:"bitblock64_t*", SSE:"bitblock128_t*", SSE2:"bitblock128_t*", SSE3:"bitblock128_t*", SSSE3:"bitblock128_t*", SSE4_1:"bitblock128_t*", SSE4_2:"bitblock128_t*",
-			NEON:"uint64_t const*", AVX:"bitblock256_t*"}
+			NEON:"uint64_t const*", AVX:"bitblock256_t*", AVX2:"bitblock256_t*"}
 
 Store_type = {MMX:"bitblock64_t*", SSE:"bitblock128_t*", SSE2:"bitblock128_t*", SSE3:"bitblock128_t*", SSSE3:"bitblock128_t*", SSE4_1:"bitblock128_t*", SSE4_2:"bitblock128_t*",
-			NEON:"uint64_t*", AVX:"bitblock256_t*"}
+			NEON:"uint64_t*", AVX:"bitblock256_t*", AVX2:"bitblock256_t*"}
 
 AVXBuiltInVecWrapper = "AVXBuiltInVecWrapper"
 AVXBuiltInHorWrapper = "AVXBuiltInHorWrapper"

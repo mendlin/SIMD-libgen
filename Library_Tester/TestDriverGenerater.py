@@ -194,14 +194,14 @@ void Testing_$opFullName$(int fw)
 
 		return utilityCodes
 
-	def insertHead(self, arch, utilityCodes):
+	def InsertHead(self, arch, utilityCodes):
 		return
 
 	def WriteText(self, arch, objFile, text):
 		'''modify utility.h
 		'''
 		utilityCodes = self.ReadAndClearHead()		
-		self.insertHead(arch, utilityCodes)
+		self.InsertHead(arch, utilityCodes)
 		
 		fileIn = open("utility.h", "w")
 		for code in utilityCodes:
@@ -214,15 +214,25 @@ void Testing_$opFullName$(int fw)
 		fileOut.write(text)
 		fileOut.close()
 
+	def GetArchSymbol(self, arch):
+		if arch in configure.SSE_SERIES:
+			return "USE_SSE"
+		elif arch == configure.AVX:
+			return "USE_AVX"
+		elif arch == configure.AVX2:
+			return "USE_AVX2"
+		elif arch == configure.NEON:
+			return "USE_NEON"
+		return "missing arch define"
 
 class CppDriverGenerater(AbstractTestDriverGenerater):
 
 	def GetCallSignature(self, operation, fw, args, templateArg):
 		return operation.CallingStatementToCppText(fw, args, templateArg, True)
 
-	def insertHead(self, arch, utilityCodes):
+	def InsertHead(self, arch, utilityCodes):
 		utilityCodes.insert(0, '''#include "''' + "idisa_" + arch.lower() + '''.h"\n''')
-		utilityCodes.insert(1, '''#define USE_SSE\n''' if arch in configure.SSE_SERIES else ('''#define USE_AVX\n''' if arch == configure.AVX else ('''#define USE_NEON\n''' if arch == configure.NEON else ''''''))) 
+		utilityCodes.insert(1, '''#define %s\n''' % self.GetArchSymbol(arch)) 
 		utilityCodes.insert(2, '''typedef ''' + configure.SIMD_type[arch] + " SIMD_type;\n")
 
 
@@ -231,9 +241,9 @@ class CDriverGenerater(AbstractTestDriverGenerater):
 	def GetCallSignature(self, operation, fw, args, templateArg):
 		return operation.CallingStatementToCText(fw, args, templateArg, True)
 
-	def insertHead(self, arch, utilityCodes):
+	def InsertHead(self, arch, utilityCodes):
 		utilityCodes.insert(0, '''extern "C" {\n''')
 		utilityCodes.insert(1, '''\t#include "idisa_%s_c.h"\n''' % arch.lower())
 		utilityCodes.insert(2, '''}\n''')		
-		utilityCodes.insert(3, '''#define USE_SSE\n''' if arch in configure.SSE_SERIES else ('''#define USE_AVX\n''' if arch == configure.AVX else ('''#define USE_NEON\n''' if arch == configure.NEON else ''''''))) 
+		utilityCodes.insert(3, '''#define %s\n''' % self.GetArchSymbol(arch))
 		utilityCodes.insert(4, '''typedef ''' + configure.SIMD_type[arch] + " SIMD_type;\n")

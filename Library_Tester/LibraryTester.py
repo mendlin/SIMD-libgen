@@ -48,6 +48,8 @@ def GetGCCCommand(arch):
 	elif arch == "SSE4_2":
 		return "g++ -msse4.2 -o"
 	elif arch == configure.AVX:
+		return "g++ -mavx -o"
+	elif arch == configure.AVX2:
 		return "g++ -mavx2 -o"
 
 def ReadContentAsOneLine(fileName):
@@ -105,7 +107,7 @@ def CheckCorrectness(testingData):
 		print err
 
 def Main(idisa_file, options):
-	arch = idisa_file.replace("idisa_", "").replace("_c", "").upper()
+	arch = options.arch.upper()	
 
 	if arch not in configure.RegisterSize:
 		print "cann't support this arch", arch

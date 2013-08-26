@@ -1,5 +1,5 @@
-#include "idisa_avx.h"
-#define USE_AVX
+#include "idisa_avx2.h"
+#define USE_AVX2
 typedef __m256i SIMD_type;
 #include <vector>
 #include <iostream>
@@ -154,7 +154,6 @@ SIMD_type LoadfromString(string s, int opt)
 			break;
 		case 2:
 {
-#ifdef USE_AVX
 			int buf[8];
 			regSize = 256;
 
@@ -163,10 +162,15 @@ SIMD_type LoadfromString(string s, int opt)
 				buf[7-i/32] = BitString2Int(s.substr(i, 32));
 			}
 
+#ifdef USE_AVX
 			__m128i ans1 = _mm_loadu_si128((__m128i *)(buf+4));//high part
 			__m128i ans2 = _mm_loadu_si128((__m128i *)(buf));//low part
 
 			ans = _mm256_insertf128_ps(_mm256_castps128_ps256((__m128) ans2), (__m128) ans1, 1);
+#endif
+
+#ifdef USE_AVX2
+			ans = _mm256_loadu_si256((__m256i *)(buf));
 #endif
 }
 			break;
@@ -228,17 +232,21 @@ SIMD_type LoadfromInt(int x, int opt)
 			break;
 		case 2:
 {
-#ifdef USE_AVX
 			int buf[8];
 			regSize = 256;
 
 			buf[0] = buf[1] = buf[2] = buf[3] = buf[4] = buf[5] = buf[6] = buf[7] = x;
 
+#ifdef USE_AVX
 			__m128i ans1 = _mm_loadu_si128((__m128i *)(buf+4));//high part
 			__m128i ans2 = _mm_loadu_si128((__m128i *)(buf));//low part
 
 			ans = _mm256_insertf128_ps(_mm256_castps128_ps256((__m128) ans2), (__m128) ans1, 1);
 #endif
+
+#ifdef USE_AVX2
+			ans = _mm256_loadu_si256((__m256i *)(buf));
+#endif		
 }
 			break;
 		case 3:
