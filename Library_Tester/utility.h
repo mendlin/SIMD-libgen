@@ -1,6 +1,6 @@
-#include "idisa_avx2.h"
-#define USE_AVX2
-typedef __m256i SIMD_type;
+#include "idisa_avx.h"
+#define USE_AVX
+typedef __m256 SIMD_type;
 #include <vector>
 #include <iostream>
 #include <sstream>
@@ -315,6 +315,17 @@ string Store2String(SIMD_type v, int opt)
 			for(int i=3; i>=0; i--)
 			{
 				ans = ans + Int2BitString(buf[i]);
+			}
+#endif
+
+#ifdef USE_AVX2
+			int buf[8];
+			__mm256_storeu_si256((__m256i *)buf, v);
+
+			//little endian
+			for (int i =7;i>=0;i--)
+			{
+				ans += Int2BitString(buf[i]);
 			}
 #endif
 }

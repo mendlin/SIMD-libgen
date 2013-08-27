@@ -118,7 +118,7 @@ InstructionSetLibrary = {MMX:"mmintrin.h", SSE:"xmmintrin.h", SSE2:"emmintrin.h"
 	SSSE3:"tmmintrin.h", SSE4_a:"ammintrin.h", SSE4_1:"smmintrin.h", SSE4_2:"smmintrin.h", NEON:"arm_neon.h", \
 	AVX:"immintrin.h", AVX2:"immintrin.h"}
 #Imports
-ExtraImports = {AVX:["idisa_sse2.cpp"]}
+ExtraImports = {AVX:["idisa_sse2.cpp"], AVX2:["idisa_sse2.cpp"]}
 
 #SIMD types in C/C++ for different instruction sets
 SIMD_type = {MMX:"__m64", SSE:"__m128i", SSE2:"__m128i", SSE3:"__m128i", SSSE3:"__m128i", SSE4_a:"__m128i", SSE4_1:"__m128i", SSE4_2:"__m128i", NEON:"uint64x2_t", \

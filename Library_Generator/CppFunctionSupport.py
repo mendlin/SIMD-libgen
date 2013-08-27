@@ -90,6 +90,16 @@ inline void shuffle8_demasking(int mask, int &s1, int &s2, int &s3, int &s4, int
 	"returnType":configure.SIMD_type[configure.SSE2],
 	"cost":1,
 	},
+
+	"avx2_select_hi128":\
+	{
+	"body":r'''
+#define avx_select_hi128(x) \
+	(_mm256_extractf128_si256(x, 1))''',
+	"platform":[configure.AVX2],
+	"returnType":"__m128i",
+	"cost":1,
+	},	
 	
 	"avx_select_lo128":\
 	{
@@ -97,6 +107,16 @@ inline void shuffle8_demasking(int mask, int &s1, int &s2, int &s3, int &s4, int
 #define avx_select_lo128(x) \
 	((__m128i) _mm256_castps256_ps128(x))''',
 	"platform":[configure.AVX],
+	"returnType":configure.SIMD_type[configure.SSE2],
+	"cost":0,
+	},
+
+	"avx2_select_lo128":\
+	{
+	"body":r'''
+#define avx_select_lo128(x) \
+	_mm256_castsi256_si128(x)''',
+	"platform":[configure.AVX2],
 	"returnType":configure.SIMD_type[configure.SSE2],
 	"cost":0,
 	},
@@ -110,6 +130,16 @@ inline void shuffle8_demasking(int mask, int &s1, int &s2, int &s3, int &s4, int
 	"returnType":configure.SIMD_type[configure.AVX],
 	"cost":1,
 	},
+
+	"avx2_general_combine256":\
+	{
+	"body":r'''
+#define avx_general_combine256(x, y) \
+    (_mm256_insertf128_si256(_mm256_castsi128_si256(y), x, 1))''',
+	"platform":[configure.AVX2],
+	"returnType":configure.SIMD_type[configure.AVX2],
+	"cost":1,
+	},	
 	
 	"avx_byte_shift_left":\
 	{
@@ -118,6 +148,16 @@ inline void shuffle8_demasking(int mask, int &s1, int &s2, int &s3, int &s4, int
 	((SIMD_type)avx_general_combine256(_mm_slli_si128(avx_select_hi128(x), y), _mm_slli_si128(avx_select_lo128(x), y)))''',
 	"platform":[configure.AVX],
 	"returnType":configure.SIMD_type[configure.AVX],
+	"cost":4,
+	},
+
+	"avx2_byte_shift_left":\
+	{
+	"body":r'''
+#define avx_byte_shift_left(x, y) \
+	((SIMD_type)avx_general_combine256(_mm_slli_si128(avx_select_hi128(x), y), _mm_slli_si128(avx_select_lo128(x), y)))''',
+	"platform":[configure.AVX2],
+	"returnType":configure.SIMD_type[configure.AVX2],
 	"cost":4,
 	},
 
@@ -130,7 +170,18 @@ inline void shuffle8_demasking(int mask, int &s1, int &s2, int &s3, int &s4, int
 	"returnType":configure.SIMD_type[configure.AVX],
 	"cost":4,
 	},
+
+	"avx2_byte_shift_right":\
+	{
+	"body":r'''
+#define avx_byte_shift_right(x, y) \
+	((SIMD_type)avx_general_combine256(_mm_srli_si128(avx_select_hi128(x), y), _mm_srli_si128(avx_select_lo128(x), y)))''',
+	"platform":[configure.AVX2],
+	"returnType":configure.SIMD_type[configure.AVX2],
+	"cost":4,
+	},
 	
+	# WTF is this?
 	"avx_move_lo128_to_hi128":\
 	{
 	"body":r'''
@@ -138,6 +189,16 @@ inline void shuffle8_demasking(int mask, int &s1, int &s2, int &s3, int &s4, int
 	_mm256_permute2f128_ps(x, x, 0 + 8)''',
 	"platform":[configure.AVX],
 	"returnType":configure.SIMD_type[configure.AVX],
+	"cost":1,
+	},
+
+	"avx2_move_lo128_to_hi128":\
+	{
+	"body":r'''
+#define avx_move_lo128_to_hi128(x) \
+	_mm256_permute2f128_si128(x, x, 0 + 8)''',
+	"platform":[configure.AVX2],
+	"returnType":configure.SIMD_type[configure.AVX2],
 	"cost":1,
 	},
 	
@@ -148,6 +209,16 @@ inline void shuffle8_demasking(int mask, int &s1, int &s2, int &s3, int &s4, int
 	_mm256_permute2f128_ps(x, x, 1 + 128)''',
 	"platform":[configure.AVX],
 	"returnType":configure.SIMD_type[configure.AVX],
+	"cost":1,
+	},
+
+	"avx2_move_hi128_to_lo128":\
+	{
+	"body":r'''
+#define avx_move_hi128_to_lo128(x) \
+	_mm256_permute2f128_si256(x, x, 1 + 128)''',
+	"platform":[configure.AVX2],
+	"returnType":configure.SIMD_type[configure.AVX2],
 	"cost":1,
 	},
 	

@@ -614,7 +614,7 @@ return	_mm_slli_si128(arg1, sh/8) if (sh%8==0) else (simd_slli(64, (sh)&0x3F, _m
 return avx_byte_shift_left(arg1, (sh)/8) if (sh%8==0) else (simd_slli(64, (sh)&0x3F, avx_byte_shift_left(arg1, 8)) if (sh>=64) else simd_or(simd_slli(64, sh, arg1), avx_byte_shift_left(simd_srli(64, (128-sh)&0x3F, arg1), 8)))''',
 		"Ops":["simd_slli"],
 		"Fws":[128],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"slli_256_avx":\
@@ -623,7 +623,7 @@ return avx_byte_shift_left(arg1, (sh)/8) if (sh%8==0) else (simd_slli(64, (sh)&0
 return simd_or(simd_slli(128, sh, arg1), avx_move_lo128_to_hi128(simd_srli(128, (256-sh)&0x7F, arg1))) if (sh<128) else simd_slli(128, sh&127, avx_move_lo128_to_hi128(arg1))''',
 		"Ops":["simd_slli"],
 		"Fws":[256],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"slli_8_neon":\
@@ -714,7 +714,7 @@ return	_mm_srli_si128(arg1, sh/8) if (sh%8==0) else (simd_srli(64, (sh)&0x3F, _m
 return avx_byte_shift_right(arg1, (sh)/8) if (sh%8==0) else (simd_srli(64, (sh)&0x3F, avx_byte_shift_right(arg1, 8)) if (sh>=64) else simd_or(simd_srli(64, sh, arg1), avx_byte_shift_right(simd_slli(64, (128-sh)&0x3F, arg1), 8)))''',
 		"Ops":["simd_srli"],
 		"Fws":[128],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"srli_256_avx":\
@@ -723,7 +723,7 @@ return avx_byte_shift_right(arg1, (sh)/8) if (sh%8==0) else (simd_srli(64, (sh)&
 return simd_or(simd_srli(128, sh, arg1), simd_slli(128, (256-sh)&0x7F, IDISA_CASTING("SIMD_type", _mm256_castsi128_si256(avx_select_hi128(arg1))))) if (sh<128) else simd_srli(128, (sh)&0x7F, avx_move_hi128_to_lo128(arg1))''', 
 		"Ops":["simd_srli"],
 		"Fws":[256],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"srli_8_neon":\
@@ -833,7 +833,7 @@ tmpAns = simd_popcount(8, arg1)
 return avx_general_combine256(_mm_sad_epu8(avx_select_hi128(tmpAns), _mm_set1_epi32(0)), _mm_sad_epu8(avx_select_lo128(tmpAns), _mm_set1_epi32(0)))''',
 		"Ops":["simd_popcount"],
 		"Fws":[64],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 		
 		"ctz_blend":\
@@ -897,7 +897,7 @@ ifMask = simd_eq(curRegSize, simd_constant(32, 0), simd_and(IDISA_CASTING("SIMD_
 return simd_ifh(1, ifMask, arg3, arg2)''',
 		"Ops":["simd_ifh"],
 		"Fws":[curRegSize],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"lomask_blend":\
@@ -924,7 +924,7 @@ return _mm_set_epi32(0,-1, 0, -1)''',
 return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, -1, 0, -1, 0, -1, 0, -1))''',
 		"Ops":["simd_lomask"],
 		"Fws":[64],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"lomask_64_neon":\
@@ -951,7 +951,7 @@ return _mm_set_epi32(0, 0, -1, -1)''',
 return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, 0, -1, -1, 0, 0,-1, -1))''',
 		"Ops":["simd_lomask"],
 		"Fws":[128],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"lomask_256_avx":\
@@ -960,7 +960,7 @@ return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, 0, -1, -1, 0, 0,-1, -1))''
 return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, 0, 0, 0,-1,-1,-1,-1))''',
 		"Ops":["simd_lomask"],
 		"Fws":[256],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"lomask_128_neon":\
@@ -1005,7 +1005,7 @@ return _mm_set_epi32(-1, 0, -1, 0)''',
 return IDISA_CASTING("SIMD_type", _mm256_set_epi32(-1, 0, -1, 0, -1, 0, -1, 0))''',
 		"Ops":["simd_himask"],
 		"Fws":[64],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 		
 		"himask_64_neon":\
@@ -1032,7 +1032,7 @@ return _mm_set_epi32(-1, -1, 0, 0)''',
 return IDISA_CASTING("SIMD_type", _mm256_set_epi32(-1,-1, 0, 0,-1,-1, 0, 0))''',
 		"Ops":["simd_himask"],
 		"Fws":[128],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 	
 		"himask_256_avx":\
@@ -1041,7 +1041,7 @@ return IDISA_CASTING("SIMD_type", _mm256_set_epi32(-1,-1, 0, 0,-1,-1, 0, 0))''',
 return IDISA_CASTING("SIMD_type", _mm256_set_epi32(-1,-1,-1,-1, 0, 0, 0, 0))''',
 		"Ops":["simd_himask"],
 		"Fws":[256],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"himask_128_neon":\
@@ -1090,7 +1090,7 @@ return _mm_set_epi32(val>>32, val, val>>32, val)
 return IDISA_CASTING("SIMD_type", _mm256_set_epi32(val>>32, val, val>>32, val, val>>32, val, val>>32, val))''',
 		"Ops":["simd_constant"],
 		"Fws":[64],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 	
 		"constant_128_blend":\
@@ -1109,7 +1109,7 @@ return _mm_set_epi32(0, 0, val>>32, val)
 return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, 0, val>>32, val, 0, 0, val>>32, val))''',
 		"Ops":["simd_constant"],
 		"Fws":[128],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 	
 		"constant_256_avx":\
@@ -1118,7 +1118,7 @@ return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, 0, val>>32, val, 0, 0, val
 return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, 0, 0, 0, 0, 0, val>>32, val))''',
 		"Ops":["simd_constant"],
 		"Fws":[256],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 	
 		"constant_128_neon":\
@@ -1485,7 +1485,7 @@ return (tmpAns1<<(curRegSize/(2*fw))) + tmpAns2''',
 return (IDISA_CASTING("uint64_t", _mm_movemask_epi8(IDISA_CASTING("__m128i", avx_select_hi128(arg1))))<<16) | IDISA_CASTING("uint64_t", _mm_movemask_epi8(IDISA_CASTING("__m128i", avx_select_lo128(arg1))))''',
 		"Ops":["hsimd_signmask"],
 		"Fws":[8],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 		
 		"signmask_16_general_128bit":\
@@ -1543,7 +1543,7 @@ hiPart1 = avx_select_hi128(arg1)
 return avx_general_combine256(IDISA_PACK("_mm_unpackhi_epi$fw$", hiPart2, hiPart1), IDISA_PACK("_mm_unpacklo_epi$fw$", hiPart2, hiPart1))''',
 		"Ops":["esimd_mergeh"],
 		"Fws":[8, 16, 32, 64],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"mergel_avx_using_SSE_BuiltIns":\
@@ -1554,7 +1554,7 @@ loPart1 = avx_select_lo128(arg1)
 return avx_general_combine256(IDISA_PACK("_mm_unpackhi_epi$fw$", loPart2, loPart1), IDISA_PACK("_mm_unpacklo_epi$fw$", loPart2, loPart1))''',
 		"Ops":["esimd_mergel"],
 		"Fws":[8, 16, 32, 64],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"mergeh_64_neon":\
@@ -1934,7 +1934,7 @@ return mvmd_fill(fw, _mm_extract_epi8(arg1, pos))''',
 return mvmd_fill(fw, _mm_extract_epi8(avx_select_lo128(arg1), pos)) if (pos<16) else mvmd_fill(fw, _mm_extract_epi8(avx_select_hi128(arg1), pos-16))''',
 		"Ops":["mvmd_splat"],
 		"Fws":[8],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 		
 		"splat_16_using_Extract_Word":\
@@ -1952,7 +1952,7 @@ return mvmd_fill(fw, _mm_extract_epi16(arg1, pos))''',
 return mvmd_fill(fw, _mm_extract_epi16(avx_select_lo128(arg1), pos)) if (pos<8) else mvmd_fill(fw, _mm_extract_epi16(avx_select_hi128(arg1), pos-8))''',
 		"Ops":["mvmd_splat"],
 		"Fws":[16],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"splat_32_using_Extract_Dword":\
@@ -1970,7 +1970,7 @@ return mvmd_fill(fw, _mm_extract_epi32(arg1, pos))''',
 return mvmd_fill(fw, _mm_extract_epi32(avx_select_lo128(arg1), pos)) if (pos<4) else mvmd_fill(fw, _mm_extract_epi32(avx_select_hi128(arg1), pos-4))''',
 		"Ops":["mvmd_splat"],
 		"Fws":[32],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 			
 		"mvmd_slli_blend":\
@@ -2087,7 +2087,7 @@ return (255 & _mm_extract_epi8(avx_select_lo128(arg1), pos)) if (pos<16) else (2
 ''',
 		"Ops":["mvmd_extract"],
 		"Fws":[8],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 	
 		"mvmd_extract_16_SSE":\
@@ -2106,7 +2106,7 @@ return (65535 & _mm_extract_epi16(avx_select_lo128(arg1), pos)) if (pos<8) else 
 ''',
 		"Ops":["mvmd_extract"],
 		"Fws":[16],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"mvmd_extract_32_SSE":\
@@ -2125,7 +2125,7 @@ return (IDISA_CASTING("uint64_t", (1<<32)-1) & _mm_extract_epi32(avx_select_lo12
 ''',
 		"Ops":["mvmd_extract"],
 		"Fws":[32],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 
 		"mvmd_extract_doubling":\
@@ -2335,7 +2335,7 @@ return hsimd_signmask(8, simd_eq(8, arg1, simd_constant(8, 0))) != 0xFFFF''',
 return _mm256_testz_si256(IDISA_CASTING("__m256i", arg1), IDISA_CASTING("__m256i", arg1)) == 0''',
 		"Ops":["bitblock_any"],
 		"Fws":[curRegSize],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 	
 		"bitblock_any_neon":\
@@ -2370,7 +2370,7 @@ return hsimd_signmask(8, simd_eq(8, arg1, simd_constant(8, -1))) == 0xFFFF''',
 return _mm256_testz_si256(IDISA_CASTING("__m256i", simd_not(arg1)), IDISA_CASTING("__m256i", simd_constant(8, -1))) == 1''',
 		"Ops":["bitblock_all"],
 		"Fws":[curRegSize],
-		"Platforms":[configure.AVX],
+		"Platforms":configure.AVX_SERIES,
 		},
 		
 		"bitblock_all_neon":\
