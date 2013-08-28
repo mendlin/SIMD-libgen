@@ -9,7 +9,7 @@ import TesterUtility
 from TesterUtility import configure
 
 # Number of test cases. For development, use small number to test faster.
-maxTestCase = 10
+maxTestCase = 20
 
 def MakeTestdata(arch, definedOperations, validOperations):
 	testingData = {}

@@ -320,7 +320,7 @@ string Store2String(SIMD_type v, int opt)
 
 #ifdef USE_AVX2
 			int buf[8];
-			__mm256_storeu_si256((__m256i *)buf, v);
+			_mm256_storeu_si256((__m256i *)buf, v);
 
 			//little endian
 			for (int i =7;i>=0;i--)

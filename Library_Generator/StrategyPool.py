@@ -620,7 +620,7 @@ return avx_byte_shift_left(arg1, (sh)/8) if (sh%8==0) else (simd_slli(64, (sh)&0
 		"slli_256_avx":\
 		{
 		"body":r'''
-return simd_or(simd_slli(128, sh, arg1), avx_move_lo128_to_hi128(simd_srli(128, (256-sh)&0x7F, arg1))) if (sh<128) else simd_slli(128, sh&127, avx_move_lo128_to_hi128(arg1))''',
+return simd_or(simd_slli(128, sh, arg1), avx_move_lo128_to_hi128(simd_srli(128, (256-sh)&0x7F, arg1))) if (sh<128) else simd_slli(128, sh-128, avx_move_lo128_to_hi128(arg1))''',
 		"Ops":["simd_slli"],
 		"Fws":[256],
 		"Platforms":configure.AVX_SERIES,
@@ -720,7 +720,7 @@ return avx_byte_shift_right(arg1, (sh)/8) if (sh%8==0) else (simd_srli(64, (sh)&
 		"srli_256_avx":\
 		{
 		"body":r'''
-return simd_or(simd_srli(128, sh, arg1), simd_slli(128, (256-sh)&0x7F, IDISA_CASTING("SIMD_type", _mm256_castsi128_si256(avx_select_hi128(arg1))))) if (sh<128) else simd_srli(128, (sh)&0x7F, avx_move_hi128_to_lo128(arg1))''', 
+return simd_or(simd_srli(128, sh, arg1), simd_slli(128, (256-sh)&0x7F, IDISA_CASTING("SIMD_type", _mm256_castsi128_si256(avx_select_hi128(arg1))))) if (sh<128) else simd_srli(128, (sh - 128)&0x7F, avx_move_hi128_to_lo128(arg1))''', 
 		"Ops":["simd_srli"],
 		"Fws":[256],
 		"Platforms":configure.AVX_SERIES,
