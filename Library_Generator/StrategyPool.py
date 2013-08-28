@@ -617,6 +617,7 @@ return avx_byte_shift_left(arg1, (sh)/8) if (sh%8==0) else (simd_slli(64, (sh)&0
 		"Platforms":configure.AVX_SERIES,
 		},
 
+		# This strategy is wrong. Together with simd_srli_256, when sh = 0
 		"slli_256_avx":\
 		{
 		"body":r'''
