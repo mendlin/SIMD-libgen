@@ -154,14 +154,7 @@ AVX2BuiltIns = \
 		"args_type":{"arg1":"SIMD_type"},
 		"return_type":"SIMD_type",
 		"fws":[[8, 16, 32]],
-	},
-	"hsimd_add_hl":\
-	{
-		"signature":["t _mm256_hadd_epi$fw/2$(t arg1, t arg2)"],
-		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
-		"return_type":"SIMD_type",
-		"fws":[[32, 64]],
-	},
+	},	
 	"hsimd_packus":\
 	{
 		"signature":["t _mm256_packus_epi$fw$(t arg1, t arg2)"],
@@ -236,6 +229,31 @@ AVX2BuiltIns = \
 		"return_type":"void",
 		"fws":[[256]],
 	},
+
+	"_mm256_hadd_epi16":\
+	{
+		"signature":["t _mm256_hadd_epi16(t arg1, t arg2)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
+		"return_type":"SIMD_type",
+		"fws":[[16]],
+	},
+
+	"_mm256_hadd_epi32":\
+	{
+		"signature":["t _mm256_hadd_epi32(t arg1, t arg2)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
+		"return_type":"SIMD_type",
+		"fws":[[32]],
+	},
+
+	"_mm256_permute2x128_si256":\
+	{
+		"signature":["t _mm256_permute2x128_si256(t arg1, t arg2, t imm)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type", "imm":"signed_int(32)"},
+		"return_type":"SIMD_type",
+		"fws":[[256]],
+	},
+
 	"_mm256_set_epi32":\
 	{
 		"signature":["SIMD_type _mm256_set_epi32(int val1, int val2, int val3, int val4, int val5, int val6, int val7, int val8)"],
