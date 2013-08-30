@@ -1144,7 +1144,7 @@ return simd_add(fw/2, hsimd_packh(fw, arg1, arg2), hsimd_packl(fw, arg1, arg2))
 		"hsimd_add_hl_avx2_32":\
 		{
 		"body":r'''
-return _mm256_hadd_epi16(_mm256_permute2x128_si256(arg1, arg2, 16), _mm256_permute2x128_si256(arg2, arg1, 16))
+return _mm256_hadd_epi16(_mm256_permute2x128_si256(arg2, arg1, 17), _mm256_permute2x128_si256(arg2, arg1, 0))
 ''',
 		"Ops":["hsimd_add_hl"],
 		"Fws":[32],
@@ -1154,7 +1154,7 @@ return _mm256_hadd_epi16(_mm256_permute2x128_si256(arg1, arg2, 16), _mm256_permu
 		"hsimd_add_hl_avx2_64":\
 		{
 		"body":r'''
-return _mm256_hadd_epi32(_mm256_permute2x128_si256(arg1, arg2, 16), _mm256_permute2x128_si256(arg2, arg1, 16))
+return _mm256_hadd_epi32(_mm256_permute2x128_si256(arg2, arg1, 17), _mm256_permute2x128_si256(arg2, arg1, 0))
 ''',
 		"Ops":["hsimd_add_hl"],
 		"Fws":[64],
