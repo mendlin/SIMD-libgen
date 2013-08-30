@@ -1140,26 +1140,6 @@ return simd_add(fw/2, hsimd_packh(fw, arg1, arg2), hsimd_packl(fw, arg1, arg2))
 		"Fws":[-1],
 		"Platforms":[configure.ALL],
 		},
-
-		"hsimd_add_hl_avx2_32":\
-		{
-		"body":r'''
-return _mm256_hadd_epi16(_mm256_permute2x128_si256(arg2, arg1, 17), _mm256_permute2x128_si256(arg2, arg1, 0))
-''',
-		"Ops":["hsimd_add_hl"],
-		"Fws":[32],
-		"Platforms":[configure.AVX2],
-		},
-
-		"hsimd_add_hl_avx2_64":\
-		{
-		"body":r'''
-return _mm256_hadd_epi32(_mm256_permute2x128_si256(arg2, arg1, 17), _mm256_permute2x128_si256(arg2, arg1, 0))
-''',
-		"Ops":["hsimd_add_hl"],
-		"Fws":[64],
-		"Platforms":[configure.AVX2],
-		},
 		
 		"simd_add_hl_2":\
 		{
@@ -2509,6 +2489,51 @@ return simd_or(f0, simd_slli(2,1,f0))''',
 		"Ops":["simd_all"],
 		"Fws":[2],
 		"Platforms":[configure.ALL],
+		},
+
+# 		REQUIRE some thinking here
+# 		"hsimd_add_hl_avx2_32":\
+# 		{
+# 		"body":r'''
+# return _mm256_hadd_epi16(_mm256_permute2x128_si256(arg2, arg1, 17), _mm256_permute2x128_si256(arg2, arg1, 0))
+# ''',
+# 		"Ops":["hsimd_add_hl"],
+# 		"Fws":[32],
+# 		"Platforms":[configure.AVX2],
+# 		},
+
+# 		"hsimd_add_hl_avx2_64":\
+# 		{
+# 		"body":r'''
+# return _mm256_hadd_epi32(_mm256_permute2x128_si256(arg2, arg1, 17), _mm256_permute2x128_si256(arg2, arg1, 0))
+# ''',
+# 		"Ops":["hsimd_add_hl"],
+# 		"Fws":[64],
+# 		"Platforms":[configure.AVX2],
+# 		},
+
+		"hsimd_packus_avx2_16": \
+		{
+		"body":r'''
+alpha = _mm256_permute2x128_si256(arg1, arg2, 32)
+beta  = _mm256_permute2x128_si256(arg1, arg2, 49)
+return _mm256_packus_epi16(alpha, beta)		
+''',
+		"Ops":["hsimd_packus"],
+		"Fws":[16],
+		"Platforms":[configure.AVX2],
+		},
+
+		"hsimd_packus_avx2_32": \
+		{
+		"body":r'''
+alpha = _mm256_permute2x128_si256(arg1, arg2, 32)
+beta  = _mm256_permute2x128_si256(arg1, arg2, 49)
+return _mm256_packus_epi32(alpha, beta)		
+''',
+		"Ops":["hsimd_packus"],
+		"Fws":[32],
+		"Platforms":[configure.AVX2],
 		},
 	}	
 	

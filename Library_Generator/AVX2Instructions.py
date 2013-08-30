@@ -155,13 +155,7 @@ AVX2BuiltIns = \
 		"return_type":"SIMD_type",
 		"fws":[[8, 16, 32]],
 	},	
-	"hsimd_packus":\
-	{
-		"signature":["t _mm256_packus_epi$fw$(t arg1, t arg2)"],
-		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
-		"return_type":"SIMD_type",
-		"fws":[[16, 32]],
-	},
+	
 	"hsimd_packss":\
 	{
 		"signature":["t _mm256_packs_epi$fw$(t arg1, t arg2)"],
@@ -228,6 +222,22 @@ AVX2BuiltIns = \
 		"args_type":{"arg2":"SIMD_type*", "arg1":"SIMD_type"},
 		"return_type":"void",
 		"fws":[[256]],
+	},
+
+	"_mm256_packus_epi16":\
+	{
+		"signature":["t _mm256_packus_epi16(t arg1, t arg2)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
+		"return_type":"SIMD_type",
+		"fws":[[16]],
+	},
+
+	"_mm256_packus_epi32":\
+	{
+		"signature":["t _mm256_packus_epi32(t arg1, t arg2)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
+		"return_type":"SIMD_type",
+		"fws":[[32]],
 	},
 
 	"_mm256_hadd_epi16":\
