@@ -35,9 +35,7 @@ AVX2BuiltIns = \
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
 		"fws":[[1]],
-	},
-
-	# TEST NEED. Not quite sure about this
+	},	
 	"simd_ifh":\
 	{
 		"signature":["SIMD_type _mm256_blendv_epi8(SIMD_type arg3, SIMD_type arg2, SIMD_type arg1)"],
@@ -155,14 +153,7 @@ AVX2BuiltIns = \
 		"return_type":"SIMD_type",
 		"fws":[[8, 16, 32]],
 	},	
-	
-	"hsimd_packss":\
-	{
-		"signature":["t _mm256_packs_epi$fw$(t arg1, t arg2)"],
-		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
-		"return_type":"SIMD_type",
-		"fws":[[16, 32]],
-	},
+
 	"mvmd_fill":\
 	{
 		"signature":["SIMD_type (SIMD_type)_mm256_set1_epi$fw$(int val1)"],
@@ -222,6 +213,22 @@ AVX2BuiltIns = \
 		"args_type":{"arg2":"SIMD_type*", "arg1":"SIMD_type"},
 		"return_type":"void",
 		"fws":[[256]],
+	},
+
+	"_mm256_packs_epi16":\
+	{
+		"signature":["t _mm256_packs_epi16(t arg1, t arg2)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
+		"return_type":"SIMD_type",
+		"fws":[[16]],
+	},
+
+	"_mm256_packs_epi32":\
+	{
+		"signature":["t _mm256_packs_epi32(t arg1, t arg2)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
+		"return_type":"SIMD_type",
+		"fws":[[32]],
 	},
 
 	"_mm256_packus_epi16":\

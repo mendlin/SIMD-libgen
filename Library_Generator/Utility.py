@@ -63,6 +63,14 @@ def GetValidFieldWidth(registerSz):
 		fw *= 2
 	return ret
 
+# e.g. body = '#define abc(x)', will extract 'abc'
+def ExtractNameFromFunctionSupport(body, origin_key):	
+	m = re.search(r'\#define\s+(\w+)\s*\(', body)
+	if m:		
+		return m.group(1)
+	else:
+		return origin_key
+
 #Load some pre-defined functions
 def LoadFunctionSupport(arch, lang):
 	retFuncs = {}
@@ -77,9 +85,10 @@ def LoadFunctionSupport(arch, lang):
 
 	for func in allFuncs:
 		if "all" in allFuncs[func]["platform"] or arch in allFuncs[func]["platform"]:
-			retFuncs[func] = allFuncs[func]
-			retFuncs[func]["body"] = retFuncs[func]["body"].replace("(SIMD_type)", "("+configure.Bitblock_type[arch]+")")
-
+			fname = ExtractNameFromFunctionSupport(allFuncs[func]["body"], func)
+			retFuncs[fname] = allFuncs[func]
+			retFuncs[fname]["body"] = retFuncs[fname]["body"].replace("(SIMD_type)", "("+configure.Bitblock_type[arch]+")")
+			
 	return retFuncs
 
 def CleanBrackets(expr):

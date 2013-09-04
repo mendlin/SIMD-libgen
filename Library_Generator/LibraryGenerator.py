@@ -17,7 +17,7 @@ import ipdb
 
 def operationInfo(definedOperations):
 	# All options have full powers of 2 as field width
-	ref_keys = [1, 2, 4, 8, 16, 32, 64, 128]
+	ref_keys = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 	generators = ["SIMDBuiltinGenerator", "SIMDConstantBuiltinGenerator", "SIMDLogicBuiltinGenerator", "SIMDBitblockBuiltinGenerator", "SIMDBitblockImmediateBuiltinGenerator"]	
 	return_type = {"bool": "BOOL", "uint64_t": "BITFIELD", "bitblock128_t": "BITBLOCK", "void": "VOID"}
 	for op_key in sorted(definedOperations):
@@ -30,7 +30,7 @@ def operationInfo(definedOperations):
 		if op_pattern == 4:
 			print op_key.upper(), "(makeAllSimpleSignatures(" + op_upperBound + ", new " + op_generator + "(), ",						
 			print len(op_detail.arguments) * "BITBLOCK, ",			
-			print return_type[op_detail.returnType] + ")),"
+			# print return_type[op_detail.returnType] + ")),"
 			# print "args:"
 			# for arg in op_detail.arguments:
 			# 	print arg.type, ", ", 

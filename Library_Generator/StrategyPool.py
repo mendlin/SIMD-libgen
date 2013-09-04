@@ -2515,8 +2515,8 @@ return simd_or(f0, simd_slli(2,1,f0))''',
 		"hsimd_packus_avx2_16": \
 		{
 		"body":r'''
-alpha = _mm256_permute2x128_si256(arg1, arg2, 32)
-beta  = _mm256_permute2x128_si256(arg1, arg2, 49)
+alpha = _mm256_permute2x128_si256(arg2, arg1, 32)
+beta  = _mm256_permute2x128_si256(arg2, arg1, 49)
 return _mm256_packus_epi16(alpha, beta)		
 ''',
 		"Ops":["hsimd_packus"],
@@ -2527,11 +2527,35 @@ return _mm256_packus_epi16(alpha, beta)
 		"hsimd_packus_avx2_32": \
 		{
 		"body":r'''
-alpha = _mm256_permute2x128_si256(arg1, arg2, 32)
-beta  = _mm256_permute2x128_si256(arg1, arg2, 49)
+alpha = _mm256_permute2x128_si256(arg2, arg1, 32)
+beta  = _mm256_permute2x128_si256(arg2, arg1, 49)
 return _mm256_packus_epi32(alpha, beta)		
 ''',
 		"Ops":["hsimd_packus"],
+		"Fws":[32],
+		"Platforms":[configure.AVX2],
+		},
+
+		"hsimd_packss_avx2_16": \
+		{
+		"body":r'''
+alpha = _mm256_permute2x128_si256(arg2, arg1, 32)
+beta  = _mm256_permute2x128_si256(arg2, arg1, 49)
+return _mm256_packs_epi16(alpha, beta)		
+''',
+		"Ops":["hsimd_packss"],
+		"Fws":[16],
+		"Platforms":[configure.AVX2],
+		},
+
+		"hsimd_packss_avx2_32": \
+		{
+		"body":r'''
+alpha = _mm256_permute2x128_si256(arg2, arg1, 32)
+beta  = _mm256_permute2x128_si256(arg2, arg1, 49)
+return _mm256_packs_epi32(alpha, beta)		
+''',
+		"Ops":["hsimd_packss"],
 		"Fws":[32],
 		"Platforms":[configure.AVX2],
 		},

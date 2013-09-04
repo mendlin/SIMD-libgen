@@ -196,6 +196,9 @@ template <> struct FieldType<256> {typedef uint64_t T;};
 							#curOperation.SetBodyContent(optOpCodes[operation.fullName + "_" + str(fw)])
 							operationImp[classType][operation.fullName].append(curOperation.ToCppText())
 							operationDecla[classType][operation.fullName].append(curOperation.FunctionDeclarationToCppText())
+						else: 
+							pass							
+							# print "WTF, too many op count for: %s fw = %d, count = %d" % (opName, fw, optOpCount[operation.fullName + "_" + str(fw)])
 			
 			if whichContent != configure.Body_Declaration:		
 				fileOut.write(curClass.ToCppText())

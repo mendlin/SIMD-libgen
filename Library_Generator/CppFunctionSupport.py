@@ -8,6 +8,10 @@ from Utility import configure
 
 Functions = \
 {
+	# Keys are mainly used as function names within all the strategies. 
+	# But if the name after "#define" is different from the key,
+	# That name will be the function name.
+
 	"shufflemask2":\
 	{
 	"body":r'''
@@ -91,6 +95,7 @@ inline void shuffle8_demasking(int mask, int &s1, int &s2, int &s3, int &s4, int
 	"cost":1,
 	},
 
+	# it's function name is still avx_select_hi128
 	"avx2_select_hi128":\
 	{
 	"body":r'''
