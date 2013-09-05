@@ -4,7 +4,7 @@ Licensed under the Academic Free License 3.0.
 
 # Overview:
 This is a toolkit called IDISA+ which could automatically generate SIMD libraries
-for SSE2/SSE3/SSSE3/SSE4.1/SSE4.2/AVX/NEON platforms. The supported operations can be found in the [IDISA+.pdf](https://github.com/Logicalmars/SIMD-libgen/blob/master/doc/IDISA%2B.pdf).
+for SSE2/SSE3/SSSE3/SSE4.1/SSE4.2/AVX/NEON platforms. The supported operations can be found in the [IDISA+.pdf](https://github.com/Logicalmars/SIMD-libgen/blob/master/doc/).
 This toolkit has two components, the library generator and the library tester.
 
 ## The Generator:
