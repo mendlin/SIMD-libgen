@@ -201,7 +201,7 @@ inline void shuffle8_demasking(int mask, int &s1, int &s2, int &s3, int &s4, int
 	{
 	"body":r'''
 #define avx_move_lo128_to_hi128(x) \
-	_mm256_permute2f128_si128(x, x, 0 + 8)''',
+	_mm256_permute2f128_si256(x, x, 0 + 8)''',
 	"platform":[configure.AVX2],
 	"returnType":configure.SIMD_type[configure.AVX2],
 	"cost":1,
