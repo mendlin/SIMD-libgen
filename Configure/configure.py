@@ -53,7 +53,11 @@ Macro_Idisa128_Hpp = r'''
 '''
 
 Macro_Idisa256_Hpp = r'''
+#if defined USE_AVX
 #include "idisa_cpp/idisa_avx.cpp"
+#else
+#include "idisa_cpp/idisa_avx2.cpp"
+#endif
 '''
 
 Macro_Idisa_Hpp = r'''

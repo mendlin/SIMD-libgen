@@ -1,6 +1,6 @@
-#include "idisa_avx.h"
-#define USE_AVX
-typedef __m256 SIMD_type;
+#include "idisa_avx2.h"
+#define USE_AVX2
+typedef __m256i SIMD_type;
 #include <vector>
 #include <iostream>
 #include <sstream>

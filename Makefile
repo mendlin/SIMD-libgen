@@ -155,6 +155,9 @@ idisa256:
 	python $(IDISA_GENERATOR) -a avx -l cpp -f $(IDISA_AVX_CPP_LIB).cpp -g --body=$(BODY_IMPLEMENTATION)
 	mv $(GENERATOR_DIR)/$(IDISA_AVX_CPP_LIB).cpp $(LIB_CPP_DIR)/
 
+	python $(IDISA_GENERATOR) -a avx2 -l cpp -f $(IDISA_AVX2_CPP_LIB).cpp -g --body=$(BODY_IMPLEMENTATION)
+	mv $(GENERATOR_DIR)/$(IDISA_AVX2_CPP_LIB).cpp $(LIB_CPP_DIR)/
+
 idisa:
 	make idisa128
 	make idisa256
