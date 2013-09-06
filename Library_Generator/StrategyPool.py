@@ -690,6 +690,16 @@ return simd_or(_mm_srl_epi64(arg1, shift), simd_or(_mm_srli_si128(_mm_srl_epi64(
 		"Fws":[128],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
 		},
+
+		# TODO
+		"srl_256_blend":\
+		{
+		"body":r'''
+		'''
+		"Ops":["simd_srl"],
+		"Fws":[256],
+		"Platforms":[configure.AVX2],
+		},
 	
 		"srli_increment_blend":\
 		{
