@@ -37,6 +37,9 @@ BODY_DECLARATION = declaration
 
 BODY_IMPLEMENTATION = implementation
 
+playground: Library_Tester/playground.cpp
+	g++ -o playground -mavx Library_Tester/playground.cpp	
+
 sse2:
 	python $(IDISA_GENERATOR) -a sse2 -l cpp -f $(IDISA_SSE2_CPP_LIB).h -g
 sse2_c:
