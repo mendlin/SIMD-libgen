@@ -118,7 +118,7 @@ NEONBuiltIns = \
 #        "return_type":"SIMD_type",
 #        "fws":[[8, 16, 32, 64]],
 #    },
-#    "simd_sll":\
+#    "simd_vsll":\
 #    {
 #        "signature":["SIMD_type (SIMD_type)vshlq_u$fw$(SIMD_type arg1, SIMD_type shift_mask)"],
 #        "args_type":{"arg1":"NEON_utype(fw)", "shift_mask":"NEON_stype(fw)"},

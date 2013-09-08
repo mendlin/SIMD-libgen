@@ -101,9 +101,9 @@ AllOperations = \
      "cpp_class_signature":"template <uint16_t sh> static inline SIMD_type srli(SIMD_type arg1)",
     },
     
-    "simd_srl":\
+    "simd_vsrl":\
     {
-     "signature":"SIMD_type simd<fw>::srl(SIMD_type arg1, SIMD_type shift_mask)",
+     "signature":"SIMD_type simd<fw>::vsrl(SIMD_type arg1, SIMD_type shift_mask)",
      "args_type":{"arg1":"SIMD_type", "shift_mask":"SIMD_type"},
      "return_type":"SIMD_type",
     },
@@ -116,9 +116,9 @@ AllOperations = \
      "cpp_class_signature":"template <uint16_t sh> static inline SIMD_type slli(SIMD_type arg1)",
     },
     
-    "simd_sll":\
+    "simd_vsll":\
     {
-     "signature":"SIMD_type simd<fw>::sll(SIMD_type arg1, SIMD_type shift_mask)",
+     "signature":"SIMD_type simd<fw>::vsll(SIMD_type arg1, SIMD_type shift_mask)",
      "args_type":{"arg1":"SIMD_type", "shift_mask":"SIMD_type"},
      "return_type":"SIMD_type",
     },
@@ -131,9 +131,9 @@ AllOperations = \
      "cpp_class_signature":"template <uint16_t sh> static inline SIMD_type srai(SIMD_type arg1)",
     },
     
-    "simd_sra":\
+    "simd_vsra":\
     {
-     "signature":"SIMD_type simd<fw>::sra(SIMD_type arg1, SIMD_type shift_mask)",
+     "signature":"SIMD_type simd<fw>::vsra(SIMD_type arg1, SIMD_type shift_mask)",
      "args_type":{"arg1":"SIMD_type", "shift_mask":"SIMD_type"},
      "return_type":"SIMD_type",
     },

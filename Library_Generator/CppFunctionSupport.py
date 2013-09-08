@@ -184,9 +184,8 @@ inline void shuffle8_demasking(int mask, int &s1, int &s2, int &s3, int &s4, int
 	"platform":[configure.AVX2],
 	"returnType":configure.SIMD_type[configure.AVX2],
 	"cost":4,
-	},
+	},	
 	
-	# WTF is this?
 	"avx_move_lo128_to_hi128":\
 	{
 	"body":r'''

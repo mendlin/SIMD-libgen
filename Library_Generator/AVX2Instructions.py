@@ -215,6 +215,22 @@ AVX2BuiltIns = \
 		"fws":[[256]],
 	},
 
+	"_mm256_srl_epi64":\
+	{
+		"signature":["t _mm256_srl_epi64(t arg1, t arg2)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"__m128i"},
+		"return_type":"SIMD_type",
+		"fws":[[64]],
+	},
+
+	"_mm256_sll_epi64":\
+	{
+		"signature":["t _mm256_sll_epi64(t arg1, t arg2)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"__m128i"},
+		"return_type":"SIMD_type",
+		"fws":[[64]],
+	},
+
 	"_mm256_packs_epi16":\
 	{
 		"signature":["t _mm256_packs_epi16(t arg1, t arg2)"],

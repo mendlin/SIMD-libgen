@@ -569,21 +569,21 @@ return simd_and(simd_slli(32, sh, arg1), simd_constant(fw, (((1<<fw)-1)<<sh)&((1
 		"Platforms":[configure.ALL],
 		},
 	
-		"sll_64_blend":\
+		"vsll_64_blend":\
 		{
 		"body":r'''
 return simd_ifh(1, simd_himask(128), _mm_sll_epi64(arg1, simd_and(_mm_srli_si128(shift_mask, 8), _mm_cvtsi32_si128(63))), _mm_sll_epi64(arg1, simd_and(shift_mask, _mm_cvtsi32_si128(63))))''',
-		"Ops":["simd_sll"],
+		"Ops":["simd_vsll"],
 		"Fws":[64],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
 		},
 		
-		"sll_128_blend":\
+		"vsll_128_blend":\
 		{
 		"body":r'''
 shift = simd_and(shift_mask, _mm_cvtsi32_si128(127))
 return simd_or(_mm_sll_epi64(arg1, shift), simd_or(_mm_slli_si128(_mm_sll_epi64(arg1, simd_sub(32, shift, _mm_cvtsi32_si128(64))), 8),  _mm_slli_si128(_mm_srl_epi64(arg1, simd_sub(32, _mm_cvtsi32_si128(64), shift)), 8)))''',
-		"Ops":["simd_sll"],
+		"Ops":["simd_vsll"],
 		"Fws":[128],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
 		},
@@ -672,34 +672,36 @@ return simd_constant(32, 0) if sh==128 else (simd_slli(64, (sh)&0x3F, neon_shift
 		"Platforms":[configure.NEON],
 		},
 		
-		"srl_64_blend":\
+		"vsrl_64_blend":\
 		{
 		"body":r'''
 return simd_ifh(1, simd_himask(128), _mm_srl_epi64(arg1, simd_and(_mm_srli_si128(shift_mask, 8), _mm_cvtsi32_si128(63))), _mm_srl_epi64(arg1, simd_and(shift_mask, _mm_cvtsi32_si128(63))))''',
-		"Ops":["simd_srl"],
+		"Ops":["simd_vsrl"],
 		"Fws":[64],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
 		},
 		
-		"srl_128_blend":\
+		"vsrl_128_blend":\
 		{
 		"body":r'''
 shift = simd_and(shift_mask, _mm_cvtsi32_si128(127))
 return simd_or(_mm_srl_epi64(arg1, shift), simd_or(_mm_srli_si128(_mm_srl_epi64(arg1, simd_sub(32, shift, _mm_cvtsi32_si128(64))), 8),  _mm_srli_si128(_mm_sll_epi64(arg1, simd_sub(32, _mm_cvtsi32_si128(64), shift)), 8)))''',
-		"Ops":["simd_srl"],
+		"Ops":["simd_vsrl"],
 		"Fws":[128],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
 		},
 
-		# # TODO
-		# "srl_256_blend":\
-		# {
-		# "body":r'''
-		# ''',
-		# "Ops":["simd_srl"],
-		# "Fws":[256],
-		# "Platforms":[configure.AVX2],
-		# },
+# 		"srl_256_blend":\
+# 		{
+# 		"body":r'''
+# allzero = simd_constant(32, 0)
+# if (simd_ugt(shift_mask, )
+# return simd_or(_mm256_srl_epi64(arg1, shift_mask), )
+# 		''',
+# 		"Ops":["simd_srl"],
+# 		"Fws":[256],
+# 		"Platforms":[configure.AVX2],
+# 		},
 	
 		"srli_increment_blend":\
 		{
@@ -2412,7 +2414,7 @@ return mvmd_extract(64, 0, simd_popcount(curRegSize, arg1))''',
 		"bitblock_srl":\
 		{
 		"body":r'''
-return simd_srl(curRegSize, arg1, arg2)''',
+return simd_vsrl(curRegSize, arg1, arg2)''',
 		"Ops":["bitblock_srl"],
 		"Fws":[curRegSize],
 		"Platforms":[configure.ALL],
@@ -2421,7 +2423,7 @@ return simd_srl(curRegSize, arg1, arg2)''',
 		"bitblock_sll":\
 		{
 		"body":r'''
-return simd_sll(curRegSize, arg1, arg2)''',
+return simd_vsll(curRegSize, arg1, arg2)''',
 		"Ops":["bitblock_sll"],
 		"Fws":[curRegSize],
 		"Platforms":[configure.ALL],
