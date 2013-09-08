@@ -690,18 +690,28 @@ return simd_or(_mm_srl_epi64(arg1, shift), simd_or(_mm_srli_si128(_mm_srl_epi64(
 		"Fws":[128],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
 		},
+		
+		# TODO
+		"srl_256_blend":\
+		{
+		"body":r'''
+return arg1;
+		''',
+		"Ops":["simd_vsrl"],
+		"Fws":[256],
+		"Platforms":[configure.AVX2],
+		},
 
-# 		"srl_256_blend":\
-# 		{
-# 		"body":r'''
-# allzero = simd_constant(32, 0)
-# if (simd_ugt(shift_mask, )
-# return simd_or(_mm256_srl_epi64(arg1, shift_mask), )
-# 		''',
-# 		"Ops":["simd_srl"],
-# 		"Fws":[256],
-# 		"Platforms":[configure.AVX2],
-# 		},
+		# TODO
+		"sll_256_blend":\
+		{
+		"body":r'''
+return arg1;
+		''',
+		"Ops":["simd_vsll"],
+		"Fws":[256],
+		"Platforms":[configure.AVX2],
+		},
 	
 		"srli_increment_blend":\
 		{
@@ -2573,7 +2583,7 @@ return _mm256_packs_epi32(alpha, beta)
 		"Ops":["hsimd_packss"],
 		"Fws":[32],
 		"Platforms":[configure.AVX2],
-		},
+		},		
 	}	
 	
 	return strategies

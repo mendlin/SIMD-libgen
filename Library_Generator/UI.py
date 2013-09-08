@@ -126,7 +126,9 @@ class UiOutput:
 				codes += "typedef " + configure.SIMD_type[arch] + " " + configure.Bitblock_type[arch] + ";\n"
 
 			codes += \
-"""			
+"""		
+#ifndef FIELD_TYPE
+#define FIELD_TYPE	
 template <uint32_t fw> struct FieldType {
    typedef int T;  //default for FieldType::T is int
 };
@@ -140,6 +142,7 @@ template <> struct FieldType<32> {typedef uint32_t T;};
 template <> struct FieldType<64> {typedef uint64_t T;};
 template <> struct FieldType<128> {typedef uint64_t T;};
 template <> struct FieldType<256> {typedef uint64_t T;};
+#endif
 
 """
 		else:
