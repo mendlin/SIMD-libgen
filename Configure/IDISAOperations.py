@@ -107,6 +107,13 @@ AllOperations = \
      "args_type":{"arg1":"SIMD_type", "shift_mask":"SIMD_type"},
      "return_type":"SIMD_type",
     },
+
+    "simd_srl":\
+    {
+     "signature":"SIMD_type simd<fw>::srl(SIMD_type arg1, SIMD_type shift_mask)",
+     "args_type":{"arg1":"SIMD_type", "shift_mask":"SIMD_type"},
+     "return_type":"SIMD_type",
+    },
     
     "simd_slli":\
     {
@@ -122,6 +129,13 @@ AllOperations = \
      "args_type":{"arg1":"SIMD_type", "shift_mask":"SIMD_type"},
      "return_type":"SIMD_type",
     },
+
+    "simd_sll":\
+    {
+     "signature":"SIMD_type simd<fw>::sll(SIMD_type arg1, SIMD_type shift_mask)",
+     "args_type":{"arg1":"SIMD_type", "shift_mask":"SIMD_type"},
+     "return_type":"SIMD_type",
+    },
     
     "simd_srai":\
     {
@@ -134,6 +148,13 @@ AllOperations = \
     "simd_vsra":\
     {
      "signature":"SIMD_type simd<fw>::vsra(SIMD_type arg1, SIMD_type shift_mask)",
+     "args_type":{"arg1":"SIMD_type", "shift_mask":"SIMD_type"},
+     "return_type":"SIMD_type",
+    },
+
+    "simd_sra":\
+    {
+     "signature":"SIMD_type simd<fw>::sra(SIMD_type arg1, SIMD_type shift_mask)",
      "args_type":{"arg1":"SIMD_type", "shift_mask":"SIMD_type"},
      "return_type":"SIMD_type",
     },

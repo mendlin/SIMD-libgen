@@ -1,0 +1,9 @@
+
+# Copyright (c) 2011, Hua Huang and Robert D. Cameron.
+# Licensed under the Academic Free License 3.0. 
+
+import simd_srai
+
+def GetResult(fw, data):
+	(arg1, count) = (data[0], data[1])
+	return simd_srai.GetResult(fw, int(count, 2), [arg1])

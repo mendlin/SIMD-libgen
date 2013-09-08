@@ -692,26 +692,26 @@ return simd_or(_mm_srl_epi64(arg1, shift), simd_or(_mm_srli_si128(_mm_srl_epi64(
 		},
 		
 		# TODO
-		"srl_256_blend":\
-		{
-		"body":r'''
-return arg1;
-		''',
-		"Ops":["simd_vsrl"],
-		"Fws":[256],
-		"Platforms":[configure.AVX2],
-		},
+# 		"srl_256_blend":\
+# 		{
+# 		"body":r'''
+# return arg1;
+# 		''',
+# 		"Ops":["simd_vsrl"],
+# 		"Fws":[256],
+# 		"Platforms":[configure.AVX2],
+# 		},
 
 		# TODO
-		"sll_256_blend":\
-		{
-		"body":r'''
-return arg1;
-		''',
-		"Ops":["simd_vsll"],
-		"Fws":[256],
-		"Platforms":[configure.AVX2],
-		},
+# 		"sll_256_blend":\
+# 		{
+# 		"body":r'''
+# return arg1;
+# 		''',
+# 		"Ops":["simd_vsll"],
+# 		"Fws":[256],
+# 		"Platforms":[configure.AVX2],
+# 		},
 	
 		"srli_increment_blend":\
 		{

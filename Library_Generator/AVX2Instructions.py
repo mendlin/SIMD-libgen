@@ -125,6 +125,15 @@ AVX2BuiltIns = \
 		"return_type":"SIMD_type",
 		"fws":[[16, 32, 64]],
 	},
+
+	"simd_srl":\
+	{
+		"signature":["t _mm256_srl_epi$fw$(t arg1, __m128i shift_mask)"],
+		"args_type":{"arg1":"SIMD_type", "shift_mask":"__m128i"},
+		"return_type":"SIMD_type",
+		"fws":[[16, 32, 64]],
+	},
+
 	"simd_slli":\
 	{
 		"signature":["t _mm256_slli_epi$fw$(t arg1, t sh)"],
@@ -132,6 +141,15 @@ AVX2BuiltIns = \
 		"return_type":"SIMD_type",
 		"fws":[[16, 32, 64]],
 	},
+
+	"simd_sll":\
+	{
+		"signature":["t _mm256_sll_epi$fw$(t arg1, t shift_mask)"],
+		"args_type":{"arg1":"SIMD_type", "shift_mask":"__m128i"},
+		"return_type":"SIMD_type",
+		"fws":[[16, 32, 64]],
+	},
+
 	"simd_srai":\
 	{
 		"signature":["t _mm256_srai_epi$fw$(t arg1, t sh)"],
@@ -139,6 +157,15 @@ AVX2BuiltIns = \
 		"return_type":"SIMD_type",
 		"fws":[[16, 32]],
 	},
+
+	"simd_sra":\
+	{
+		"signature":["t _mm256_sra_epi$fw$(t arg1, t shift_mask)"],
+		"args_type":{"arg1":"SIMD_type", "shift_mask":"__m128i"},
+		"return_type":"SIMD_type",
+		"fws":[[16, 32]],
+	},
+
 	"simd_constant":\
 	{
 		"signature":["SIMD_type _mm256_set1_epi$fw$(int val)"],

@@ -7,6 +7,7 @@ import Operation
 import InstructionSet
 import Utility
 import StandardTypes
+import ipdb
 
 from Utility import configure
 
@@ -19,9 +20,10 @@ class BuiltInOperation:
         spacePos, leftBrac = firstSpace, -1
         while opSignature.find("(", spacePos) != -1:
             leftBrac = opSignature.find("(", spacePos)
-            spacePos = leftBrac + 1
+            spacePos = leftBrac + 1            
+
         rightBrac = opSignature.find(")", leftBrac)
-        #print opSignature,
+        # print opSignature, "==>", 
         self.arch = arch
         self.returnType = opSignature[:firstSpace]
         self.funcName = opSignature[firstSpace + 1:leftBrac]
@@ -38,13 +40,13 @@ class BuiltInOperation:
             self.args.append(arg0[lastSpacePos + 1:])
         self.arguments = self.args
 
-        #print self.funcName, self.arguments
+        # print self.funcName,"::", self.arguments, "::", self.argsType
 
     def GetCallingConvention(self):
         assert len(self.args) == len(self.arguments), "the number of arguments is not acceptable for the built-in " + self.funcName
         txt = self.funcName
         txt += "("
-        for i in range(len(self.args)):
+        for i in range(len(self.args)):            
             if StandardTypes.IsExtactWidthIntType(self.argsType[self.args[i]]):
                 txt += "(" + self.argsType[self.args[i]] + ")" + "(" + self.arguments[i] + ")" + ", "
             elif StandardTypes.IsSignedIntType(self.argsType[self.args[i]]):
@@ -52,7 +54,7 @@ class BuiltInOperation:
             elif StandardTypes.IsUnsignedIntType(self.argsType[self.args[i]]):
                 txt += "(" + StandardTypes.GetUnsignedIntType(self.argsType[self.args[i]], configure.RegisterSize[self.arch]) + ")" + "(" + self.arguments[i] + ")" + ", "
             elif StandardTypes.IsSIMDType(self.argsType[self.args[i]]):
-                txt += self.arguments[i] + ", "
+                txt += StandardTypes.GetSIMDTypeConvert(self.argsType[self.args[i]], self.arch, self.arguments[i]) + ", "
             elif StandardTypes.IsSIMDPointer(self.argsType[self.args[i]]):
                 txt += "(" + StandardTypes.GetSIMDPointer(self.arch) + ")" + "(" + self.arguments[i] + ")" + ", "
             elif StandardTypes.Is64BitFloatingType(self.argsType[self.args[i]]):
@@ -96,6 +98,9 @@ class BuiltIns:
     def LoadBuiltInOperations(self, arch):
         builtInOperations = {}
         for opName in self.builtInsTable:
+            # if opName == 'simd_srl':
+            #     ipdb.set_trace()
+
             args_type = self.builtInsTable[opName]["args_type"]
             for i in range(len(self.builtInsTable[opName]["signature"])):
                 opSignature = self.builtInsTable[opName]["signature"][i]

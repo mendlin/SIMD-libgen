@@ -81,6 +81,16 @@ def GetUInt64ConstantPointer():
 def GetUInt64Pointer():
     return "uint64_t*"
 
+def GetSIMDTypeConvert(argType, arch, argument):
+    if argType == "SIMD_type":
+        return argument
+
+    if configure.SIMD_type[arch] != argType:        
+        if arch == "AVX2" and argType == "__m128i" and not "(" in argument:            
+            return "avx_select_lo128(%s)" % argument
+    
+    return argument
+
 def GetNEONSignedType(fw=0, fwStr="fw"):
     if fw <= 0:
         return "int$" + fwStr + "$x$128/" + "(" + fwStr + ")" + "$_t"
@@ -112,7 +122,7 @@ def IsFloatConstantPointer(typeStr):
     return "float const*" == typeStr
 
 def IsSIMDType(typeStr):
-    return "SIMD_type" == typeStr or "bitblock" in typeStr or "__m128i"  in typeStr or "__m128" in typeStr
+    return "SIMD_type" == typeStr or "bitblock" in typeStr or "__m128i"  in typeStr or "__m128" in typeStr or "__m256" in typeStr
 
 def IsUnsignedIntType(typeStr):
     return "unsigned_int" in typeStr
