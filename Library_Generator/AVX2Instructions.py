@@ -474,5 +474,28 @@ AVX2BuiltIns = \
 		"return_type":"__m128i",
 		"fws":[[64]],
 	},
-	
+
+	"_mm_cvtsi32_si128":\
+	{
+		"signature":["__m128i _mm_cvtsi32_si128(int arg1)"],
+		"args_type":{"arg1":"signed_int(32)"},
+		"return_type":"__m128i",
+		"fws":[[128]],
+	},	
+
+	"_mm_cvtsi128_si32":\
+	{
+		"signature":["int _mm_cvtsi128_si32(__m128i arg1)"],
+		"args_type":{"arg1":"__m128i"},
+		"return_type":"uint32_t",
+		"fws":[[128]],
+	},	
+
+	"_mm256_srl_epi64":\
+	{
+		"signature":["SIMD_type _mm256_srl_epi64(SIMD_type arg1, __m128i sh)"],
+		"args_type":{"arg1":"SIMD_type", "sh":"__m128i"},
+		"return_type":"SIMD_type",
+		"fws":[[256]],
+	},	
 }

@@ -6,4 +6,4 @@ import simd_slli
 
 def GetResult(fw, data):
 	(arg1, count) = (data[0], data[1])
-	return simd_slli.GetResult(fw, int(count, 2), [arg1])
+	return simd_slli.GetResult(fw, int(count[-32:], 2), [arg1])
