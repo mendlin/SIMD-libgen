@@ -691,27 +691,33 @@ return simd_or(_mm_srl_epi64(arg1, shift), simd_or(_mm_srli_si128(_mm_srl_epi64(
 		"Platforms":[arch for arch in configure.SSE_SERIES],
 		},
 		
-		# TODO
-# 		"srl_256_blend":\
-# 		{
-# 		"body":r'''
-# return arg1;
-# 		''',
-# 		"Ops":["simd_vsrl"],
-# 		"Fws":[256],
-# 		"Platforms":[configure.AVX2],
-# 		},
+		# TODO checking
+		"srl_256_blend":\
+		{
+		"body":r'''
+shift = _mm_cvtsi128_si32(avx_select_lo128(shift_mask))
+n = shift / 64
+arg2 = mvmd_srli(64, 1, arg1) if n==1 else (mvmd_srli(64, 2, arg1) if n==2 else (mvmd_srli(64, 3, arg1) if n==3 else arg1))
+return simd_constant(32, 0) if n>=4 else (simd_or(_mm256_srl_epi64(arg2, _mm_cvtsi32_si128(shift & 63)), mvmd_srli(64, 1, _mm256_sll_epi64(arg2, _mm_cvtsi32_si128(64 - (shift & 63))))) if (shift & 63) > 0 else arg2)		
+		''',
+		"Ops":["simd_srl"],
+		"Fws":[256],
+		"Platforms":[configure.AVX2],
+		},
 
-		# TODO
-# 		"sll_256_blend":\
-# 		{
-# 		"body":r'''
-# return arg1;
-# 		''',
-# 		"Ops":["simd_vsll"],
-# 		"Fws":[256],
-# 		"Platforms":[configure.AVX2],
-# 		},
+		# TODO checking
+		"sll_256_blend":\
+		{
+		"body":r'''
+shift = _mm_cvtsi128_si32(avx_select_lo128(shift_mask))
+n = shift / 64
+arg2 = mvmd_slli(64, 1, arg1) if n==1 else (mvmd_slli(64, 2, arg1) if n==2 else (mvmd_slli(64, 3, arg1) if n==3 else arg1))
+return simd_constant(32, 0) if n>=4 else (simd_or(_mm256_sll_epi64(arg2, _mm_cvtsi32_si128(shift & 63)), mvmd_slli(64, 1, _mm256_srl_epi64(arg2, _mm_cvtsi32_si128(64 - (shift & 63))))) if (shift & 63) > 0 else arg2)		
+		''',
+		"Ops":["simd_sll"],
+		"Fws":[256],
+		"Platforms":[configure.AVX2],
+		},
 	
 		"srli_increment_blend":\
 		{
@@ -2424,7 +2430,7 @@ return mvmd_extract(64, 0, simd_popcount(curRegSize, arg1))''',
 		"bitblock_srl":\
 		{
 		"body":r'''
-return simd_vsrl(curRegSize, arg1, arg2)''',
+return simd_srl(curRegSize, arg1, arg2)''',
 		"Ops":["bitblock_srl"],
 		"Fws":[curRegSize],
 		"Platforms":[configure.ALL],
@@ -2433,7 +2439,7 @@ return simd_vsrl(curRegSize, arg1, arg2)''',
 		"bitblock_sll":\
 		{
 		"body":r'''
-return simd_vsll(curRegSize, arg1, arg2)''',
+return simd_sll(curRegSize, arg1, arg2)''',
 		"Ops":["bitblock_sll"],
 		"Fws":[curRegSize],
 		"Platforms":[configure.ALL],
