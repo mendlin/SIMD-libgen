@@ -1517,7 +1517,7 @@ return (IDISA_CASTING("uint64_t", _mm_movemask_epi8(IDISA_CASTING("__m128i", avx
 		"Platforms":[configure.AVX],
 		},
 
-		# TODO
+		# TODO checking
 		"signmask_avx2_32":\
 		{
 		"body":r'''
@@ -1527,7 +1527,7 @@ return _mm256_movemask_ps(_mm256_castsi256_ps(arg1))''',
 		"Platforms":[configure.AVX2],
 		},
 
-		# TODO
+		# TODO checking
 		"signmask_avx2_64":\
 		{
 		"body":r'''

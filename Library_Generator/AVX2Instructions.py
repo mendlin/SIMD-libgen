@@ -268,7 +268,7 @@ AVX2BuiltIns = \
 
 	"_mm256_castsi256_pd":\
 	{
-		"signature":["t _m256_castsi256_pd(t arg1)"],
+		"signature":["t _mm256_castsi256_pd(t arg1)"],
 		"args_type":{"arg1":"SIMD_type"},
 		"return_type":"__m256d",
 		"fws":[[256]],
@@ -276,7 +276,7 @@ AVX2BuiltIns = \
 
 	"_mm256_castsi256_ps":\
 	{
-		"signature":["t _m256_castsi256_ps(t arg1)"],
+		"signature":["t _mm256_castsi256_ps(t arg1)"],
 		"args_type":{"arg1":"SIMD_type"},
 		"return_type":"__m256",
 		"fws":[[256]],
