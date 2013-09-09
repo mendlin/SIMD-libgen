@@ -1508,7 +1508,27 @@ return (tmpAns1<<(curRegSize/(2*fw))) + tmpAns2''',
 return (IDISA_CASTING("uint64_t", _mm_movemask_epi8(IDISA_CASTING("__m128i", avx_select_hi128(arg1))))<<16) | IDISA_CASTING("uint64_t", _mm_movemask_epi8(IDISA_CASTING("__m128i", avx_select_lo128(arg1))))''',
 		"Ops":["hsimd_signmask"],
 		"Fws":[8],
-		"Platforms":configure.AVX_SERIES,
+		"Platforms":[configure.AVX],
+		},
+
+		# TODO
+		"signmask_avx2_32":\
+		{
+		"body":r'''
+return _mm256_movemask_ps(_mm256_castsi256_ps(arg1))''',
+		"Ops":["hsimd_signmask"],
+		"Fws":[32],
+		"Platforms":[configure.AVX2],
+		},
+
+		# TODO
+		"signmask_avx2_64":\
+		{
+		"body":r'''
+return _mm256_movemask_pd(_mm256_castsi256_pd(arg1))''',
+		"Ops":["hsimd_signmask"],
+		"Fws":[64],
+		"Platforms":[configure.AVX2],
 		},
 		
 		"signmask_16_general_128bit":\

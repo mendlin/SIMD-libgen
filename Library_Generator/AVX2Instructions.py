@@ -242,6 +242,46 @@ AVX2BuiltIns = \
 		"fws":[[256]],
 	},
 
+	"hsimd_signmask":\
+	{
+		"signature":["int _mm256_movemask_epi8(SIMD_type arg1)"],
+		"args_type":{"arg1":"SIMD_type"},
+		"return_type":"int",
+		"fws":[[8]],	
+	},
+
+	"_mm256_movemask_pd":\
+	{
+		"signature":["t _mm256_movemask_pd(t arg1)"],
+		"args_type":{"arg1":"__m256d"},
+		"return_type":"int",
+		"fws":[[64]],
+	},
+
+	"_mm256_movemask_ps":\
+	{
+		"signature":["t _mm256_movemask_ps(t arg1)"],
+		"args_type":{"arg1":"__m256"},
+		"return_type":"int",
+		"fws":[[32]],
+	},
+
+	"_mm256_castsi256_pd":\
+	{
+		"signature":["t _m256_castsi256_pd(t arg1)"],
+		"args_type":{"arg1":"SIMD_type"},
+		"return_type":"__m256d",
+		"fws":[[256]],
+	},
+
+	"_mm256_castsi256_ps":\
+	{
+		"signature":["t _m256_castsi256_ps(t arg1)"],
+		"args_type":{"arg1":"SIMD_type"},
+		"return_type":"__m256",
+		"fws":[[256]],
+	},
+
 	"_mm256_srl_epi64":\
 	{
 		"signature":["t _mm256_srl_epi64(t arg1, t arg2)"],
