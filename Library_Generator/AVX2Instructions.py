@@ -369,6 +369,13 @@ AVX2BuiltIns = \
 		"return_type":"SIMD_type",
 		"fws":[[256]],
 	},
+	"_mm_cvtsi64_si128":\
+	{
+		"signature":["__m128i _mm_cvtsi64_si128(t arg1)"],
+		"args_type":{"arg1":"signed_int(64)"},
+		"return_type":"__m128i",
+		"fws":[[128]],
+	},
 	"_mm_sad_epu8":\
 	{
 		"signature":["__m128i _mm_sad_epu8(__m128i arg1, __m128i arg2)"],
@@ -498,4 +505,28 @@ AVX2BuiltIns = \
 		"return_type":"SIMD_type",
 		"fws":[[256]],
 	},	
+
+	"_mm256_permute4x64_epi64":\
+	{
+		"signature":["SIMD_type _mm256_permute4x64_epi64(SIMD_type arg1, int sh)"],
+		"args_type":{"arg1":"SIMD_type", "sh":"signed_int(32)"},
+		"return_type":"SIMD_type",
+		"fws":[[256]],
+	},	
+
+	"_mm256_set_epi64x":\
+	{
+		"signature":["SIMD_type _mm256_set_epi64x(t arg1, t arg2, t arg3, t arg4)"],
+		"args_type":{"arg1":"signed_int(64)", "arg2":"signed_int(64)", "arg3":"signed_int(64)", "arg4":"signed_int(64)"},
+		"return_type":"SIMD_type",
+		"fws":[[256]],
+	},		
+
+	"__builtin_popcountll":\
+	{
+		"signature":["int __builtin_popcountll(t arg1)"],
+		"args_type":{"arg1":"unsigned_int(64)"},
+		"return_type":"int",
+		"fws":[[256]],
+	}
 }

@@ -864,6 +864,24 @@ return avx_general_combine256(_mm_sad_epu8(avx_select_hi128(tmpAns), _mm_set1_ep
 		"Fws":[64],
 		"Platforms":configure.AVX_SERIES,
 		},
+
+		"bitblock_popcount_256_avx2":\
+		{
+		"body":r'''
+return __builtin_popcountll(mvmd_extract(64, 0, arg1)) + __builtin_popcountll(mvmd_extract(64, 1, arg1)) + __builtin_popcountll(mvmd_extract(64, 2, arg1)) + __builtin_popcountll(mvmd_extract(64, 3, arg1))''',
+		"Ops":["bitblock_popcount"],
+		"Fws":[256],
+		"Platforms":[configure.AVX2],
+		},		
+
+		"simd_popcount_256_avx2":\
+		{
+		"body":r'''
+return _mm256_castsi128_si256(_mm_cvtsi64_si128(bitblock_popcount(arg1)))''',
+		"Ops":["simd_popcount"],
+		"Fws":[256],
+		"Platforms":[configure.AVX2],
+		},
 		
 		"ctz_blend":\
 		{
@@ -2038,6 +2056,24 @@ return simd_srli(curRegSize, sh*fw, arg1)''',
 		"Ops":["mvmd_srli"],
 		"Fws":range(2, curRegSize+1),
 		"Platforms":[configure.ALL],
+		},
+
+		"mvmd_slli_64_avx2_permute":\
+		{
+		"body":r'''
+return simd_and(_mm256_set_epi64x(-1, -1, -1, 0), _mm256_permute4x64_epi64(arg1, 128+16)) if sh == 1 else (simd_and(_mm256_set_epi64x(-1, -1, 0, 0), _mm256_permute4x64_epi64(arg1, 64)) if sh == 2 else (simd_and(_mm256_set_epi64x(-1, 0, 0, 0), _mm256_permute4x64_epi64(arg1, 0)) if sh == 3 else (arg1 if sh == 0 else simd_constant(32, 0))))''',
+		"Ops":["mvmd_slli"],
+		"Fws": [64],
+		"Platforms":[configure.AVX2],
+		},
+
+		"mvmd_srli_64_avx2_permute":\
+		{
+		"body":r'''
+return simd_and(_mm256_set_epi64x(0, 0, 0, -1), _mm256_permute4x64_epi64(arg1, 3)) if sh == 3 else (simd_and(_mm256_set_epi64x(0, 0, -1, -1), _mm256_permute4x64_epi64(arg1, 14)) if sh == 2 else (simd_and(_mm256_set_epi64x(0, -1, -1, -1), _mm256_permute4x64_epi64(arg1, 57)) if sh == 1 else (arg1 if sh == 0 else simd_constant(32, 0))))''',
+		"Ops":["mvmd_srli"],
+		"Fws":[64],
+		"Platforms":[configure.AVX2],
 		},
 		
 		"shufflei_64_blend":\
