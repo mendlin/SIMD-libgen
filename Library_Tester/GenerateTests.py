@@ -3,13 +3,14 @@
 # Licensed under the Academic Free License 3.0. 
 
 import os
+import ipdb
 
 import GenData
 import TesterUtility
 from TesterUtility import configure
 
 # Number of test cases. For development, use small number to test faster.
-maxTestCase = 10
+maxTestCase = 100
 
 def MakeTestdata(arch, definedOperations, validOperations):
 	testingData = {}
@@ -37,10 +38,11 @@ def MakeTestdata(arch, definedOperations, validOperations):
 				break
 			for i in range(len(templatedData)):
 				testingData[opFullName + "_" + str(regSize)][i].append(templatedData[i])
-		else:
+		else:			
 			#operations with other types
 			for validOp in validOperations[opFullName]:
-				operation = definedOperations[opFullName][validOp.fw]
+				operation = definedOperations[opFullName][validOp.fw]				
+
 				if operation.opPattern == 0:
 					#normal operations
 					testingData[opFullName + "_" + str(validOp.fw)] = GenData.MakeRandomData(operation, regSize, maxTestCase)
@@ -50,10 +52,12 @@ def MakeTestdata(arch, definedOperations, validOperations):
 					
 					templatedData = []
 					for key in operation.valueRange:
+						if "arg" in key:
+							# we want templated values only. Args can also appear in the valueRange
+							continue
 						lowBound = operation.valueRange[key]["min"]
 						upBound = operation.valueRange[key]["max"]
-						templatedData = TesterUtility.GetRandomNums(lowBound, upBound, maxTestCase)
-						break
+						templatedData = TesterUtility.GetRandomNums(lowBound, upBound, maxTestCase)						
 					
 					for i in range(len(templatedData)):
 						testingData[opFullName + "_" + str(validOp.fw)][i].append(templatedData[i])

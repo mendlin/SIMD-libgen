@@ -1,5 +1,6 @@
 import os
 import TesterUtility
+import ipdb
 from TesterUtility import configure
 
 class AbstractTestDriverGenerater:	
@@ -68,7 +69,12 @@ void Testing_$opFullName$(int fw)
 
 		arguments_init = ""
 		for i in range(oprdNum):
-			arguments_init += "\t" + SIMD_type + " arg" + str(i) + ";\n"
+			if operation.arguments[i].type == SIMD_type:
+				arguments_init += "\t" + SIMD_type + " arg" + str(i) + ";\n"
+			elif operation.arguments[i].type == "uint64_t":
+				arguments_init += "\t" + "uint64_t arg" + str(i) + ";\n"
+			else:
+				print "can't process this data type", operation.arguments[i].type			
 		
 		test_body = ""
 		for vop in validOperations[operation.fullName]:

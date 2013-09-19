@@ -546,7 +546,7 @@ typename FieldType<fw>::T val13, typename FieldType<fw>::T val14, typename Field
 
     "mvmd_insert":\
     {
-     "signature":"SIMD_type mvmd<fw>::insert<pos>(SIMD_type arg1, t arg2)",
+     "signature":"SIMD_type mvmd<fw>::insert<pos>(SIMD_type arg1, int arg2)",
      "args_type":{"arg1":"SIMD_type", "pos":"range(0, curRegSize/fw-1)", "arg2":"range(0, 2**fw-1)"},
      "return_type":"SIMD_type",
      "cpp_class_signature":"template <uint16_t pos> static inline SIMD_type insert(SIMD_type arg1, typename FieldType<fw>::T arg2)",

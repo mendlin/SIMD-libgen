@@ -213,6 +213,7 @@ SSE2BuiltIns = \
 		"return_type":"SIMD_type",
 		"fws":[[8]],
 	},
+
 	"mvmd_shufflei":\
 	{
 		"signature":["SIMD_type _mm_shuffle_epi$fw$(SIMD_type arg1, int msk)"],
@@ -220,6 +221,15 @@ SSE2BuiltIns = \
 		"return_type":"SIMD_type",
 		"fws":[[32]],
 	},
+
+	"mvmd_insert":\
+	{
+		"signature":["SIMD_type _mm_insert_epi16(SIMD_type arg1, int arg2, int pos)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"signed_int(32)", "pos":"signed_int(32)"},
+		"return_type":"SIMD_type",
+		"fws":[[16]],
+	},
+
 	"bitblock_load_aligned":\
 	{
 		"signature":["SIMD_type _mm_load_si128(SIMD_type* arg1)"],
