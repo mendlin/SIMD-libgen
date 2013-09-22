@@ -2645,7 +2645,29 @@ return _mm256_packs_epi32(alpha, beta)
 		"Ops":["hsimd_packss"],
 		"Fws":[32],
 		"Platforms":[configure.AVX2],
-		},		
+		},
+
+		"mvmd_insert_halfing": \
+		{
+		"body":r'''
+return mvmd_insert(fw/2, 2*pos, mvmd_insert(fw/2, 2*pos+1, arg1, (arg2 >> (fw/2))), (arg2 & ((1<<(fw/2)) - 1)))
+''',
+		"Ops":["mvmd_insert"],
+		"Fws":range(2, 65),
+		"Platforms":[configure.ALL],
+		},
+
+		"mvmd_insert_doubling": \
+		{
+		"body":r'''
+v = arg2 & ((1 << fw) - 1)
+doublev = mvmd_extract(fw*2, pos/2, arg1)
+return mvmd_insert(fw*2, pos/2, arg1, (((doublev >> fw) << fw) | v) if (pos & 1) == 0 else (doublev & ((1<<fw)-1) | (v << fw)))
+''',
+		"Ops":["mvmd_insert"],
+		"Fws":range(2, 33),
+		"Platforms":[configure.ALL],
+		},
 	}	
 	
 	return strategies
