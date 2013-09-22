@@ -588,6 +588,16 @@ return simd_or(_mm_sll_epi64(arg1, shift), simd_or(_mm_slli_si128(_mm_sll_epi64(
 		"Platforms":[arch for arch in configure.SSE_SERIES],
 		},
 
+		"sll_128_blend":\
+		{
+		"body":r'''
+shift = simd_and(shift_mask, _mm_cvtsi32_si128((1<<32)-1))
+return simd_or(_mm_sll_epi64(arg1, shift), simd_or(_mm_slli_si128(_mm_sll_epi64(arg1, simd_sub(32, shift, _mm_cvtsi32_si128(64))), 8),  _mm_slli_si128(_mm_srl_epi64(arg1, simd_sub(32, _mm_cvtsi32_si128(64), shift)), 8)))''',
+		"Ops":["simd_sll"],
+		"Fws":[128],
+		"Platforms":[arch for arch in configure.SSE_SERIES],
+		},
+
 # doesn't work...		
 #		"sll_64_neon":\
 #		{
@@ -689,9 +699,18 @@ return simd_or(_mm_srl_epi64(arg1, shift), simd_or(_mm_srli_si128(_mm_srl_epi64(
 		"Ops":["simd_vsrl"],
 		"Fws":[128],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
+		},		
+
+		"srl_128_blend":\
+		{
+		"body":r'''
+shift = simd_and(shift_mask, _mm_cvtsi32_si128((1<<32)-1))
+return simd_or(_mm_srl_epi64(arg1, shift), simd_or(_mm_srli_si128(_mm_srl_epi64(arg1, simd_sub(32, shift, _mm_cvtsi32_si128(64))), 8),  _mm_srli_si128(_mm_sll_epi64(arg1, simd_sub(32, _mm_cvtsi32_si128(64), shift)), 8)))''',
+		"Ops":["simd_srl"],
+		"Fws":[128],
+		"Platforms":[arch for arch in configure.SSE_SERIES],
 		},
 		
-		# TODO checking
 		"srl_256_blend":\
 		{
 		"body":r'''
@@ -704,8 +723,7 @@ return simd_constant(32, 0) if n>=4 else (simd_or(_mm256_srl_epi64(arg2, _mm_cvt
 		"Fws":[256],
 		"Platforms":[configure.AVX2],
 		},
-
-		# TODO checking
+		
 		"sll_256_blend":\
 		{
 		"body":r'''
