@@ -2669,16 +2669,6 @@ return mvmd_insert(fw*2, pos/2, arg1, (((doublev >> fw) << fw) | v) if (pos & 1)
 		"Platforms":[configure.ALL],
 		},
 
-		"mvmd_insert_sse_128": \
-		{
-		"body":r'''
-return mvmd_fill(128, arg2);
-''',
-		"Ops":["mvmd_insert"],
-		"Fws":[128],
-		"Platforms":configure.SSE_SERIES,
-		},		
-
 		"mvmd_insert_16_avx2": \
 		{
 		"body":r'''
