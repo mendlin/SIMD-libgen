@@ -528,5 +528,14 @@ AVX2BuiltIns = \
 		"args_type":{"arg1":"unsigned_int(64)"},
 		"return_type":"int",
 		"fws":[[256]],
-	}
+	},
+
+	"_mm_insert_epi16":\
+	{
+		"signature":["__m128i _mm_insert_epi16(t arg1, t i, t imm)"],
+		"args_type":{"arg1":"__m128i", "i":"signed_int(32)", "imm":"signed_int(32)"},
+		"return_type":"__m128i",
+		"fws":[[16]],
+	},		
 }
+

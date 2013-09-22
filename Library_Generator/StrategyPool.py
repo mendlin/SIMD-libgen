@@ -2668,6 +2668,26 @@ return mvmd_insert(fw*2, pos/2, arg1, (((doublev >> fw) << fw) | v) if (pos & 1)
 		"Fws":range(2, 33),
 		"Platforms":[configure.ALL],
 		},
+
+		"mvmd_insert_sse_128": \
+		{
+		"body":r'''
+return mvmd_fill(128, arg2);
+''',
+		"Ops":["mvmd_insert"],
+		"Fws":[128],
+		"Platforms":configure.SSE_SERIES,
+		},		
+
+		"mvmd_insert_16_avx2": \
+		{
+		"body":r'''
+return avx_general_combine256(avx_select_hi128(arg1), _mm_insert_epi16(avx_select_lo128(arg1), arg2, pos)) if pos < 8 else avx_general_combine256(_mm_insert_epi16(avx_select_hi128(arg1), arg2, pos-8), avx_select_lo128(arg1))
+''',
+		"Ops":["mvmd_insert"],
+		"Fws":[16],
+		"Platforms":[configure.AVX2],
+		},
 	}	
 	
 	return strategies
