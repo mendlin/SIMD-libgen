@@ -1128,6 +1128,16 @@ return simd_constant(2*fw, (val<<fw)|(val^(-1<<fw))) if val<0 else simd_constant
 		"Platforms":[configure.ALL],
 		},
 
+		"constant_doubling_1":\
+		{
+		"body":r'''
+return simd_constant(2*fw, (val<<fw) | (val & ((1<<fw)-1)))
+''',
+		"Ops":["simd_constant"],
+		"Fws":range(2, 5),
+		"Platforms":[configure.ALL],
+		},
+
 		"constant_1_blend":\
 		{
 		#simd<1>::constant only accepts 0 or 1
