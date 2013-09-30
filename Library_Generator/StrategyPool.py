@@ -749,7 +749,7 @@ return avx_byte_shift_right(arg1, (sh)/8) if (sh%8==0) else (simd_srli(64, (sh)&
 		"srli_256_avx":\
 		{
 		"body":r'''
-return simd_or(simd_srli(128, sh, arg1), simd_slli(128, (128-sh), IDISA_CASTING("SIMD_type", _mm256_castsi128_si256(avx_select_hi128(arg1))))) if (sh<128) else simd_srli(128, (sh - 128), avx_move_hi128_to_lo128(arg1))''', 
+return simd_or(simd_srli(128, sh, arg1), simd_slli(128, (128-sh), IDISA_CASTING("_mm256_castsi128_si256", avx_select_hi128(arg1)))) if (sh<128) else simd_srli(128, (sh - 128), avx_move_hi128_to_lo128(arg1))''', 
 		"Ops":["simd_srli"],
 		"Fws":[256],
 		"Platforms":configure.AVX_SERIES,
@@ -1534,22 +1534,20 @@ return (IDISA_CASTING("uint64_t", _mm_movemask_epi8(IDISA_CASTING("__m128i", avx
 		"Fws":[8],
 		"Platforms":[configure.AVX],
 		},
-
-		# TODO checking
+		
 		"signmask_avx2_32":\
 		{
 		"body":r'''
-return _mm256_movemask_ps(_mm256_castsi256_ps(arg1))''',
+return _mm256_movemask_ps(IDISA_CASTING("_mm256_castsi256_ps", arg1))''',
 		"Ops":["hsimd_signmask"],
 		"Fws":[32],
 		"Platforms":[configure.AVX2],
 		},
-
-		# TODO checking
+		
 		"signmask_avx2_64":\
 		{
 		"body":r'''
-return _mm256_movemask_pd(_mm256_castsi256_pd(arg1))''',
+return _mm256_movemask_pd(IDISA_CASTING("_mm256_castsi256_pd", arg1))''',
 		"Ops":["hsimd_signmask"],
 		"Fws":[64],
 		"Platforms":[configure.AVX2],
