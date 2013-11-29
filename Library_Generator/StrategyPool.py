@@ -462,7 +462,7 @@ return simd_sub(fw, simd_constant(fw, 0), arg1)''',
 		"neg_8_Packed SIGN":\
 		{
 		"body":r'''
-return _mm_sign_epi8(arg1, simd_constant(fw, -1))''',
+return _mm_sign_epi8(arg1, simd_constant(fw, (1<<fw)-1))''',
 		"Ops":["simd_neg"],
 		"Fws":[8],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
@@ -471,7 +471,7 @@ return _mm_sign_epi8(arg1, simd_constant(fw, -1))''',
 		"neg_16_Packed SIGN":\
 		{
 		"body":r'''
-return _mm_sign_epi16(arg1, simd_constant(fw, -1))''',
+return _mm_sign_epi16(arg1, simd_constant(fw, (1<<fw)-1))''',
 		"Ops":["simd_neg"],
 		"Fws":[16],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
@@ -480,7 +480,7 @@ return _mm_sign_epi16(arg1, simd_constant(fw, -1))''',
 		"neg_32_Packed SIGN":\
 		{
 		"body":r'''
-return _mm_sign_epi32(arg1, simd_constant(fw, -1))''',
+return _mm_sign_epi32(arg1, simd_constant(fw, (1<<fw)-1))''',
 		"Ops":["simd_neg"],
 		"Fws":[32],
 		"Platforms":[arch for arch in configure.SSE_SERIES],

@@ -1,4 +1,4 @@
-#include "idisa_sse4_1.h"
+#include "idisa_sse2.h"
 #define USE_SSE
 typedef __m128i SIMD_type;
 #include <vector>
