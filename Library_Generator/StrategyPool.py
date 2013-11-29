@@ -1094,7 +1094,7 @@ return _mm_set_epi32((1<<32)-1, (1<<32)-1, 0, 0)''',
 		"himask_128_avx":\
 		{
 		"body":r'''
-return IDISA_CASTING("SIMD_type", _mm256_set_epi32(-1,-1, 0, 0,-1,-1, 0, 0))''',
+return IDISA_CASTING("SIMD_type", _mm256_set_epi32((1<<32)-1,(1<<32)-1, 0, 0,(1<<32)-1,(1<<32)-1, 0, 0))''',
 		"Ops":["simd_himask"],
 		"Fws":[128],
 		"Platforms":configure.AVX_SERIES,
@@ -1103,7 +1103,7 @@ return IDISA_CASTING("SIMD_type", _mm256_set_epi32(-1,-1, 0, 0,-1,-1, 0, 0))''',
 		"himask_256_avx":\
 		{
 		"body":r'''
-return IDISA_CASTING("SIMD_type", _mm256_set_epi32(-1,-1,-1,-1, 0, 0, 0, 0))''',
+return IDISA_CASTING("SIMD_type", _mm256_set_epi32((1<<32)-1,(1<<32)-1,(1<<32)-1,(1<<32)-1, 0, 0, 0, 0))''',
 		"Ops":["simd_himask"],
 		"Fws":[256],
 		"Platforms":configure.AVX_SERIES,
@@ -2087,7 +2087,7 @@ return simd_srli(curRegSize, sh*fw, arg1)''',
 		"mvmd_slli_64_avx2_permute":\
 		{
 		"body":r'''
-return simd_and(_mm256_set_epi64x(-1, -1, -1, 0), _mm256_permute4x64_epi64(arg1, 128+16)) if sh == 1 else (simd_and(_mm256_set_epi64x(-1, -1, 0, 0), _mm256_permute4x64_epi64(arg1, 64)) if sh == 2 else (simd_and(_mm256_set_epi64x(-1, 0, 0, 0), _mm256_permute4x64_epi64(arg1, 0)) if sh == 3 else (arg1 if sh == 0 else simd_constant(32, 0))))''',
+return simd_and(_mm256_set_epi64x(18446744073709551615, 18446744073709551615, 18446744073709551615, 0), _mm256_permute4x64_epi64(arg1, 128+16)) if sh == 1 else (simd_and(_mm256_set_epi64x(18446744073709551615, 18446744073709551615, 0, 0), _mm256_permute4x64_epi64(arg1, 64)) if sh == 2 else (simd_and(_mm256_set_epi64x(18446744073709551615, 0, 0, 0), _mm256_permute4x64_epi64(arg1, 0)) if sh == 3 else (arg1 if sh == 0 else simd_constant(32, 0))))''',
 		"Ops":["mvmd_slli"],
 		"Fws": [64],
 		"Platforms":[configure.AVX2],
@@ -2096,7 +2096,7 @@ return simd_and(_mm256_set_epi64x(-1, -1, -1, 0), _mm256_permute4x64_epi64(arg1,
 		"mvmd_srli_64_avx2_permute":\
 		{
 		"body":r'''
-return simd_and(_mm256_set_epi64x(0, 0, 0, -1), _mm256_permute4x64_epi64(arg1, 3)) if sh == 3 else (simd_and(_mm256_set_epi64x(0, 0, -1, -1), _mm256_permute4x64_epi64(arg1, 14)) if sh == 2 else (simd_and(_mm256_set_epi64x(0, -1, -1, -1), _mm256_permute4x64_epi64(arg1, 57)) if sh == 1 else (arg1 if sh == 0 else simd_constant(32, 0))))''',
+return simd_and(_mm256_set_epi64x(0, 0, 0, 18446744073709551615), _mm256_permute4x64_epi64(arg1, 3)) if sh == 3 else (simd_and(_mm256_set_epi64x(0, 0, 18446744073709551615, 18446744073709551615), _mm256_permute4x64_epi64(arg1, 14)) if sh == 2 else (simd_and(_mm256_set_epi64x(0, 18446744073709551615, 18446744073709551615, 18446744073709551615), _mm256_permute4x64_epi64(arg1, 57)) if sh == 1 else (arg1 if sh == 0 else simd_constant(32, 0))))''',
 		"Ops":["mvmd_srli"],
 		"Fws":[64],
 		"Platforms":[configure.AVX2],
