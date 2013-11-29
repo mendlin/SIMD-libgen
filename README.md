@@ -1,4 +1,4 @@
-Copyright (c) 2011, Hua Huang and Robert D. Cameron.
+Copyright (c) 2011, Hua Huang, Robert D. Cameron and Meng Lin.
 
 Licensed under the Academic Free License 3.0. 
 
