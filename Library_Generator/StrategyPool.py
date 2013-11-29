@@ -821,7 +821,7 @@ return neon_shift_right_64_bits(arg1) if sh==64 else (simd_srli(64, (sh)&0x3F, n
 		"not_blend":\
 		{
 		"body":r'''
-return simd_xor(arg1, simd_constant(32, -1))''',
+return simd_xor(arg1, simd_constant(32, 4294967295))''',
 		"Ops":["simd_not"],
 		"Fws":[1],
 		"Platforms":[configure.ALL],
@@ -977,7 +977,7 @@ return simd_constant(fw, (1<<(fw/2))-1)''',
 		"lomask_64_blend":\
 		{
 		"body":r'''
-return _mm_set_epi32(0,-1, 0, -1)''',
+return _mm_set_epi32(0,(1<<32)-1, 0, (1<<32)-1)''',
 		"Ops":["simd_lomask"],
 		"Fws":[64],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
@@ -986,7 +986,7 @@ return _mm_set_epi32(0,-1, 0, -1)''',
 		"lomask_64_avx":\
 		{
 		"body":r'''
-return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, -1, 0, -1, 0, -1, 0, -1))''',
+return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, (1<<32)-1, 0, (1<<32)-1, 0, (1<<32)-1, 0, (1<<32)-1))''',
 		"Ops":["simd_lomask"],
 		"Fws":[64],
 		"Platforms":configure.AVX_SERIES,
@@ -1004,7 +1004,7 @@ return simd_constant(64, 4294967295L)''',
 		"lomask_128_blend":\
 		{
 		"body":r'''
-return _mm_set_epi32(0, 0, -1, -1)''',
+return _mm_set_epi32(0, 0, (1<<32)-1, (1<<32)-1)''',
 		"Ops":["simd_lomask"],
 		"Fws":[128],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
@@ -1013,7 +1013,7 @@ return _mm_set_epi32(0, 0, -1, -1)''',
 		"lomask_128_avx":\
 		{
 		"body":r'''
-return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, 0, -1, -1, 0, 0,-1, -1))''',
+return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, 0, (1<<32)-1, (1<<32)-1, 0, 0,(1<<32)-1, (1<<32)-1))''',
 		"Ops":["simd_lomask"],
 		"Fws":[128],
 		"Platforms":configure.AVX_SERIES,
@@ -1022,7 +1022,7 @@ return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, 0, -1, -1, 0, 0,-1, -1))''
 		"lomask_256_avx":\
 		{
 		"body":r'''
-return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, 0, 0, 0,-1,-1,-1,-1))''',
+return IDISA_CASTING("SIMD_type", _mm256_set_epi32(0, 0, 0, 0,(1<<32)-1,(1<<32)-1,(1<<32)-1,(1<<32)-1))''',
 		"Ops":["simd_lomask"],
 		"Fws":[256],
 		"Platforms":configure.AVX_SERIES,
@@ -1049,7 +1049,7 @@ return simd_constant(fw, (0-(1<<(fw/2)))&((1<<fw)-1))''',
 		"himask_32_blend":\
 		{
 		"body":r'''
-return simd_constant(fw, -65536)''',
+return simd_constant(fw, 4294901760)''',
 		"Ops":["simd_himask"],
 		"Fws":[32],
 		"Platforms":[configure.ALL],
@@ -1058,7 +1058,7 @@ return simd_constant(fw, -65536)''',
 		"himask_64_blend":\
 		{
 		"body":r'''
-return _mm_set_epi32(-1, 0, -1, 0)''',
+return _mm_set_epi32((1<<32)-1, 0, (1<<32)-1, 0)''',
 		"Ops":["simd_himask"],
 		"Fws":[64],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
@@ -1067,7 +1067,7 @@ return _mm_set_epi32(-1, 0, -1, 0)''',
 		"himask_64_avx":\
 		{
 		"body":r'''
-return IDISA_CASTING("SIMD_type", _mm256_set_epi32(-1, 0, -1, 0, -1, 0, -1, 0))''',
+return IDISA_CASTING("SIMD_type", _mm256_set_epi32((1<<32)-1, 0, (1<<32)-1, 0, (1<<32)-1, 0, (1<<32)-1, 0))''',
 		"Ops":["simd_himask"],
 		"Fws":[64],
 		"Platforms":configure.AVX_SERIES,
@@ -1085,7 +1085,7 @@ return simd_constant(64, 18446744069414584320L)''',
 		"himask_128_blend":\
 		{
 		"body":r'''
-return _mm_set_epi32(-1, -1, 0, 0)''',
+return _mm_set_epi32((1<<32)-1, (1<<32)-1, 0, 0)''',
 		"Ops":["simd_himask"],
 		"Fws":[128],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
@@ -1142,7 +1142,7 @@ return simd_constant(2*fw, (val<<fw) | (val & ((1<<fw)-1)))
 		{
 		#simd<1>::constant only accepts 0 or 1
 		"body":r'''
-return simd_constant(32, -1*val)
+return simd_constant(2, val + val + val)
 ''',
 		"Ops":["simd_constant"],
 		"Fws":[1],
@@ -2469,7 +2469,7 @@ return hsimd_signmask(32, simd_eq(32, arg1, simd_constant(32, 0))) != 15''',
 		"bitblock_all_movemask":\
 		{
 		"body":r'''
-return hsimd_signmask(8, simd_eq(8, arg1, simd_constant(8, -1))) == 0xFFFF''',
+return hsimd_signmask(8, simd_eq(8, arg1, simd_constant(8, 255))) == 0xFFFF''',
 		"Ops":["bitblock_all"],
 		"Fws":[curRegSize],
 		"Platforms":[arch for arch in configure.SSE_SERIES],
@@ -2478,7 +2478,7 @@ return hsimd_signmask(8, simd_eq(8, arg1, simd_constant(8, -1))) == 0xFFFF''',
 		"bitblock_all_avx_using_VPTEST":\
 		{
 		"body":r'''
-return _mm256_testz_si256(IDISA_CASTING("__m256i", simd_not(arg1)), IDISA_CASTING("__m256i", simd_constant(8, -1))) == 1''',
+return _mm256_testz_si256(IDISA_CASTING("__m256i", simd_not(arg1)), IDISA_CASTING("__m256i", simd_constant(8, 255))) == 1''',
 		"Ops":["bitblock_all"],
 		"Fws":[curRegSize],
 		"Platforms":configure.AVX_SERIES,
@@ -2487,7 +2487,7 @@ return _mm256_testz_si256(IDISA_CASTING("__m256i", simd_not(arg1)), IDISA_CASTIN
 		"bitblock_all_neon":\
 		{
 		"body":r'''
-return hsimd_signmask(32, simd_eq(32, arg1, simd_constant(32, -1))) == 15''',
+return hsimd_signmask(32, simd_eq(32, arg1, simd_constant(32, 4294967295))) == 15''',
 		"Ops":["bitblock_all"],
 		"Fws":[curRegSize],
 		"Platforms":[configure.NEON],
