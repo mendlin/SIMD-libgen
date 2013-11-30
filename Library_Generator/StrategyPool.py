@@ -397,7 +397,7 @@ return simd_ifh(1, simd_himask(fw), tmpAns, simd_ifh(1, eqMask1, simd_ifh(1, eqM
 		"srai_halving":\
 		{
 		"body":r'''
-return simd_or(simd_and(simd_himask(fw), simd_srai(fw/2, sh if sh<fw/2 else fw/2, arg1)), simd_srli(fw, sh, arg1) if sh<=fw/2 else simd_srai(fw/2, sh-(fw/2), simd_srli(fw, fw/2, arg1)))''',
+return simd_or(simd_and(simd_himask(fw), simd_srai(fw/2, sh if sh<fw/2 else fw/2, arg1)), simd_srli(fw, sh, arg1) if sh<=fw/2 else simd_srai(fw/2, max(0, sh-(fw/2)), simd_srli(fw, fw/2, arg1)))''',
 		"Ops":["simd_srai"],
 		"Fws":[-1],
 		"Platforms":[configure.ALL],
