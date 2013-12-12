@@ -12,6 +12,7 @@ import SSE4_2Instructions
 import NEONInstructions
 import AVXInstructions
 import AVX2Instructions
+import LLVMInstructions
 
 from Utility import configure
 
@@ -32,6 +33,8 @@ def Load(arch):
 		return AVX2Instructions.AVX2BuiltIns
 	elif arch == configure.NEON:
 		return NEONInstructions.NEONBuiltIns
+	elif arch == configure.LLVM128:
+		return LLVMInstructions.LLVMBuiltIns
 	else:
 		print "The generator doesn't support this arch =", arch
 		sys.exit()

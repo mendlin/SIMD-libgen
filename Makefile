@@ -26,6 +26,7 @@ IDISA_NEON_CPP_LIB = idisa_neon
 
 IDISA_AVX_CPP_LIB = idisa_avx
 IDISA_AVX2_CPP_LIB = idisa_avx2
+IDISA_LLVM128_CPP_LIB = idisa_llvm128
 
 IDISA128 = idisa128
 
@@ -115,6 +116,9 @@ avx2:
 	python $(IDISA_GENERATOR) -a avx2 -l cpp -f $(IDISA_AVX2_CPP_LIB).h -g
 avx2_test:
 	python $(IDISA_TESTER) -a avx2 -l cpp -f $(IDISA_AVX2_CPP_LIB) -t
+
+llvm:
+	python $(IDISA_GENERATOR) -a llvm128 -l cpp -f $(IDISA_LLVM128_CPP_LIB).h -g 
 #avx_strategy_count:
 #	python $(IDISA_GENERATOR) -a avx -l cpp -f $(IDISA_AVX_CPP_LIB).h -g --strategy_count = True
 #avx_strategy_compare:
