@@ -10,162 +10,109 @@ LLVMBuiltIns = \
 {
 	"simd_and":\
 	{
-		"signature":["SIMD_type _mm256_and_si256(SIMD_type arg1, SIMD_type arg2)"],
-		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
-		"return_type":"SIMD_type",
-		"fws":[[1]],
-	},
-	"simd_andc":\
-	{
-		"signature":["SIMD_type _mm256_andnot_si256(SIMD_type arg2, SIMD_type arg1)"],
+		"signature":["SIMD_type llvm_and_128(SIMD_type arg1, SIMD_type arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
 		"fws":[[1]],
 	},
 	"simd_or":\
 	{
-		"signature":["SIMD_type _mm256_or_si256(SIMD_type arg1, SIMD_type arg2)"],
+		"signature":["SIMD_type llvm_or_128(SIMD_type arg1, SIMD_type arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
 		"fws":[[1]],
 	},
 	"simd_xor":\
 	{
-		"signature":["SIMD_type _mm256_xor_si256(SIMD_type arg1, SIMD_type arg2)"],
+		"signature":["SIMD_type llvm_xor_128(SIMD_type arg1, SIMD_type arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
 		"fws":[[1]],
-	},	
-	"simd_ifh":\
-	{
-		"signature":["SIMD_type _mm256_blendv_epi8(SIMD_type arg3, SIMD_type arg2, SIMD_type arg1)"],
-		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type", "arg3":"SIMD_type"},
-		"return_type":"SIMD_type",
-		"fws":[[8]],
 	},
 	"simd_add":\
 	{
-		"signature":["SIMD_type _mm256_add_epi$fw$(SIMD_type arg1, SIMD_type arg2)"],
+		"signature":["SIMD_type llvm_add_$fw$(SIMD_type arg1, SIMD_type arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[8, 16, 32, 64]],
+		"fws":[[2, 4, 8, 16, 32, 64, 128]],
 	},
 	"simd_sub":\
 	{
-		"signature":["t _mm256_sub_epi$fw$(t arg1, t arg2)"],
+		"signature":["t llvm_sub_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[8, 16, 32, 64]],
+		"fws":[[2, 4, 8, 16, 32, 64, 128]],
 	},
-
-	# CAUSION: Simd umult is not exactly what we want. 
-	# For _mm256_mul_epu32:
-	#   Multiply the low unsigned 32-bit integers from each packed 64-bit element in a and b, 
-	#   and store the unsigned 64-bit results in dst.
 	"simd_umult":\
 	{
-		"signature":["t _mm256_mul_epu32(t arg1, t arg2)"],
+		"signature":["t llvm_mul_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[32]],
+		"fws":[[2, 4, 8, 16, 32, 64, 128]],
 	},	
 	"simd_mult":\
 	{
-		"signature":["t _mm256_mullo_epi$fw$(t arg1, t arg2)"],
+		"signature":["t llvm_mul_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[16, 32]],
+		"fws":[[2, 4, 8, 16, 32, 64, 128]],
 	},
 	"simd_eq":\
 	{
-		"signature":["t _mm256_cmpeq_epi$fw$(t arg1, t arg2)"],
+		"signature":["t llvm_icmp_eq_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[8, 16, 32, 64]],
+		"fws":[[2, 4, 8, 16, 32, 64, 128]],
 	},
 	"simd_gt":\
 	{
-		"signature":["t _mm256_cmpgt_epi$fw$(t arg1, t arg2)"],
+		"signature":["t llvm_icmp_sgt_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[8, 16, 32, 64]],
+		"fws":[[2, 4, 8, 16, 32, 64, 128]],
 	},
-	"simd_max":\
+	"simd_ugt":\
 	{
-		"signature":["t _mm256_max_epi$fw$(t arg1, t arg2)"],
+		"signature":["t llvm_icmp_ugt_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[8, 16, 32]],
+		"fws":[[2, 4, 8, 16, 32, 64, 128]],
 	},
-	"simd_umax":\
+	"simd_lt":\
 	{
-		"signature":["t _mm256_max_epu$fw$(t arg1, t arg2)"],
+		"signature":["t llvm_icmp_slt_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[8, 16, 32]],
+		"fws":[[2, 4, 8, 16, 32, 64, 128]],
 	},
-	"simd_min":\
+	"simd_ult":\
 	{
-		"signature":["t _mm256_min_epi$fw$(t arg1, t arg2)"],
+		"signature":["t llvm_icmp_ult_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[8, 16, 32]],
-	},
-	"simd_umin":\
+		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+	},	
+	"simd_vsrl":\
 	{
-		"signature":["t _mm256_min_epu$fw$(t arg1, t arg2)"],
-		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
-		"return_type":"SIMD_type",
-		"fws":[[8, 16, 32]],
-	},
-	"simd_srli":\
-	{
-		"signature":["t _mm256_srli_epi$fw$(t arg1, t sh)"],
-		"args_type":{"arg1":"SIMD_type", "sh":"signed_int(32)"},
-		"return_type":"SIMD_type",
-		"fws":[[16, 32, 64]],
-	},
-
-	"simd_srl":\
-	{
-		"signature":["t _mm256_srl_epi$fw$(t arg1, __m128i shift_mask)"],
+		"signature":["t llvm_lshr_fw$(t arg1, __m128i shift_mask)"],
 		"args_type":{"arg1":"SIMD_type", "shift_mask":"__m128i"},
 		"return_type":"SIMD_type",
-		"fws":[[16, 32, 64]],
-	},
-
-	"simd_slli":\
+		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+	},	
+	"simd_vsra":\
 	{
-		"signature":["t _mm256_slli_epi$fw$(t arg1, t sh)"],
-		"args_type":{"arg1":"SIMD_type", "sh":"signed_int(32)"},
-		"return_type":"SIMD_type",
-		"fws":[[16, 32, 64]],
-	},
-
-	"simd_sll":\
-	{
-		"signature":["t _mm256_sll_epi$fw$(t arg1, t shift_mask)"],
+		"signature":["t llvm_ashr_$fw$(t arg1, __m128i shift_mask)"],
 		"args_type":{"arg1":"SIMD_type", "shift_mask":"__m128i"},
 		"return_type":"SIMD_type",
-		"fws":[[16, 32, 64]],
+		"fws":[[2, 4, 8, 16, 32, 64, 128]],
 	},
-
-	"simd_srai":\
+	"simd_vsll":\
 	{
-		"signature":["t _mm256_srai_epi$fw$(t arg1, t sh)"],
-		"args_type":{"arg1":"SIMD_type", "sh":"signed_int(32)"},
-		"return_type":"SIMD_type",
-		"fws":[[16, 32]],
-	},
-
-	"simd_sra":\
-	{
-		"signature":["t _mm256_sra_epi$fw$(t arg1, t shift_mask)"],
+		"signature":["t llvm_shl_$fw$(t arg1, t shift_mask)"],
 		"args_type":{"arg1":"SIMD_type", "shift_mask":"__m128i"},
 		"return_type":"SIMD_type",
-		"fws":[[16, 32]],
-	},
-
+		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+	},	
 	"simd_constant":\
 	{
 		"signature":["SIMD_type _mm256_set1_epi$fw$(int val)"],
@@ -173,14 +120,6 @@ LLVMBuiltIns = \
 		"return_type":"SIMD_type",
 		"fws":[[8, 16, 32]],
 	},
-	"simd_abs":\
-	{
-		"signature":["t _mm256_abs_epi$fw$(t arg1)"],
-		"args_type":{"arg1":"SIMD_type"},
-		"return_type":"SIMD_type",
-		"fws":[[8, 16, 32]],
-	},	
-
 	"mvmd_fill":\
 	{
 		"signature":["SIMD_type (SIMD_type)_mm256_set1_epi$fw$(int val1)"],
