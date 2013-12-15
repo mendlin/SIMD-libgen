@@ -119,6 +119,8 @@ avx2_test:
 
 llvm:
 	python $(IDISA_GENERATOR) -a llvm128 -l cpp -f $(IDISA_LLVM128_CPP_LIB).h -g 
+llvm_test:
+	python $(IDISA_TESTER) -a llvm128 -l cpp -f $(IDISA_LLVM128_CPP_LIB) -t	
 #avx_strategy_count:
 #	python $(IDISA_GENERATOR) -a avx -l cpp -f $(IDISA_AVX_CPP_LIB).h -g --strategy_count = True
 #avx_strategy_compare:

@@ -94,7 +94,7 @@ LLVMBuiltIns = \
 	},	
 	"simd_vsrl":\
 	{
-		"signature":["t llvm_lshr_fw$(t arg1, __m128i shift_mask)"],
+		"signature":["t llvm_lshr_$fw$(t arg1, __m128i shift_mask)"],
 		"args_type":{"arg1":"SIMD_type", "shift_mask":"__m128i"},
 		"return_type":"SIMD_type",
 		"fws":[[2, 4, 8, 16, 32, 64, 128]],
@@ -115,39 +115,31 @@ LLVMBuiltIns = \
 	},	
 	"bitblock_load_aligned":\
 	{
-		"signature":["SIMD_type _mm256_load_si256(SIMD_type* arg1)"],
+		"signature":["SIMD_type llvm_load_aligned(SIMD_type* arg1)"],
 		"args_type":{"arg1":"SIMD_type*"},
 		"return_type":"SIMD_type",
-		"fws":[[256]],
+		"fws":[[128]],
 	},
 	"bitblock_store_aligned":\
 	{
-		"signature":["void _mm256_store_si256(SIMD_type* arg2, SIMD_type arg1)"],
+		"signature":["void llvm_store_aligned(SIMD_type* arg2, SIMD_type arg1)"],
 		"args_type":{"arg2":"SIMD_type*", "arg1":"SIMD_type"},
 		"return_type":"void",
-		"fws":[[256]],
+		"fws":[[128]],
 	},
 	"bitblock_load_unaligned":\
 	{
-		"signature":["SIMD_type _mm256_loadu_si256(SIMD_type* arg1)"],
+		"signature":["SIMD_type llvm_load_unaligned(SIMD_type* arg1)"],
 		"args_type":{"arg1":"SIMD_type*"},
 		"return_type":"SIMD_type",
-		"fws":[[256]],
+		"fws":[[128]],
 	},
 	"bitblock_store_unaligned":\
 	{
-		"signature":["void _mm256_storeu_si256(SIMD_type* arg2, SIMD_type arg1)"],
+		"signature":["void llvm_store_unaligned(SIMD_type* arg2, SIMD_type arg1)"],
 		"args_type":{"arg2":"SIMD_type*", "arg1":"SIMD_type"},
 		"return_type":"void",
-		"fws":[[256]],
-	},
-
-	"hsimd_signmask":\
-	{
-		"signature":["int _mm256_movemask_epi8(SIMD_type arg1)"],
-		"args_type":{"arg1":"SIMD_type"},
-		"return_type":"int",
-		"fws":[[8]],	
+		"fws":[[128]],
 	}
 }
 
