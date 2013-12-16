@@ -1,5 +1,6 @@
 typedef int SIMD_type __attribute__((__vector_size__(16)));
 
+extern "C" {
 SIMD_type llvm_add_2(SIMD_type a, SIMD_type b);
 SIMD_type llvm_add_4(SIMD_type a, SIMD_type b);
 SIMD_type llvm_add_8(SIMD_type a, SIMD_type b);
@@ -108,3 +109,4 @@ SIMD_type llvm_load_aligned(SIMD_type *a);
 SIMD_type llvm_load_unaligned(SIMD_type *a);
 void llvm_store_aligned(SIMD_type a, SIMD_type *addr);
 void llvm_store_unaligned(SIMD_type a, SIMD_type *addr);
+}

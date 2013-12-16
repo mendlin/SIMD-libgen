@@ -1,5 +1,5 @@
 #include "idisa_llvm128.h"
-#define missing arch define
+#define USE_LLVM128
 typedef SIMD_type SIMD_type;
 #include <vector>
 #include <iostream>
@@ -129,7 +129,6 @@ SIMD_type LoadfromString(string s, int opt)
 			break;
 		case 1:
 {
-#ifdef USE_SSE
 			int buf[4];
 			regSize = 128;
 			
@@ -148,7 +147,10 @@ SIMD_type LoadfromString(string s, int opt)
 				buf[3-i/32] = BitString2Int(s.substr(i, 32));
 			}
 			//cout << endl;
+#ifdef USE_SSE
 			ans = _mm_loadu_si128((SIMD_type *)buf);
+#else
+			ans = bitblock::load_unaligned((SIMD_type *)buf);
 #endif
 }
 			break;
@@ -200,6 +202,7 @@ SIMD_type LoadfromString(string s, int opt)
 }
 			break;
 		default:
+			cerr << "LoadfromString Invalid opt code! Get opt code = " << opt << endl;
 			break;
 	}
 	return ans;
@@ -221,12 +224,14 @@ SIMD_type LoadfromInt(int x, int opt)
 			break;
 		case 1:
 {
-#ifdef USE_SSE
 			int buf[4];
 			
 			buf[0] = buf[1] = buf[2] = buf[3] = x;
 			
+#ifdef USE_SSE
 			ans = _mm_loadu_si128((SIMD_type *)buf);
+#else
+			ans = bitblock::load_unaligned((SIMD_type *)buf);
 #endif
 }
 			break;
@@ -261,6 +266,7 @@ SIMD_type LoadfromInt(int x, int opt)
 }
 			break;
 		default:
+			cerr << "LoadfromInt Invalid opt code! Get opt code = " << opt << endl;
 			break;
 	}
 	return ans;
@@ -280,9 +286,12 @@ string Store2String(SIMD_type v, int opt)
 			break;
 		case 1:
 {
-#ifdef USE_SSE
 			int buf[4];
+#ifdef USE_SSE
 			_mm_storeu_si128((SIMD_type *)buf, v);
+#else
+			bitblock::store_unaligned(v, (SIMD_type *)buf);			
+#endif
 			/*
 			//big endian
 			for(int i=0; i<4; i++)
@@ -295,7 +304,6 @@ string Store2String(SIMD_type v, int opt)
 			{
 				ans = ans + Int2BitString(buf[i]);	
 			}
-#endif
 }
 			break;
 		case 2:
@@ -353,6 +361,7 @@ string Store2String(SIMD_type v, int opt)
 }
 			break;
 		default:
+			cerr << "Store2String opt code wrong! Get opt code = " << opt << endl;
 			break;
 	}
 	return ans;

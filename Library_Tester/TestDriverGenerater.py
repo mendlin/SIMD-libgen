@@ -229,6 +229,10 @@ void Testing_$opFullName$(int fw)
 			return "USE_AVX2"
 		elif arch == configure.NEON:
 			return "USE_NEON"
+		elif arch == configure.LLVM128:
+			return "USE_LLVM128"
+			
+		print "WARNING: GetArchSymbol: arch not recognized"
 		return "missing arch define"
 
 class CppDriverGenerater(AbstractTestDriverGenerater):

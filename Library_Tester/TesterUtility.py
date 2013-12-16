@@ -38,6 +38,10 @@ def GetOptId(arch):
 		return 2
 	elif "neon" in arch:
 		return 3
+	elif "llvm128" in arch:
+		return 1
+
+	print "WARNING: GetOptId, arch not recognized"
 	return -1
 
 def GetRandomNums(low, up, ct):

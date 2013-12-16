@@ -122,8 +122,8 @@ LLVMBuiltIns = \
 	},
 	"bitblock_store_aligned":\
 	{
-		"signature":["void llvm_store_aligned(SIMD_type* arg2, SIMD_type arg1)"],
-		"args_type":{"arg2":"SIMD_type*", "arg1":"SIMD_type"},
+		"signature":["void llvm_store_aligned(SIMD_type arg1, SIMD_type* arg2)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type*"},
 		"return_type":"void",
 		"fws":[[128]],
 	},
@@ -136,8 +136,8 @@ LLVMBuiltIns = \
 	},
 	"bitblock_store_unaligned":\
 	{
-		"signature":["void llvm_store_unaligned(SIMD_type* arg2, SIMD_type arg1)"],
-		"args_type":{"arg2":"SIMD_type*", "arg1":"SIMD_type"},
+		"signature":["void llvm_store_unaligned(SIMD_type arg1, SIMD_type* arg2)"],
+		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type*"},
 		"return_type":"void",
 		"fws":[[128]],
 	}
