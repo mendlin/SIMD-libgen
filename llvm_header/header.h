@@ -1,3 +1,6 @@
+#ifndef LLVM_HEADER_H
+#define LLVM_HEADER_H
+
 #ifndef USE_SSE
 typedef int SIMD_type __attribute__((__vector_size__(16)));
 #endif
@@ -112,3 +115,4 @@ SIMD_type llvm_load_unaligned(SIMD_type *a);
 void llvm_store_aligned(SIMD_type a, SIMD_type *addr);
 void llvm_store_unaligned(SIMD_type a, SIMD_type *addr);
 }
+#endif //LLVM_HEADER_H

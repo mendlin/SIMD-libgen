@@ -4,13 +4,19 @@
 register_bits = 128
 
 HeaderTop = '''\
+#ifndef LLVM_HEADER_H
+#define LLVM_HEADER_H
+
+#ifndef USE_SSE
 typedef int SIMD_type __attribute__((__vector_size__({0})));
+#endif
 
 extern "C" {{
 '''.format(register_bits / 8)
 
 HeaderBottom = '''\
 }
+#endif //LLVM_HEADER_H
 '''
 
 doth_filename = "header.h"
@@ -101,8 +107,8 @@ define void @llvm_store_aligned(<{n} x i64> %a, <{n} x i64>* %addr) alwaysinline
 }}
 '''
 
+fw_set = [2**i for i in range(1, 8)] # 2^1 ~ 2^7
 
-fw_set = [2, 4, 8, 16, 32, 64, 128]
 if register_bits > 128:
     fw_set.append(256)
 
@@ -112,6 +118,19 @@ vertical_ir_set = ['add', 'sub', 'mul', 'and', 'or', 'xor',
                    'icmp eq', 'icmp sgt', 'icmp ugt', 'icmp slt', 'icmp ult',
                    'shl', 'lshr', 'ashr']
 
+minimal_test_cpp = '''\
+#include "utility.h"
+#include "header.h"
+int main()
+{{
+  SIMD_type a, b, c;
+  a = mvmd<32>::fill4(rand(), rand(), rand(), rand());
+  b = simd<32>::constant<2>();  
+  c = {llvm_func}(a, b);
+  cout << Store2String(c, 1) << endl; 
+  return 0;
+}}
+'''
 
 # Utility functions
 def get_llvm_func(fw, ir_func):
@@ -141,3 +160,4 @@ def get_vertical_impl(fw, ir_func):
     return impl_template['vertical'].format(
         llvm_func=get_llvm_func(fw, ir_func),
         vec_type=get_vec_type(fw), impl=impl)
+
