@@ -3,7 +3,6 @@
 # Licensed under the Academic Free License 3.0.
 
 import sys
-
 import UI
 import Utility
 from Utility import configure, OptParser
@@ -13,7 +12,6 @@ from BuiltIns import BuiltIns
 import OperationSet
 import OperationSetAnalyzer
 
-import ipdb
 
 def operationInfo(definedOperations):
 	# All options have full powers of 2 as field width

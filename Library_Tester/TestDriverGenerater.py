@@ -1,6 +1,5 @@
 import os
 import TesterUtility
-import ipdb
 from TesterUtility import configure
 
 class AbstractTestDriverGenerater:	

@@ -17,7 +17,6 @@ import ParseIdisaDB
 import AssemblyInstructionCount
 from TestDriverGenerater import CppDriverGenerater, CDriverGenerater
 
-import ipdb
 
 def WriteTestingData(fileName, data):
 	fileOut = open(fileName, "w")
