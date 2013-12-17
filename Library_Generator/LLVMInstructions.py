@@ -34,84 +34,84 @@ LLVMBuiltIns = \
 		"signature":["SIMD_type llvm_add_$fw$(SIMD_type arg1, SIMD_type arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+		"fws":[[8, 16, 32, 64, 128]],
 	},
 	"simd_sub":\
 	{
 		"signature":["t llvm_sub_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+		"fws":[[8, 16, 32, 64, 128]],
 	},
 	"simd_umult":\
 	{
 		"signature":["t llvm_mul_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+		"fws":[[8, 16, 32, 64]],
 	},	
 	"simd_mult":\
 	{
 		"signature":["t llvm_mul_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+		"fws":[[8, 16, 32, 64]],
 	},
 	"simd_eq":\
 	{
 		"signature":["t llvm_icmp_eq_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+		"fws":[[8, 16, 32, 64, 128]],
 	},
 	"simd_gt":\
 	{
 		"signature":["t llvm_icmp_sgt_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+		"fws":[[8, 16, 32, 64, 128]],
 	},
 	"simd_ugt":\
 	{
 		"signature":["t llvm_icmp_ugt_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+		"fws":[[8, 16, 32, 64, 128]],
 	},
 	"simd_lt":\
 	{
 		"signature":["t llvm_icmp_slt_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+		"fws":[[8, 16, 32, 64, 128]],
 	},
 	"simd_ult":\
 	{
 		"signature":["t llvm_icmp_ult_$fw$(t arg1, t arg2)"],
 		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
 		"return_type":"SIMD_type",
-		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+		"fws":[[8, 16, 32, 64, 128]],
 	},	
 	"simd_vsrl":\
 	{
 		"signature":["t llvm_lshr_$fw$(t arg1, __m128i shift_mask)"],
 		"args_type":{"arg1":"SIMD_type", "shift_mask":"__m128i"},
 		"return_type":"SIMD_type",
-		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+		"fws":[[8, 16, 32]],
 	},	
 	"simd_vsra":\
 	{
 		"signature":["t llvm_ashr_$fw$(t arg1, __m128i shift_mask)"],
 		"args_type":{"arg1":"SIMD_type", "shift_mask":"__m128i"},
 		"return_type":"SIMD_type",
-		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+		"fws":[[8, 16, 32, 64]],
 	},
 	"simd_vsll":\
 	{
 		"signature":["t llvm_shl_$fw$(t arg1, t shift_mask)"],
 		"args_type":{"arg1":"SIMD_type", "shift_mask":"__m128i"},
 		"return_type":"SIMD_type",
-		"fws":[[2, 4, 8, 16, 32, 64, 128]],
+		"fws":[[8, 16, 32]],
 	},	
 	"bitblock_load_aligned":\
 	{

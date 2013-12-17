@@ -51,13 +51,10 @@ def GetGCCCommand(arch):
 	elif arch == configure.AVX2:
 		return "g++ -mavx2 -o"
 	elif arch in configure.LLVM_SERIES:
-		return "./llvm_build.sh "
+		return "make llvm_test # "
 
 def GetRunCommand(arch):
-	if arch in configure.LLVM_SERIES:
-		return "lli optimized.bc"
-	else:
-		return "./" + arch + "_test"
+	return "./" + arch + "_test"
 
 def ReadContentAsOneLine(fileName):
 	fin = open(fileName, 'r')

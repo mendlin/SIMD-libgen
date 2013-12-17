@@ -1,13 +1,3 @@
-define <64 x i2> @llvm_add_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %res = add <64 x i2> %a, %b
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_add_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %res = add <32 x i4> %a, %b
-    ret <32 x i4> %res
-}
 define <16 x i8> @llvm_add_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
     %res = add <16 x i8> %a, %b
@@ -32,16 +22,6 @@ define <1 x i128> @llvm_add_128(<1 x i128> %a, <1 x i128> %b) alwaysinline {
 entry:
     %res = add <1 x i128> %a, %b
     ret <1 x i128> %res
-}
-define <64 x i2> @llvm_sub_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %res = sub <64 x i2> %a, %b
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_sub_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %res = sub <32 x i4> %a, %b
-    ret <32 x i4> %res
 }
 define <16 x i8> @llvm_sub_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
@@ -68,16 +48,6 @@ entry:
     %res = sub <1 x i128> %a, %b
     ret <1 x i128> %res
 }
-define <64 x i2> @llvm_mul_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %res = mul <64 x i2> %a, %b
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_mul_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %res = mul <32 x i4> %a, %b
-    ret <32 x i4> %res
-}
 define <16 x i8> @llvm_mul_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
     %res = mul <16 x i8> %a, %b
@@ -97,21 +67,6 @@ define <2 x i64> @llvm_mul_64(<2 x i64> %a, <2 x i64> %b) alwaysinline {
 entry:
     %res = mul <2 x i64> %a, %b
     ret <2 x i64> %res
-}
-define <1 x i128> @llvm_mul_128(<1 x i128> %a, <1 x i128> %b) alwaysinline {
-entry:
-    %res = mul <1 x i128> %a, %b
-    ret <1 x i128> %res
-}
-define <64 x i2> @llvm_and_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %res = and <64 x i2> %a, %b
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_and_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %res = and <32 x i4> %a, %b
-    ret <32 x i4> %res
 }
 define <16 x i8> @llvm_and_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
@@ -138,16 +93,6 @@ entry:
     %res = and <1 x i128> %a, %b
     ret <1 x i128> %res
 }
-define <64 x i2> @llvm_or_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %res = or <64 x i2> %a, %b
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_or_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %res = or <32 x i4> %a, %b
-    ret <32 x i4> %res
-}
 define <16 x i8> @llvm_or_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
     %res = or <16 x i8> %a, %b
@@ -173,16 +118,6 @@ entry:
     %res = or <1 x i128> %a, %b
     ret <1 x i128> %res
 }
-define <64 x i2> @llvm_xor_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %res = xor <64 x i2> %a, %b
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_xor_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %res = xor <32 x i4> %a, %b
-    ret <32 x i4> %res
-}
 define <16 x i8> @llvm_xor_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
     %res = xor <16 x i8> %a, %b
@@ -207,18 +142,6 @@ define <1 x i128> @llvm_xor_128(<1 x i128> %a, <1 x i128> %b) alwaysinline {
 entry:
     %res = xor <1 x i128> %a, %b
     ret <1 x i128> %res
-}
-define <64 x i2> @llvm_icmp_eq_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %cmp_res = icmp eq <64 x i2> %a, %b
-	%res = sext <64 x i1> %cmp_res to <64 x i2>
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_icmp_eq_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %cmp_res = icmp eq <32 x i4> %a, %b
-	%res = sext <32 x i1> %cmp_res to <32 x i4>
-    ret <32 x i4> %res
 }
 define <16 x i8> @llvm_icmp_eq_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
@@ -250,18 +173,6 @@ entry:
 	%res = sext <1 x i1> %cmp_res to <1 x i128>
     ret <1 x i128> %res
 }
-define <64 x i2> @llvm_icmp_sgt_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %cmp_res = icmp sgt <64 x i2> %a, %b
-	%res = sext <64 x i1> %cmp_res to <64 x i2>
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_icmp_sgt_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %cmp_res = icmp sgt <32 x i4> %a, %b
-	%res = sext <32 x i1> %cmp_res to <32 x i4>
-    ret <32 x i4> %res
-}
 define <16 x i8> @llvm_icmp_sgt_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
     %cmp_res = icmp sgt <16 x i8> %a, %b
@@ -291,18 +202,6 @@ entry:
     %cmp_res = icmp sgt <1 x i128> %a, %b
 	%res = sext <1 x i1> %cmp_res to <1 x i128>
     ret <1 x i128> %res
-}
-define <64 x i2> @llvm_icmp_ugt_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %cmp_res = icmp ugt <64 x i2> %a, %b
-	%res = sext <64 x i1> %cmp_res to <64 x i2>
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_icmp_ugt_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %cmp_res = icmp ugt <32 x i4> %a, %b
-	%res = sext <32 x i1> %cmp_res to <32 x i4>
-    ret <32 x i4> %res
 }
 define <16 x i8> @llvm_icmp_ugt_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
@@ -334,18 +233,6 @@ entry:
 	%res = sext <1 x i1> %cmp_res to <1 x i128>
     ret <1 x i128> %res
 }
-define <64 x i2> @llvm_icmp_slt_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %cmp_res = icmp slt <64 x i2> %a, %b
-	%res = sext <64 x i1> %cmp_res to <64 x i2>
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_icmp_slt_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %cmp_res = icmp slt <32 x i4> %a, %b
-	%res = sext <32 x i1> %cmp_res to <32 x i4>
-    ret <32 x i4> %res
-}
 define <16 x i8> @llvm_icmp_slt_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
     %cmp_res = icmp slt <16 x i8> %a, %b
@@ -375,18 +262,6 @@ entry:
     %cmp_res = icmp slt <1 x i128> %a, %b
 	%res = sext <1 x i1> %cmp_res to <1 x i128>
     ret <1 x i128> %res
-}
-define <64 x i2> @llvm_icmp_ult_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %cmp_res = icmp ult <64 x i2> %a, %b
-	%res = sext <64 x i1> %cmp_res to <64 x i2>
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_icmp_ult_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %cmp_res = icmp ult <32 x i4> %a, %b
-	%res = sext <32 x i1> %cmp_res to <32 x i4>
-    ret <32 x i4> %res
 }
 define <16 x i8> @llvm_icmp_ult_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
@@ -418,16 +293,6 @@ entry:
 	%res = sext <1 x i1> %cmp_res to <1 x i128>
     ret <1 x i128> %res
 }
-define <64 x i2> @llvm_shl_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %res = shl <64 x i2> %a, %b
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_shl_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %res = shl <32 x i4> %a, %b
-    ret <32 x i4> %res
-}
 define <16 x i8> @llvm_shl_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
     %res = shl <16 x i8> %a, %b
@@ -443,26 +308,6 @@ entry:
     %res = shl <4 x i32> %a, %b
     ret <4 x i32> %res
 }
-define <2 x i64> @llvm_shl_64(<2 x i64> %a, <2 x i64> %b) alwaysinline {
-entry:
-    %res = shl <2 x i64> %a, %b
-    ret <2 x i64> %res
-}
-define <1 x i128> @llvm_shl_128(<1 x i128> %a, <1 x i128> %b) alwaysinline {
-entry:
-    %res = shl <1 x i128> %a, %b
-    ret <1 x i128> %res
-}
-define <64 x i2> @llvm_lshr_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %res = lshr <64 x i2> %a, %b
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_lshr_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %res = lshr <32 x i4> %a, %b
-    ret <32 x i4> %res
-}
 define <16 x i8> @llvm_lshr_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
     %res = lshr <16 x i8> %a, %b
@@ -477,26 +322,6 @@ define <4 x i32> @llvm_lshr_32(<4 x i32> %a, <4 x i32> %b) alwaysinline {
 entry:
     %res = lshr <4 x i32> %a, %b
     ret <4 x i32> %res
-}
-define <2 x i64> @llvm_lshr_64(<2 x i64> %a, <2 x i64> %b) alwaysinline {
-entry:
-    %res = lshr <2 x i64> %a, %b
-    ret <2 x i64> %res
-}
-define <1 x i128> @llvm_lshr_128(<1 x i128> %a, <1 x i128> %b) alwaysinline {
-entry:
-    %res = lshr <1 x i128> %a, %b
-    ret <1 x i128> %res
-}
-define <64 x i2> @llvm_ashr_2(<64 x i2> %a, <64 x i2> %b) alwaysinline {
-entry:
-    %res = ashr <64 x i2> %a, %b
-    ret <64 x i2> %res
-}
-define <32 x i4> @llvm_ashr_4(<32 x i4> %a, <32 x i4> %b) alwaysinline {
-entry:
-    %res = ashr <32 x i4> %a, %b
-    ret <32 x i4> %res
 }
 define <16 x i8> @llvm_ashr_8(<16 x i8> %a, <16 x i8> %b) alwaysinline {
 entry:
@@ -517,11 +342,6 @@ define <2 x i64> @llvm_ashr_64(<2 x i64> %a, <2 x i64> %b) alwaysinline {
 entry:
     %res = ashr <2 x i64> %a, %b
     ret <2 x i64> %res
-}
-define <1 x i128> @llvm_ashr_128(<1 x i128> %a, <1 x i128> %b) alwaysinline {
-entry:
-    %res = ashr <1 x i128> %a, %b
-    ret <1 x i128> %res
 }
 define i32 @llvm_extractelement_32(<4 x i32> %a, i32 %idx) alwaysinline {
 entry:

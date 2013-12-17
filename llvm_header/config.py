@@ -107,16 +107,19 @@ define void @llvm_store_aligned(<{n} x i64> %a, <{n} x i64>* %addr) alwaysinline
 }}
 '''
 
-fw_set = [2**i for i in range(1, 8)] # 2^1 ~ 2^7
+fw_set = [2 ** i for i in range(3, 8)]  # 2^1 ~ 2^7
 
 if register_bits > 128:
     fw_set.append(256)
 
 c_type_fw = {'short': 16, 'int': 32, 'long long': 64}
 
-vertical_ir_set = ['add', 'sub', 'mul', 'and', 'or', 'xor',
-                   'icmp eq', 'icmp sgt', 'icmp ugt', 'icmp slt', 'icmp ult',
-                   'shl', 'lshr', 'ashr']
+vertical_ir_set = ['add', 'sub', 'mul', 'and', 'or', 'xor', 'icmp eq',
+                   'icmp sgt', 'icmp ugt', 'icmp slt', 'icmp ult', 'shl', 
+                   'lshr', 'ashr']
+
+banned_vertical_fw_ir_pairs = [(128, 'mul'), (64, 'shl'), (128, 'shl'),
+                               (64, 'lshr'), (128, 'lshr'), (128, 'ashr')]
 
 minimal_test_cpp = '''\
 #include "utility.h"
@@ -133,6 +136,8 @@ int main()
 '''
 
 # Utility functions
+
+
 def get_llvm_func(fw, ir_func):
     return "llvm_{ir_func}_{fw}".format(
         ir_func=ir_func.replace(' ', '_'), fw=fw)
@@ -144,7 +149,8 @@ def get_vec_type(fw, n=None):
 
 
 def get_vertical_decl(fw, ir_func):
-    return decl_template['vertical'].format(llvm_func=get_llvm_func(fw, ir_func))
+    return decl_template['vertical'].format(
+        llvm_func=get_llvm_func(fw, ir_func))
 
 
 def get_vertical_impl(fw, ir_func):
@@ -160,4 +166,3 @@ def get_vertical_impl(fw, ir_func):
     return impl_template['vertical'].format(
         llvm_func=get_llvm_func(fw, ir_func),
         vec_type=get_vec_type(fw), impl=impl)
-

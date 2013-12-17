@@ -21,4 +21,5 @@ run: $(SOURCE).cpp
 	clang++ $(CPPFLAG) $(SOURCE).cpp -o $(SOURCE) 
 
 clean: 
-	rm all.* optimized.* playground.ll playground *.bc *.pyc tester.ll tester
+	rm -f all.* optimized.* playground.ll playground 
+	rm -f *.bc *.pyc tester.* tester

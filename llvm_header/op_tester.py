@@ -34,13 +34,16 @@ change_makefile_source('playground', 'tester')
 
 for ir_func in config.vertical_ir_set:
 	for fw in config.fw_set:
-		generate_teseter_cpp(fw, ir_func)				
+		if (fw, ir_func) in config.banned_vertical_fw_ir_pairs:
+			continue
 
-		if os.system("make with_ir_header") != 0:
+		generate_teseter_cpp(fw, ir_func)
+
+		if os.system("make with_ir_header >/dev/null") != 0:
 			claim_make_fail(fw, ir_func)
 			continue
 
-		if os.system("lli optimized.bc") != 0:
+		if os.system("lli optimized.bc >/dev/null 2>>lli.log") != 0:
 			claim_lli_fail(fw, ir_func)			
 
 # Get back Makefile
@@ -49,9 +52,10 @@ change_makefile_source('tester', 'playground')
 print "----------------------------All that failed---------------------------------"
 print failed
 
+
 # [(2, 'add'), (4, 'add'), (2, 'sub'), (4, 'sub'), (2, 'mul'), (4, 'mul'), 
-#  (2, 'and'), (4, 'and'), (2, 'or'), (4, 'or'), (2, 'xor'), (4, 'xor'), 
-#  (2, 'icmp eq'), (4, 'icmp eq'), (2, 'icmp sgt'), (4, 'icmp sgt'), 
-#  (2, 'icmp ugt'), (4, 'icmp ugt'), (2, 'icmp slt'), (4, 'icmp slt'), 
-#  (2, 'icmp ult'), (4, 'icmp ult'), (2, 'shl'), (4, 'shl'), (128, 'shl'), 
-#  (2, 'lshr'), (4, 'lshr'), (128, 'lshr'), (2, 'ashr'), (4, 'ashr'), (128, 'ashr')]
+#  (128, 'mul'), (2, 'and'), (4, 'and'), (2, 'or'), (4, 'or'), (2, 'xor'), 
+#  (4, 'xor'), (2, 'icmp eq'), (4, 'icmp eq'), (2, 'icmp sgt'), (4, 'icmp sgt'), 
+#  (2, 'icmp ugt'), (4, 'icmp ugt'), (2, 'icmp slt'), (4, 'icmp slt'), (2, 'icmp ult'),
+#  (4, 'icmp ult'), (2, 'shl'), (4, 'shl'), (64, 'shl'), (128, 'shl'), (2, 'lshr'), 
+#  (4, 'lshr'), (64, 'lshr'), (128, 'lshr'), (2, 'ashr'), (4, 'ashr'), (128, 'ashr')]

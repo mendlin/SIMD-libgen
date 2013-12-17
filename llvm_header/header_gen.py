@@ -3,6 +3,9 @@ import config
 
 
 def append_vertical(doth, dotll, fw, ir_func):
+    if (fw, ir_func) in config.banned_vertical_fw_ir_pairs:
+        return
+
     # Append doth(.h) declare
     doth.write(config.get_vertical_decl(fw, ir_func))
     # Append dotll(.ll) implementation
@@ -12,9 +15,9 @@ def append_vertical(doth, dotll, fw, ir_func):
 def append_vector(doth, dotll, ir_func):
     for c_type in config.c_type_fw:
         fw = config.c_type_fw[c_type]
+        
         doth.write(config.decl_template[ir_func].format(
             c_type=c_type, fw=fw))
-
         dotll.write(config.impl_template[ir_func].format(
             fw=fw, n=config.register_bits / fw))
 

@@ -194,9 +194,12 @@ clean:
 	rm -f $(TESTER_DIR)/*test.cpp
 	rm -f $(TESTER_DIR)/SS*_test
 	rm -f $(TESTER_DIR)/AVX*_test
+	rm -f $(TESTER_DIR)/LLVM*_test
 	rm -f $(TESTER_DIR)/idisa*.*
 	rm -f $(TESTER_DIR)/CalculatingModules/*.pyc
 	rm -f $(TESTER_DIR)/input/*
 	rm -f $(TESTER_DIR)/output/*
 	rm -f $(TESTER_DIR)/output_temp/*
 	rm -f $(CONFIGURE_DIR)/*.pyc
+	make -C Library_Tester clean
+	make -C llvm_header clean
