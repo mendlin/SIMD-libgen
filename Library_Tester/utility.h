@@ -1,6 +1,6 @@
-#include "idisa_llvm128.h"
-#define USE_LLVM128
-typedef SIMD_type SIMD_type;
+#include "idisa_sse2.h"
+#define USE_SSE
+typedef __m128i SIMD_type;
 #include <vector>
 #include <iostream>
 #include <sstream>

@@ -1,4 +1,6 @@
+#ifndef USE_SSE
 typedef int SIMD_type __attribute__((__vector_size__(16)));
+#endif
 
 extern "C" {
 SIMD_type llvm_add_2(SIMD_type a, SIMD_type b);
