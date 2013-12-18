@@ -402,3 +402,10 @@ entry:
   %3 = insertelement <4 x i32> %2, i32 %val, i32 3
   ret <4 x i32> %3
 }
+
+define <4 x i32> @llvm_ifh_32(<4 x i32> %mask, <4 x i32> %a, <4 x i32> %b) alwaysinline {
+entry:
+    %0 = icmp slt <4 x i32> %mask, <i32 0, i32 0, i32 0, i32 0>
+    %1 = select <4 x i1> %0, <4 x i32> %a, <4 x i32> %b
+    ret <4 x i32> %1
+}

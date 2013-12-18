@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import config
+import func_gener
 
 
 def append_vertical(doth, dotll, fw, ir_func):
@@ -31,7 +32,7 @@ def append_load_store(doth, dotll):
 
 with open(config.doth_filename, 'w') as doth, \
         open(config.dotll_filename, 'w') as dotll:
-    # Declear SIMD_type
+    # Declare SIMD_type and other topings
     doth.write(config.HeaderTop)
 
     for ir_func in config.vertical_ir_set:
@@ -40,7 +41,9 @@ with open(config.doth_filename, 'w') as doth, \
 
     append_vector(doth, dotll, 'extractelement')
     append_vector(doth, dotll, 'insertelement')
-
     append_load_store(doth, dotll)
 
+    func_gener.IFH(doth, dotll, config).drive()
+
+    # Declare endings
     doth.write(config.HeaderBottom)

@@ -19,8 +19,8 @@ HeaderBottom = '''\
 #endif //LLVM_HEADER_H
 '''
 
-doth_filename = "header.h"
-dotll_filename = "header.ll"
+doth_filename = "header_x.h"
+dotll_filename = "header_x.ll"
 
 decl_template = {}
 impl_template = {}
@@ -109,7 +109,7 @@ entry:
 }}
 '''
 
-fw_set = [2 ** i for i in range(3, 8)]  # 2^1 ~ 2^7
+fw_set = [2 ** i for i in range(3, 8)]  
 
 if register_bits > 128:
     fw_set.append(256)
@@ -148,6 +148,11 @@ def get_llvm_func(fw, ir_func):
 def get_vec_type(fw, n=None):
     n = n or (register_bits / fw)
     return "<{n} x i{m}>".format(n=n, m=fw)
+
+
+def get_bool_vec_type(fw):
+    n = register_bits / fw
+    return get_vec_type(1, n)
 
 
 def get_vertical_decl(fw, ir_func):
