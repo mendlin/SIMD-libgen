@@ -43,13 +43,6 @@ LLVMBuiltIns = \
 		"return_type":"SIMD_type",
 		"fws":[[8, 16, 32, 64, 128]],
 	},
-	"simd_umult":\
-	{
-		"signature":["t llvm_mul_$fw$(t arg1, t arg2)"],
-		"args_type":{"arg1":"SIMD_type", "arg2":"SIMD_type"},
-		"return_type":"SIMD_type",
-		"fws":[[8, 16, 32, 64]],
-	},	
 	"simd_mult":\
 	{
 		"signature":["t llvm_mul_$fw$(t arg1, t arg2)"],

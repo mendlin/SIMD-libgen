@@ -91,6 +91,7 @@ void llvm_store_unaligned(SIMD_type a, SIMD_type *addr);
 
 impl_template['store_unaligned'] = '''\
 define void @llvm_store_unaligned(<{n} x i64> %a, <{n} x i64>* %addr) alwaysinline {{
+entry:
   store <{n} x i64> %a, <{n} x i64>* %addr, align 1
   ret void
 }}
@@ -102,6 +103,7 @@ void llvm_store_aligned(SIMD_type a, SIMD_type *addr);
 
 impl_template['store_aligned'] = '''\
 define void @llvm_store_aligned(<{n} x i64> %a, <{n} x i64>* %addr) alwaysinline {{
+entry:
   store <{n} x i64> %a, <{n} x i64>* %addr, align 16
   ret void
 }}

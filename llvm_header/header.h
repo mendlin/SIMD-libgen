@@ -80,5 +80,7 @@ SIMD_type llvm_load_aligned(SIMD_type *a);
 SIMD_type llvm_load_unaligned(SIMD_type *a);
 void llvm_store_aligned(SIMD_type a, SIMD_type *addr);
 void llvm_store_unaligned(SIMD_type a, SIMD_type *addr);
+
+SIMD_type llvm_constant_32(int val);
 }
 #endif //LLVM_HEADER_H

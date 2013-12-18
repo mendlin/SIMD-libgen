@@ -384,10 +384,21 @@ entry:
     ret <2 x i64> %res
 }
 define void @llvm_store_aligned(<2 x i64> %a, <2 x i64>* %addr) alwaysinline {
+entry:
   store <2 x i64> %a, <2 x i64>* %addr, align 16
   ret void
 }
 define void @llvm_store_unaligned(<2 x i64> %a, <2 x i64>* %addr) alwaysinline {
+entry:
   store <2 x i64> %a, <2 x i64>* %addr, align 1
   ret void
+}
+
+define <4 x i32> @llvm_constant_32(i32 %val) alwaysinline {
+entry:
+  %0 = insertelement <4 x i32> undef, i32 %val, i32 0
+  %1 = insertelement <4 x i32> %0, i32 %val, i32 1
+  %2 = insertelement <4 x i32> %1, i32 %val, i32 2
+  %3 = insertelement <4 x i32> %2, i32 %val, i32 3
+  ret <4 x i32> %3
 }

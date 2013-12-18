@@ -7,6 +7,11 @@ import simd_srai
 def GetResult(fw, data):
 	(arg1, count) = (data[0], data[1])
 	(i, sz, ans) = (0, len(arg1), "")
-	count = int(count[-32:], 2)
-	ans = simd_srai.GetResult(fw, count, [arg1])
+	
+	while i<sz:
+		sh = int(count[i:i+fw], 2) if fw<=32 else int(count[i+fw-32:i+fw], 2)
+		sh &= (fw - 1)
+		ans += simd_srai.GetResult(fw, sh, [arg1[i:i+fw]])
+		i += fw
+	
 	return ans
