@@ -23,3 +23,4 @@ run: $(SOURCE).cpp
 clean: 
 	rm -f all.* optimized.* playground.ll playground 
 	rm -f *.bc *.pyc tester.* tester optimized
+	rm -f func_gener/*.pyc
