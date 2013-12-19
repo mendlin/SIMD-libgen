@@ -24,3 +24,8 @@ class AbstractFuncGener:
             for fw in self.config.fw_set:
                 self.doth.write(self.get_decl(fw))
                 self.dotll.write(self.get_impl(fw))
+
+    # Utility functions
+    
+    def get_n(self, fw):
+        return self.config.register_bits / fw

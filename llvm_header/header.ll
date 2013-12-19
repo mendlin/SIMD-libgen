@@ -432,12 +432,12 @@ entry:
 define <8 x i16> @llvm_constant_16(i16 %val) alwaysinline {
 entry:
   %0 = insertelement <8 x i16> undef, i16 %val, i32 0
-  %1 = shufflevector <8 x i16> %0, <8 x i16> undef, <8 x i16> <i16 0, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0, i16 0>
+  %1 = shufflevector <8 x i16> %0, <8 x i16> undef, <8 x i32> <i32 0, i32 0, i32 0, i32 0, i32 0, i32 0, i32 0, i32 0>
   ret <8 x i16> %1
 }
 define <2 x i64> @llvm_constant_64(i64 %val) alwaysinline {
 entry:
   %0 = insertelement <2 x i64> undef, i64 %val, i32 0
-  %1 = shufflevector <2 x i64> %0, <2 x i64> undef, <2 x i64> <i64 0, i64 0>
+  %1 = shufflevector <2 x i64> %0, <2 x i64> undef, <2 x i32> <i32 0, i32 0>
   ret <2 x i64> %1
 }
