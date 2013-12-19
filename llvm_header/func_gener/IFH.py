@@ -13,17 +13,14 @@ entry:
 }}
 '''
 
+
 class IFH(AbstractFuncGener):
-	def get_decl(self, fw, ir_func=None):		
-		return decl_temp.format(fw=fw)
 
-	def get_zero_vec(self, fw):
-		n = self.config.register_bits / fw
-		res = "<" + "i{fw} 0, ".format(fw=fw) * n + ">"		
-		return res.replace("0, >", "0>")
+    def get_decl(self, fw):
+        return decl_temp.format(fw=fw)
 
-	def get_impl(self, fw, ir_func=None):
-		vt = self.config.get_vec_type(fw)
-		bvt = self.config.get_bool_vec_type(fw)
-		return impl_temp.format(vec_type=vt, bool_vec_type=bvt, fw=fw,
-								zero_vec=self.get_zero_vec(fw))
+    def get_impl(self, fw):
+        return impl_temp.format(vec_type=self.config.get_vec_type(fw), fw=fw,
+                                bool_vec_type=self.config.get_bool_vec_type(
+                                    fw),
+                                zero_vec=self.config.get_zero_vec(fw))

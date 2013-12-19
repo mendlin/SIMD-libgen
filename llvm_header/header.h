@@ -80,8 +80,13 @@ SIMD_type llvm_load_aligned(SIMD_type *a);
 SIMD_type llvm_load_unaligned(SIMD_type *a);
 void llvm_store_aligned(SIMD_type a, SIMD_type *addr);
 void llvm_store_unaligned(SIMD_type a, SIMD_type *addr);
-
-SIMD_type llvm_constant_32(int val);
+SIMD_type llvm_ifh_8(SIMD_type mask, SIMD_type a, SIMD_type b);
+SIMD_type llvm_ifh_16(SIMD_type mask, SIMD_type a, SIMD_type b);
 SIMD_type llvm_ifh_32(SIMD_type mask, SIMD_type a, SIMD_type b);
+SIMD_type llvm_ifh_64(SIMD_type mask, SIMD_type a, SIMD_type b);
+SIMD_type llvm_ifh_128(SIMD_type mask, SIMD_type a, SIMD_type b);
+SIMD_type llvm_constant_32(int val);
+SIMD_type llvm_constant_16(short val);
+SIMD_type llvm_constant_64(long long val);
 }
 #endif //LLVM_HEADER_H

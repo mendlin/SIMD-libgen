@@ -44,6 +44,7 @@ with open(config.doth_filename, 'w') as doth, \
     append_load_store(doth, dotll)
 
     func_gener.IFH(doth, dotll, config).drive()
+    func_gener.Constant(doth, dotll, config).drive()
 
     # Declare endings
     doth.write(config.HeaderBottom)

@@ -19,8 +19,8 @@ HeaderBottom = '''\
 #endif //LLVM_HEADER_H
 '''
 
-doth_filename = "header_x.h"
-dotll_filename = "header_x.ll"
+doth_filename = "header.h"
+dotll_filename = "header.ll"
 
 decl_template = {}
 impl_template = {}
@@ -153,6 +153,12 @@ def get_vec_type(fw, n=None):
 def get_bool_vec_type(fw):
     n = register_bits / fw
     return get_vec_type(1, n)
+
+
+def get_zero_vec(fw):
+    n = register_bits / fw
+    res = "<" + "i{fw} 0, ".format(fw=fw) * n + ">"   
+    return res.replace("0, >", "0>")
 
 
 def get_vertical_decl(fw, ir_func):
